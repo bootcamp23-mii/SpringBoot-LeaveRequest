@@ -74,7 +74,12 @@
                                     <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}" data-target="#mdlAdd" data-toggle="modal">Delete</a>-->
                                     <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}">Delete</a>-->
                                     <!--<a th:href="@{/delete/{id}(id=${as.id})}">Edit</a>-->
-                                    <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" th:data-getid="${req.id}" class="btn btn-warning">Approve</button>
+                                    <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" 
+                                            th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
+                                            th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
+                                            th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
+                                            th:data-getreqid="${req.request.id}"
+                                            class="btn btn-outline-success">Approve</button>
                                     <!--<button data-target="#mdlDelete" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Delete Data</button>-->
                                 </td>
                             </tr>
@@ -90,7 +95,7 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form th:action="action" method="method">
+                                <form th:action="@{/requeststatusedit}" method="POST">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <input id="id" th:field="*{requeststatusedit.id}" class="form-control" type="text"/>
@@ -103,6 +108,8 @@
                                             <input id="requeststart" class="form-control" type="text" />
                                             <label for="requestend">Request End</label>
                                             <input id="requestend" class="form-control" type="text" />
+                                            <label for="requesttotal">Total</label>
+                                            <input id="requesttotal" class="form-control" type="text" />
                                             <label for="confirm">Approve this Request?</label>
                                             <input id="requestId" th:field="*{requeststatusedit.request}" class="form-control" type="text" />
                                             <input id="statusId" th:field="*{requeststatusedit.status}" class="form-control" type="text" value="S2" />
@@ -110,7 +117,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" value="Submit" class="btn btn-default">title</button>
+                                        <button type="submit" value="Submit" class="btn btn-default">OK</button>
                                     </div>
                                 </form>
 
@@ -139,14 +146,25 @@
             feather.replace()
         </script>
         <script>
-            
+//            
             $('#mdlApprove').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
-                var name = button.data('getname');
+                var idemp = button.data('getidemp');
+                var datetime = button.data('getdatetime');
+                var start = button.data('getstart');
+                var end = button.data('getend');
+                var total = button.data('gettotal');
+                var reqid = button.data('getreqid');
+                
                 var modal = $(this);
                 modal.find('#id').val(id);
-                modal.find('#name').val(name);
+                modal.find('#idemployee').val(idemp);
+                modal.find('#datetime').val(datetime);
+                modal.find('#requeststart').val(start);
+                modal.find('#requestend').val(end);
+                modal.find('#requesttotal').val(total);
+                modal.find('#requestId').val(reqid);
             });
         </script>
     </body>
