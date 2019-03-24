@@ -21,13 +21,22 @@ public class RequestStatusController {
     @Autowired
     RequestStatusDAO rsdao;
     
-    @GetMapping("/approval")
+    @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("requeststatusData", rsdao.findAll());
         model.addAttribute("requeststatussave", new RequestStatus());
         model.addAttribute("requeststatusedit", new RequestStatus());
         model.addAttribute("requeststatusdelete", new RequestStatus());
         return "index";
+    }
+    
+    @GetMapping("/approval")
+    public String approval(Model model) {
+        model.addAttribute("requeststatusData", rsdao.findAll());
+        model.addAttribute("requeststatussave", new RequestStatus());
+        model.addAttribute("requeststatusedit", new RequestStatus());
+        model.addAttribute("requeststatusdelete", new RequestStatus());
+        return "approval";
     }
     
 }

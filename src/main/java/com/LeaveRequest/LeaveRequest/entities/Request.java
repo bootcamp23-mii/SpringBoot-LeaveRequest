@@ -39,8 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Request.findById", query = "SELECT r FROM Request r WHERE r.id = :id")
     , @NamedQuery(name = "Request.findByStartdate", query = "SELECT r FROM Request r WHERE r.startdate = :startdate")
     , @NamedQuery(name = "Request.findByEnddate", query = "SELECT r FROM Request r WHERE r.enddate = :enddate")
-    , @NamedQuery(name = "Request.findByTotal", query = "SELECT r FROM Request r WHERE r.total = :total")
-    , @NamedQuery(name = "Request.findByStatus", query = "SELECT r FROM Request r WHERE r.status = :status")})
+    , @NamedQuery(name = "Request.findByTotal", query = "SELECT r FROM Request r WHERE r.total = :total")})
 public class Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,9 +57,7 @@ public class Request implements Serializable {
     private Date enddate;
     @Column(name = "TOTAL")
     private BigInteger total;
-    @Size(max = 25)
-    @Column(name = "STATUS")
-    private String status;
+    @Size(max = 25)    
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
@@ -109,13 +106,7 @@ public class Request implements Serializable {
         this.total = total;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+   
 
     public Employee getEmployee() {
         return employee;

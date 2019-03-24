@@ -48,12 +48,8 @@
                     </div>
 
                     <!-- Content -->
-                    <h4>Data Request Status</h4>
-                    <div class="row" style="padding: 10px 0 10px 0">
-                        <div class="col-sm-6">
-                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add Data</button>
-                        </div>
-                    </div>
+                    <h4>Leave Request List</h4>
+                    
                     <table id="example" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
@@ -62,6 +58,7 @@
                                 <th>Request Date</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -72,16 +69,55 @@
                                 <td th:text="${req.datetime}"></td>
                                 <td th:text="${req.request.startdate}"></td>
                                 <td th:text="${req.request.enddate}"></td>
+                                <td th:text="${req.status.type}"></td>
                                 <td>
                                     <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}" data-target="#mdlAdd" data-toggle="modal">Delete</a>-->
                                     <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}">Delete</a>-->
                                     <!--<a th:href="@{/delete/{id}(id=${as.id})}">Edit</a>-->
-                                    <!--<button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Edit Data</button>-->
+                                    <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" th:data-getid="${req.id}" class="btn btn-warning">Approve</button>
                                     <!--<button data-target="#mdlDelete" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Delete Data</button>-->
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    
+                    <div class="modal fade" id="mdlApprove" tabindex="-1" role="dialog" aria-labelledby="modal-approve" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="mdlApprove">Approve</h5>
+                                    <button class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="action" method="method">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input id="id" th:field="*{requeststatusedit.id}" class="form-control" type="text"/>
+                                            <label for="requestdate">ID Employee</label>
+                                            <input id="idemployee" class="form-control" type="text" />
+                                            <label for="requestdate">Request Date</label>
+                                            <input id="datetime" th:field="*{requeststatusedit.datetime}" class="form-control" type="text" />
+                                            <label for="requeststart">Request Start</label>
+                                            <input id="description" th:field="*{requeststatusedit.description}" class="form-control" type="text" />
+                                            <input id="requeststart" class="form-control" type="text" />
+                                            <label for="requestend">Request End</label>
+                                            <input id="requestend" class="form-control" type="text" />
+                                            <label for="confirm">Approve this Request?</label>
+                                            <input id="requestId" th:field="*{requeststatusedit.request}" class="form-control" type="text" />
+                                            <input id="statusId" th:field="*{requeststatusedit.status}" class="form-control" type="text" value="S2" />
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" value="Submit" class="btn btn-default">title</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
 
 
                     <!-- /.End Content -->
@@ -101,6 +137,17 @@
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
             feather.replace()
+        </script>
+        <script>
+            
+            $('#mdlApprove').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('getid');
+                var name = button.data('getname');
+                var modal = $(this);
+                modal.find('#id').val(id);
+                modal.find('#name').val(name);
+            });
         </script>
     </body>
 </html>
