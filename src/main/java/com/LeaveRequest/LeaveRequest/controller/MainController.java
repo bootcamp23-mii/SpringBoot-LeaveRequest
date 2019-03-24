@@ -5,8 +5,12 @@
  */
 package com.LeaveRequest.LeaveRequest.controller;
 
+import com.LeaveRequest.LeaveRequest.entities.Request;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
+import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -21,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class MainController {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    
     @Autowired
     RequestStatusDAO rsdao;
     
@@ -42,9 +49,10 @@ public class MainController {
         return "approval";
     }
     
-    @RequestMapping(value = "/requeststatusedit", method = RequestMethod.POST)  //@PostMapping("/regionsave")
-    public String edit(@ModelAttribute("requeststatusedit") RequestStatus requestStatus) {
-        rsdao.saveRequestStatus(requestStatus);
+    @RequestMapping(value = "/requeststatusedit", method = RequestMethod.POST)  
+    public String edit(@RequestParam(value = "id") String id, @RequestParam(value = "datetime") String datetime, @RequestParam(value = "description") String description,
+            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status) throws ParseException {
+        rsdao.saveRequestStatus(new RequestStatus(id, sdf.parse(datetime), description, new Request(request), new Status(status)));
         return "redirect:/approval";
     }
 }

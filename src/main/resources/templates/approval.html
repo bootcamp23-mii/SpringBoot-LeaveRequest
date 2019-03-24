@@ -98,21 +98,21 @@
                                 <form th:action="@{/requeststatusedit}" method="POST">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <input id="id" th:field="*{requeststatusedit.id}" class="form-control" type="text"/>
+                                            <input id="id" name ="id" th:field="*{requeststatusedit.id}" class="form-control" type="text"/>
                                             <label for="requestdate">ID Employee</label>
                                             <input id="idemployee" class="form-control" type="text" />
                                             <label for="requestdate">Request Date</label>
-                                            <input id="datetime" th:field="*{requeststatusedit.datetime}" class="form-control" type="text" />
+                                            <input id="datetime" name ="datetime" th:field="*{requeststatusedit.datetime}" class="form-control" type="text" />
                                             <label for="requeststart">Request Start</label>
-                                            <input id="description" th:field="*{requeststatusedit.description}" class="form-control" type="text" />
+                                            <input id="description" name ="description" th:field="*{requeststatusedit.description}" class="form-control" type="text" />
                                             <input id="requeststart" class="form-control" type="text" />
                                             <label for="requestend">Request End</label>
                                             <input id="requestend" class="form-control" type="text" />
                                             <label for="requesttotal">Total</label>
                                             <input id="requesttotal" class="form-control" type="text" />
                                             <label for="confirm">Approve this Request?</label>
-                                            <input id="requestId" th:field="*{requeststatusedit.request}" class="form-control" type="text" />
-                                            <input id="statusId" th:field="*{requeststatusedit.status}" class="form-control" type="text" value="S2" />
+                                            <input id="requestId" name ="request" th:field="*{requeststatusedit.request}" class="form-control" type="text" />
+                                            <input id="statusId" name ="status" th:field="*{requeststatusedit.status}" class="form-control" type="text" value="S2" />
                                         </div>
                                     </div>
                                     <div class="modal-footer">
