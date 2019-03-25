@@ -53,17 +53,18 @@ public class MainController {
         return "login";
     }
     
+    @GetMapping("/addrequest")
+    public String addRequest() {
+        return "addrequest";
+    }
+    
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
-        System.out.println(employee.getId());
         String id = employee.getId();
-        System.out.println(employee.getPassword());
         String password = employee.getPassword();
-        Employee eF = edao.findById("11201");
-        System.out.println(id);
-        System.out.println(eF.getPassword());
+        Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
-            return "redirect:/approval";
+            return "redirect:/addrequest";
         }else
         return "redirect:/login";
     }
