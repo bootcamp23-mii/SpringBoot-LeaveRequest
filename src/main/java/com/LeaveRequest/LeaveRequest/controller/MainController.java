@@ -11,6 +11,8 @@ import com.LeaveRequest.LeaveRequest.entities.Request;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
 import java.math.BigInteger;
 import java.text.ParseException;
@@ -36,9 +38,13 @@ public class MainController {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
+    RequestDAO rdao;
+    @Autowired
     RequestStatusDAO rsdao;
     @Autowired
     EmployeeDAO edao;
+    @Autowired
+    LeaveTypeDAO ltdao;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -55,10 +61,6 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/addrequest")
-    public String addRequest() {
-        return "addrequest";
-    }
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
@@ -95,13 +97,13 @@ public class MainController {
             edao.savdeEmployee(new Employee((edao.findById(idemp)).getId(), (edao.findById(idemp)).getName(), (edao.findById(idemp)).getGendertype(), selisih, (edao.findById(idemp)).getEmail(),
                     (edao.findById(idemp)).getPassword(), (edao.findById(idemp)).getPhoto(), (edao.findById(idemp)).getJoindate(), (edao.findById(idemp)).getIsactive(), (edao.findById(idemp)).getIsdeleted(),
                     new MarriedStatus((edao.findById(idemp)).getMarriedstatus().getId()), new Employee((edao.findById(idemp)).getIdmanager().getId())));
-        }else{
+        } else {
             return "redirect:/approval";
         }
 
         return "redirect:/approval";
     }
-    
+
     @GetMapping("/historymanager")
     public String historymanager(Model model) {
         String id = "11201";
@@ -111,5 +113,36 @@ public class MainController {
 //        model.addAttribute("requeststatusdelete", new RequestStatus());
 //        model.addAttribute("requeststatusedit2", new Employee());
         return "historymanager";
+    }
+    
+    @GetMapping("/historymanager")
+    public String historyuser(Model model) {
+        String id = "11201";
+        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
+//        model.addAttribute("requeststatussave", new RequestStatus());
+//        model.addAttribute("requeststatusedit", new RequestStatus());
+//        model.addAttribute("requeststatusdelete", new RequestStatus());
+//        model.addAttribute("requeststatusedit2", new Employee());
+        return "historymanager";
+    }
+
+    @GetMapping("/addrequest")
+    public String addrequest(Model model) {
+        model.addAttribute("requestData", rdao.findAll());
+        model.addAttribute("requestsave", new Request());
+        model.addAttribute("divdata", ltdao.findAll());
+       
+
+        return "addrequest";
+    }
+
+    @RequestMapping(value = "/requestsave", method = RequestMethod.POST) //@PostMapping{"/regionsave"}
+    public String save(@ModelAttribute("requestsave") Request request) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+//        System.out.println(request.getId());
+//        System.out.println(dateFormat.format(request.getStartdate()));
+//        System.out.println(request.getEnddate());
+         rdao.saveRequest(request);
+        return "redirect:/addrequest";
     }
 }

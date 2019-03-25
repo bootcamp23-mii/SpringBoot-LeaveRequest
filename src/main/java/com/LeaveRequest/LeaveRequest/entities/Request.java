@@ -69,6 +69,7 @@ public class Request implements Serializable {
     public Request() {
     }
 
+
     public Request(String id) {
         this.id = id;
     }
