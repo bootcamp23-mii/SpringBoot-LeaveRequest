@@ -3,7 +3,7 @@
     <head>
         <!--jangan lupa dilokalin-->
         <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>/
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <meta name="description" content=""/>
         <meta name="author" content=""/>
         <link rel="icon" th:href="@{dist/img/favicons/favicon.ico}"/>
@@ -67,7 +67,7 @@
                         <tbody id="tblData">
                             <tr th:each="req : ${requeststatusData}">
                                 <td th:text="${req.request.employee.id}"></td>
-                                <td th:text="${req.request.employee.id}"></td>
+                                <td th:text="${req.request.employee.name}"></td>
                                 <td th:text="${req.datetime}"></td>
                                 <td th:text="${req.request.startdate}"></td>
                                 <td th:text="${req.request.enddate}"></td>

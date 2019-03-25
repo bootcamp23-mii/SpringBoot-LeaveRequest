@@ -78,8 +78,8 @@ public class MainController {
         model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
-        model.addAttribute("requeststatusdelete", new RequestStatus());
-        model.addAttribute("requeststatusedit2", new Employee());
+//        model.addAttribute("requeststatusdelete", new RequestStatus());
+//        model.addAttribute("requeststatusedit2", new Employee());
         return "approval";
     }
 
@@ -100,5 +100,16 @@ public class MainController {
         }
 
         return "redirect:/approval";
+    }
+    
+    @GetMapping("/historymanager")
+    public String historymanager(Model model) {
+        String id = "11201";
+        model.addAttribute("requeststatusData", rsdao.showRequestStatusAllByIdMan(id));
+//        model.addAttribute("requeststatussave", new RequestStatus());
+//        model.addAttribute("requeststatusedit", new RequestStatus());
+//        model.addAttribute("requeststatusdelete", new RequestStatus());
+//        model.addAttribute("requeststatusedit2", new Employee());
+        return "historymanager";
     }
 }

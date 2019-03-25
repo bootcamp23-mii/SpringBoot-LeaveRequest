@@ -23,4 +23,7 @@ public interface RequestStatusRepository extends CrudRepository<RequestStatus, S
     
     @Query(value = "SELECT * FROM tb_t_request_status WHERE status = 'S1' AND request IN (SELECT id FROM tb_m_request WHERE employee IN (SELECT id FROM tb_m_employee where idmanager = ?1 ))", nativeQuery = true)
     public Iterable<RequestStatus> showByIdMan(String id);
+    
+    @Query(value = "SELECT * FROM tb_t_request_status WHERE request IN (SELECT id FROM tb_m_request WHERE employee IN (SELECT id FROM tb_m_employee where idmanager = ?1 ))", nativeQuery = true)
+    public Iterable<RequestStatus> showAllByIdMan(String id);
 }

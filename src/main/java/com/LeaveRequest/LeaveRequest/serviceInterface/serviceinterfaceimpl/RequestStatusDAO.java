@@ -39,5 +39,10 @@ public class RequestStatusDAO implements IRequestStatusDAO{
     public Iterable<RequestStatus> showRequestStatusByIdMan(String id) {
         return requestStatusRepository.showByIdMan(id);
     }
+
+    @Override
+    public Iterable<RequestStatus> showRequestStatusAllByIdMan(String id) {
+        return requestStatusRepository.showAllByIdMan(id);
+    }
     
 }
