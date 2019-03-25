@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author AdhityaWP
+ * @author Panji Sadewo
  */
 @Entity
 @Table(name = "tb_m_employee")
@@ -45,8 +45,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email")
     , @NamedQuery(name = "Employee.findByPassword", query = "SELECT e FROM Employee e WHERE e.password = :password")
     , @NamedQuery(name = "Employee.findByJoindate", query = "SELECT e FROM Employee e WHERE e.joindate = :joindate")
-    , @NamedQuery(name = "Employee.findByIsDeleted", query = "SELECT e FROM Employee e WHERE e.isDeleted = :isDeleted")
-    , @NamedQuery(name = "Employee.findByIsActive", query = "SELECT e FROM Employee e WHERE e.isActive = :isActive")})
+    , @NamedQuery(name = "Employee.findByIsactive", query = "SELECT e FROM Employee e WHERE e.isactive = :isactive")
+    , @NamedQuery(name = "Employee.findByIsdeleted", query = "SELECT e FROM Employee e WHERE e.isdeleted = :isdeleted")})
 public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,10 +78,12 @@ public class Employee implements Serializable {
     @Column(name = "JOINDATE")
     @Temporal(TemporalType.DATE)
     private Date joindate;
-    @Column(name = "isDeleted")
-    private Boolean isDeleted;
-    @Column(name = "isActive")
-    private Boolean isActive;
+    @Column(name = "ISACTIVE")
+    private Boolean isactive;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISDELETED")
+    private boolean isdeleted;
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<Request> requestList;
     @JoinColumn(name = "MARRIEDSTATUS", referencedColumnName = "ID")
@@ -102,9 +104,10 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public Employee(String id, Date joindate) {
+    public Employee(String id, Date joindate, boolean isdeleted) {
         this.id = id;
         this.joindate = joindate;
+        this.isdeleted = isdeleted;
     }
 
     public String getId() {
@@ -171,20 +174,20 @@ public class Employee implements Serializable {
         this.joindate = joindate;
     }
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
+    public Boolean getIsactive() {
+        return isactive;
     }
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setIsactive(Boolean isactive) {
+        this.isactive = isactive;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public boolean getIsdeleted() {
+        return isdeleted;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setIsdeleted(boolean isdeleted) {
+        this.isdeleted = isdeleted;
     }
 
     @XmlTransient

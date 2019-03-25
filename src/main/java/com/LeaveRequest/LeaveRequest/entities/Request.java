@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author AdhityaWP
+ * @author Panji Sadewo
  */
 @Entity
 @Table(name = "tb_m_request")
@@ -57,7 +57,6 @@ public class Request implements Serializable {
     private Date enddate;
     @Column(name = "TOTAL")
     private BigInteger total;
-    @Size(max = 25)    
     @JoinColumn(name = "EMPLOYEE", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private Employee employee;
@@ -105,8 +104,6 @@ public class Request implements Serializable {
     public void setTotal(BigInteger total) {
         this.total = total;
     }
-
-   
 
     public Employee getEmployee() {
         return employee;
