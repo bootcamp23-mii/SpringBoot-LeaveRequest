@@ -15,4 +15,5 @@ public interface IRequestStatusDAO {
     Iterable<RequestStatus> findAll();
     RequestStatus saveRequestStatus(RequestStatus requestStatus);
     void deleteRequestStatusById(String id);
+    Iterable<RequestStatus> showRequestStatusByIdMan(String id);
 }

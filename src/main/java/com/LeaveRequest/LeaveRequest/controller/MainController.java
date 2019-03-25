@@ -42,7 +42,8 @@ public class MainController {
     
     @GetMapping("/approval")
     public String approval(Model model) {
-        model.addAttribute("requeststatusData", rsdao.findAll());
+        String id ="11201";
+        model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
         model.addAttribute("requeststatusedit", new RequestStatus());
         model.addAttribute("requeststatusdelete", new RequestStatus());
