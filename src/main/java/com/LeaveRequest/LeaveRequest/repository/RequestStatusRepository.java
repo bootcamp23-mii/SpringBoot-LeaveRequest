@@ -20,4 +20,7 @@ public interface RequestStatusRepository extends CrudRepository<RequestStatus, S
     @Modifying
     @Query(value = "DELETE FROM tb_t_request_status where id = '?1'", nativeQuery = true)
     public void deleteById(String id);
+    
+    @Query(value = "SELECT * FROM tb_t_request_status WHERE status = 'S1' AND request IN (SELECT id FROM tb_m_request WHERE employee IN (SELECT id FROM tb_m_employee where idmanager ='11201'))", nativeQuery = true)
+    public Iterable<RequestStatus> showByIdMan(String id);
 }

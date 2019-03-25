@@ -34,5 +34,10 @@ public class RequestStatusDAO implements IRequestStatusDAO{
     public void deleteRequestStatusById(String id) {
         requestStatusRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<RequestStatus> showRequestStatusByIdMan(String id) {
+        return requestStatusRepository.showByIdMan(id);
+    }
     
 }
