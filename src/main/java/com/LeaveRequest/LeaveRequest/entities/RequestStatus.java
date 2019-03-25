@@ -64,6 +64,15 @@ public class RequestStatus implements Serializable {
         this.id = id;
     }
 
+    public RequestStatus(String id, Date datetime, String description, Request request, Status status) {
+        this.id = id;
+        this.datetime = datetime;
+        this.description = description;
+        this.request = request;
+        this.status = status;
+    }
+    
+
     public String getId() {
         return id;
     }

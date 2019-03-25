@@ -79,10 +79,10 @@ public class MainController {
         return "approval";
     }
 
-//    @RequestMapping(value = "/requeststatusedit", method = RequestMethod.POST)  
-//    public String edit(@RequestParam(value = "id") String id, @RequestParam(value = "datetime") String datetime, @RequestParam(value = "description") String description,
-//            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status) throws ParseException {
-//        rsdao.saveRequestStatus(new RequestStatus(id, sdf.parse(datetime), description, new Request(request), new Status(status)));
-//        return "redirect:/approval";
-//    }
+    @RequestMapping(value = "/requeststatusedit", method = RequestMethod.POST)  
+    public String edit(@RequestParam(value = "id") String id, @RequestParam(value = "datetime") String datetime, @RequestParam(value = "description") String description,
+            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status) throws ParseException {
+        rsdao.saveRequestStatus(new RequestStatus(id, sdf.parse(datetime), description, new Request(request), new Status(status)));
+        return "redirect:/approval";
+    }
 }
