@@ -6,11 +6,13 @@
 package com.LeaveRequest.LeaveRequest.controller;
 
 import com.LeaveRequest.LeaveRequest.entities.Employee;
+import com.LeaveRequest.LeaveRequest.entities.MarriedStatus;
 import com.LeaveRequest.LeaveRequest.entities.Request;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
+import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +54,12 @@ public class MainController {
         model.addAttribute("loginPost", new Employee());
         return "login";
     }
-    
+
     @GetMapping("/addrequest")
     public String addRequest() {
         return "addrequest";
     }
-    
+
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
         String id = employee.getId();
@@ -65,24 +67,38 @@ public class MainController {
         Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
             return "redirect:/addrequest";
-        }else
-        return "redirect:/login";
+        } else {
+            return "redirect:/login";
+        }
     }
 
     @GetMapping("/approval")
     public String approval(Model model) {
-        String id ="11201";
+        String id = "11201";
         model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
-        model.addAttribute("requeststatusedit", new RequestStatus());
+//        model.addAttribute("requeststatusedit", new RequestStatus());
         model.addAttribute("requeststatusdelete", new RequestStatus());
+        model.addAttribute("requeststatusedit2", new Employee());
         return "approval";
     }
 
-    @RequestMapping(value = "/requeststatusedit", method = RequestMethod.POST)  
+    @PostMapping("/requeststatusedit")
     public String edit(@RequestParam(value = "id") String id, @RequestParam(value = "datetime") String datetime, @RequestParam(value = "description") String description,
-            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status) throws ParseException {
+            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status, @RequestParam(value = "requesttotal", required = false) String requesttotal, @RequestParam(value = "idemp", required = false) String idemp) throws ParseException {
         rsdao.saveRequestStatus(new RequestStatus(id, sdf.parse(datetime), description, new Request(request), new Status(status)));
+
+        if (idemp != null) {
+            BigInteger kuota = (edao.findById(idemp)).getQuota();
+            BigInteger totals = new BigInteger(requesttotal);
+            BigInteger selisih = kuota.subtract(totals);
+            edao.savdeEmployee(new Employee((edao.findById(idemp)).getId(), (edao.findById(idemp)).getName(), (edao.findById(idemp)).getGendertype(), selisih, (edao.findById(idemp)).getEmail(),
+                    (edao.findById(idemp)).getPassword(), (edao.findById(idemp)).getPhoto(), (edao.findById(idemp)).getJoindate(), (edao.findById(idemp)).getIsactive(), (edao.findById(idemp)).getIsdeleted(),
+                    new MarriedStatus((edao.findById(idemp)).getMarriedstatus().getId()), new Employee((edao.findById(idemp)).getIdmanager().getId())));
+        }else{
+            return "redirect:/approval";
+        }
+
         return "redirect:/approval";
     }
 }
