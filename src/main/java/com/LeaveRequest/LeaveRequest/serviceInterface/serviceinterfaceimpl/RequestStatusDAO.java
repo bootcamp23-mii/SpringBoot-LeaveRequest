@@ -46,7 +46,7 @@ public class RequestStatusDAO implements IRequestStatusDAO{
     }
     
      @Override
-    public Iterable<RequestStatus> showRequestStatusAllById(String id) {
-        return requestStatusRepository.showById(id);
+    public Iterable<RequestStatus> showRequestStatusAllByIdEmp(String id) {
+        return requestStatusRepository.showAllByIdEmp(id);
     }
 }
