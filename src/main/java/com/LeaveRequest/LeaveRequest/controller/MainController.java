@@ -82,7 +82,7 @@ public class MainController {
         String password = employee.getPassword();
         Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
-            return "redirect:/addrequest";
+            return "redirect:/";
         } else {
             return "redirect:/login";
         }
