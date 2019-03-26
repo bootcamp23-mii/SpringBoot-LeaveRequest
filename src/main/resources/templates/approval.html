@@ -87,7 +87,7 @@
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
                                             th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
                                             th:data-getreqid="${req.request.id}"
-                                            class="btn btn-outline-success">Reject</button>
+                                            class="btn btn-outline-danger">Reject</button>
                                     <!--<button data-target="#mdlDelete" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Delete Data</button>-->
                                 </td>
                             </tr>
@@ -109,16 +109,16 @@
                                         <div class="form-group">
                                             <input hidden="" id="id" name ="id" class="form-control" type="text"/>
                                             <label for="id employee">ID Employee</label>
-                                            <input id="idemployee" name="idemp" class="form-control" type="text" />
+                                            <input id="idemployee" name="idemp" class="form-control" type="text" readonly=""/>
                                             <label for="requestdate">Request Date</label>
-                                            <input id="datetime" name ="datetime" class="form-control" type="text" />
+                                            <input id="datetime" name ="datetime" class="form-control" type="text" readonly="" />
                                             <label for="requeststart">Request Start</label>
                                             <input hidden="" id="description" name ="description" class="form-control" type="text" />
-                                            <input id="requeststart" class="form-control" type="text" />
+                                            <input id="requeststart" class="form-control" type="text" readonly="" />
                                             <label for="requestend">Request End</label>
-                                            <input id="requestend" class="form-control" type="text" />
+                                            <input id="requestend" class="form-control" type="text" readonly="" />
                                             <label for="requesttotal">Total (day)</label>
-                                            <input id="requesttotal" name="requesttotal" class="form-control" type="text" />
+                                            <input id="requesttotal" name="requesttotal" class="form-control" type="text" readonly="" />
                                             <label for="confirm">Approve this Request?</label>
                                             <input hidden="" id="requestId" name ="request" class="form-control" type="text" />
                                             <input hidden="" id="statusId" name ="status" class="form-control" type="text" value="S2" />
@@ -149,17 +149,17 @@
                                         <div class="form-group">
                                             <input hidden="" id="id-r" name ="id" class="form-control" type="text"/>
                                             <label for="idemployee">ID Employee</label>
-                                            <input id="idemployee-r" class="form-control" type="text" />
+                                            <input id="idemployee-r" class="form-control" type="text" readonly="" />
                                             <label for="requestdate">Request Date</label>
-                                            <input id="datetime-r" name ="datetime" class="form-control" type="text" />
+                                            <input id="datetime-r" name ="datetime" class="form-control" type="text" readonly="" />
                                             <label for="requeststart">Request Start</label>
-                                            <input id="requeststart-r" class="form-control" type="text" />
+                                            <input id="requeststart-r" class="form-control" type="text" readonly="" />
                                             <label for="requestend">Request End</label>
-                                            <input id="requestend-r" class="form-control" type="text" />
+                                            <input id="requestend-r" class="form-control" type="text" readonly="" />
                                             <label for="requesttotal">Total (day)</label>
-                                            <input id="requesttotal-r" name="requesttotal" class="form-control" type="text" />
+                                            <input id="requesttotal-r" name="requesttotal" class="form-control" type="text" readonly="" />
                                             <label for="confirm">Reason about rejection: </label>
-                                            <input id="description-r" name ="description" class="form-control" type="text" />
+                                            <input id="description-r" name ="description" class="form-control" type="text"  />
                                             <label for="confirm">Reject this Request?</label>
                                             <input hidden="" id="requestId-r" name ="request" class="form-control" type="text" />
                                             <input hidden="" id="statusId-r" name ="status" class="form-control" type="text" value="S2" />

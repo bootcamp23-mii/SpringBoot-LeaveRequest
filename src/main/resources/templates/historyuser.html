@@ -63,21 +63,13 @@
                             </tr>
                         </thead>
                         <tbody id="tblData">
-                            <tr th:each="req : ${requeststatusData}">
+                            <tr th:each="req : ${requestData}">
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
                                 <td th:text="${req.datetime}"></td>
                                 <td th:text="${req.request.startdate}"></td>
                                 <td th:text="${req.request.enddate}"></td>
                                 <td th:text="${req.status.type}"></td>
-                                <td <button id="btnApprove" data-target="#mdlhistory" data-toggle="modal" 
-                                            th:data-getid="${req.employee.id}" 
-                                            th:data-getstartdate="${req.startdate}"
-                                            th:data-getenddate="${req.enddate}" 
-                                            th:data-gettotal="${req.total}"
-                                            th:data-getemployee="${req.employee.name}" 
-                                            th:data-getleavetype="${req.leavetype.type}" class="btn btn-outline-success">Detail</button>
-                                </td>
                             </tr>
                         </tbody>
                     </table>

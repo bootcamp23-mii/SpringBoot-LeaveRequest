@@ -15,5 +15,6 @@ public interface ILeaveTypeDAO {
     Iterable<LeaveType> findAll();
     LeaveType saveRequest(LeaveType leavetype);
     void deleteRequestById(String id);
+    Iterable<LeaveType> showExcBurn();
     String findByType(String type);
 }

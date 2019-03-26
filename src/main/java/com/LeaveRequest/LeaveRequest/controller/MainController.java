@@ -15,6 +15,7 @@ import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MarriedStatusDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
 import freemarker.template.Configuration;
@@ -33,6 +34,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +66,8 @@ public class MainController {
     LeaveTypeDAO ltdao;
     @Autowired
     NationalDAO nationalDAO;
+    @Autowired
+    MarriedStatusDAO msdao;
 
     @GetMapping("/*")
     public String index(Model model) {
@@ -80,6 +84,23 @@ public class MainController {
         model.addAttribute("requeststatussave", new RequestStatus());
         model.addAttribute("requeststatusedit", new RequestStatus());
         model.addAttribute("requeststatusdelete", new RequestStatus());
+        String id = "11202";
+        model.addAttribute("dataEmployee", edao.findById(id));
+        Integer kuota = ((edao.findById(id)).getQuota()).intValue();
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        Integer month = cal.get(Calendar.MONTH) + 1;
+
+        if (kuota <= month) {            
+            model.addAttribute("monthnow", month);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", lastyear);
+        } else {
+            model.addAttribute("monthnow", month);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", lastyear);
+        }
         return "index";
     }
 
@@ -95,7 +116,7 @@ public class MainController {
         String password = employee.getPassword();
         Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
-            return "redirect:/addrequest";
+            return "redirect:/";
         } else {
             return "redirect:/login";
         }
@@ -156,7 +177,7 @@ public class MainController {
     @GetMapping("/historyuser")
     public String historyuser(Model model) {
         String id = "11201";
-        model.addAttribute("requestData", rdao.findAll());
+        model.addAttribute("requestData", rsdao.showRequestStatusByIdMan(id));
 //        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
@@ -189,5 +210,25 @@ public class MainController {
         rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee("11201"), new LeaveType(type)));
         rsdao.saveRequestStatus(new RequestStatus("@@@", new Date(), "", new Request(rdao.findLastId()), new Status("S1")));
         return "redirect:/addrequest";
+    }
+    
+    @GetMapping("/adduser")
+    public String adduser(Model model) {
+        model.addAttribute("employeeData", edao.findAllEmployee());
+        model.addAttribute("employeesave", new Employee());
+        model.addAttribute("adddata", msdao.findAllEmp());
+        model.addAttribute("addgender", edao.findAllEmployee());
+        return "adduser";
+    }
+    
+     @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+    public String save(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
+            String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
+        String password = Double.toString(Math.random());
+        String bcryppass = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println(gendertype);
+        edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger(quota), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
+
+        return "redirect:/adduser";
     }
 }

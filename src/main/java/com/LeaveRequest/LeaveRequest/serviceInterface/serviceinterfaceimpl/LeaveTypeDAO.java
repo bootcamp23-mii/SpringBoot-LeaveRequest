@@ -38,6 +38,11 @@ public class LeaveTypeDAO implements ILeaveTypeDAO{
     }
 
     @Override
+    public Iterable<LeaveType> showExcBurn() {
+        return leavetypeRepository.showKecualiBurn();
+    }
+
+    @Override
     public String findByType(String type) {
         return leavetypeRepository.findByType(type);
     }
