@@ -34,10 +34,6 @@ public class RequestDAO implements IRequestDAO{
     public void deleteRequestById(String id) {
         requestRepository.deleteById(id);
     }
-    
-    @Override
-    public Iterable<Request> showRequestAllByIdMan(String id) {
-        return requestRepository.showById(id);
-    }
+   
     
 }

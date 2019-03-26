@@ -51,32 +51,85 @@
                     <!-- Content -->
                     <h4>Leave Request List (User)</h4>
 
-                    <table id="example" class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
+                    <table id="historyuser" class="table table-bordered table-striped" style="width: 100%">
+                         <thead>
                             <tr>
                                 <th>Id Employee</th>
+                                <th>Name</th>
+                                <th>Request Date</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Total</th>
-                                <th>Employee</th>
-                                <th>Leave Type</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody id="tblData">
-                            <tr th:each="req : ${requestData}">
-                                <td th:text="${req.employee.id}"></td>
-                                <td th:text="${req.startdate}"></td>
-                                <td th:text="${req.enddate}"></td>
-                                <td th:text="${req.total}"></td>
-                                <td th:text="${req.employye.name}"></td>
-                                <td th:text="${req.leavetype.type}"></td>
+                            <tr th:each="req : ${requeststatusData}">
+                                <td th:text="${req.request.employee.id}"></td>
+                                <td th:text="${req.request.employee.name}"></td>
+                                <td th:text="${req.datetime}"></td>
+                                <td th:text="${req.request.startdate}"></td>
+                                <td th:text="${req.request.enddate}"></td>
                                 <td th:text="${req.status.type}"></td>
-                                <td th:text="${req.detail}"></td>
+                                <td <button id="btnApprove" data-target="#mdlhistory" data-toggle="modal" 
+                                            th:data-getid="${req.employee.id}" 
+                                            th:data-getstartdate="${req.startdate}"
+                                            th:data-getenddate="${req.enddate}" 
+                                            th:data-gettotal="${req.total}"
+                                            th:data-getemployee="${req.employee.name}" 
+                                            th:data-getleavetype="${req.leavetype.type}" class="btn btn-outline-success">Detail</button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
+                    <!--                    <div class="modal fade" id="mdlhistory" tabindex="-1" role="dialog" 
+                                             aria-labelledby="modal-add" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">   
+                                                        <h5 class="modal-title" id="modal-add">Add Request</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form th:action="@{/historyuser}" method="Post">
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label for="name">ID</label>
+                                                                <input id="id-r" name="id-r" th:field="*{historyuser.id}" class="form-control" type="type"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name">Start Date</label>
+                                                                <input id="startdate-r" name="startdate-r" th:field="*{historyuser.startdate}" class="form-control" type="type"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name">End Date</label>
+                                                                <input id="enddate-r" name="enddate-r" th:field="*{historyuser.enddate}" class="form-control" type="type"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name">Total</label>
+                                                                <input id="total-r" name="total-r" th:field="*{historyuser.total}" class="form-control" type="text"/>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name">Leave Type</label>
+                                                                <select class="custom-select" name="request-r" id="request-r">
+                                                                    <div th:each="data :${divdata}">
+                                                                        <option class="form-control" th:value="${data.id}" th:text="${data.type}"></option>
+                                                                    </div>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="name">Employee Name</label>
+                                                                <input id="employee-r" name="employee-r" th:field="*{historyuser.total}" class="form-control" type="text"/>
+                                                            </div>
+                                                             <div class="form-group">
+                                                                <label for="name">Status</label>
+                                                                <input id="status-r" name="status-r" th:field="*{historyuser.total}" class="form-control" type="text"/>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>-->
 
 
                     <!-- /.End Content -->
@@ -95,7 +148,7 @@
         <script th:src="@{dist/js/bootstrap.min.js}"></script>
         <script>
             $(document).ready(function () {
-                $('#example').DataTable();
+                $('#historyuser').DataTable();
             });
         </script>
 
@@ -105,25 +158,26 @@
             feather.replace()
         </script>
         <script>
-            $('#mdlReject').on('show.bs.modal', function (event) {
+            $('#mdlhistory').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
-                var startdate = button.data('getstartdate');
-                var enddate = button.data('getendate');
+                var idemp = button.data('getidemp');
+                var datetime = button.data('getdatetime');
+                var start = button.data('getstart');
+                var end = button.data('getend');
                 var total = button.data('gettotal');
-                var employee = button.data('getemployee');
-                var leavetype = button.data('getleavetype');
-                var status = button.data('getstatus');
+                var reqid = button.data('getreqid');
 
                 var modal = $(this);
-                modal.find('#id-r').val(id);
-                modal.find('#idemployee-r').val(idemp);
-                modal.find('#datetime-r').val(datetime);
-                modal.find('#requeststart-r').val(start);
-                modal.find('#requestend-r').val(end);
-                modal.find('#requesttotal-r').val(total);
-                modal.find('#requestId-r').val(reqid);
-                modal.find('#statusId-r').val('S3');
+                modal.find('#id').val(id);
+                modal.find('#idemployee').val(idemp);
+                modal.find('#datetime').val(datetime);
+                modal.find('#requeststart').val(start);
+                modal.find('#requestend').val(end);
+                modal.find('#requesttotal').val(total);
+                modal.find('#requestId').val(reqid);
+                modal.find('#statusId').val('S2');
+
             });
         </script>
     </body>

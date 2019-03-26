@@ -15,6 +15,6 @@ public interface IRequestDAO {
     Iterable<Request> findAll();
     Request saveRequest(Request request);
     void deleteRequestById(String id);
-    Iterable<Request> showRequestAllByIdMan(String id);
+  
     
 }

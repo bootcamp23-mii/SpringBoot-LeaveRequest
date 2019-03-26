@@ -115,15 +115,16 @@ public class MainController {
         return "historymanager";
     }
     
-    @GetMapping("/historymanager")
+    @GetMapping("/historyuser")
     public String historyuser(Model model) {
         String id = "11201";
-        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
+        model.addAttribute("requestData", rdao.findAll());
+//        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
 //        model.addAttribute("requeststatusdelete", new RequestStatus());
 //        model.addAttribute("requeststatusedit2", new Employee());
-        return "historymanager";
+        return "historyuser";
     }
 
     @GetMapping("/addrequest")
