@@ -36,6 +36,11 @@ public class LeaveTypeDAO implements ILeaveTypeDAO{
     public LeaveType saveRequest(LeaveType leavetype) {
         return leavetypeRepository.save(leavetype); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Iterable<LeaveType> showExcBurn() {
+        return leavetypeRepository.showKecualiBurn();
+    }
     
 
   

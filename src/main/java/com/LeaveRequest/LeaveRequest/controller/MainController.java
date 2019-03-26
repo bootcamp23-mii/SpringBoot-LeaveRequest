@@ -145,7 +145,7 @@ public class MainController {
     public String addrequest(Model model) {
         model.addAttribute("requestData", rdao.findAll());
         model.addAttribute("requestsave", new Request());
-        model.addAttribute("divdata", ltdao.findAll());
+        model.addAttribute("divdata", ltdao.showExcBurn());
 
         return "addrequest";
     }

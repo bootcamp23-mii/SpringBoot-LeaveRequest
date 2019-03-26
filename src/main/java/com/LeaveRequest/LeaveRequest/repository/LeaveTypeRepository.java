@@ -16,6 +16,9 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface LeaveTypeRepository extends CrudRepository<LeaveType, String> {
      @Modifying
-    @Query(value = "DELETE FROM tb_m_leave_type where id = '?1'", nativeQuery = true)
+    @Query(value = "DELETE FROM tb_m_leave_type where id = ?1", nativeQuery = true)
     public void deleteById(String id);
+    
+    @Query(value = "SELECT * FROM tb_m_leave_type WHERE id = 'JC6'", nativeQuery = true)
+    public Iterable<LeaveType> showKecualiBurn();
 }
