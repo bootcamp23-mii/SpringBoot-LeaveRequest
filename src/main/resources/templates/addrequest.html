@@ -9,11 +9,17 @@
 
         <title>Add Leave Request</title>
 
+
         <!-- Bootstrap core CSS -->
-        <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+        <link th:href="@{dist/css/bootstrap.min.css}" rel="stylesheet"/>
 
         <!-- Custom styles for this template -->
-        <link href="dist/css/dashboard.css" rel="stylesheet">
+        <link th:href="@{dist/css/dashboard.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"/>
+        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="http://boot.mobilelegendadddiamond.web.id/vendor/jquery-easing/jquery.easing.min.js"></script>
+
     </head>
 
     <body>
@@ -65,7 +71,7 @@
                             </tr>
                         </thead>
                         <tbody id="tblAdd">
-                            <tr th:each="req : ${requestData}">
+                            <tr id="asdad" th:each="req : ${requestData}">
 
                                 <td th:text="${req.startdate}"></td>
                                 <td th:text="${req.enddate}"></td>
@@ -90,19 +96,19 @@
 
                                         <div class="form-group">
                                             <label for="name">Start Date</label>
-                                            <input id="startdate" name="startdate" th:field="*{requestsave.startdate}" class="form-control" type="type"/>
+                                            <input id="startdate" name="startdate" class="form-control" type="type"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">End Date</label>
-                                            <input id="enddate" name="enddate" th:field="*{requestsave.enddate}" class="form-control" type="type"/>
+                                            <input id="enddate" name="enddate" class="form-control" type="type"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Total</label>
-                                            <input id="total" name="total" th:field="*{requestsave.total}" class="form-control" type="text"/>
+                                            <input id="total" name="total" class="form-control" type="text" readonly="true"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Leave Type</label>
-                                            <select class="custom-select" name="lv-request" id="lv-request">
+                                            <select class="custom-select" name="type" id="type">
                                                 <div th:each="data :${divdata}">
                                                     <option class="form-control" th:value="${data.id}" th:text="${data.type}"></option>
                                                 </div>
@@ -129,49 +135,75 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>
-         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+        <!--<script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>-->
+        <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">-->
         <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
         <script src="dist/js/popper.min.js"></script>
         <script src="dist/js/bootstrap.min.js"></script>
         <script>
-                    $(document).ready(function () {
-                        $('#addrequest').DataTable();
-                    });
+            $(document).ready(function () {
+                $('#addrequest').DataTable();
+            });
         </script>
         <!-- Icons -->
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
             feather.replace()
         </script>
-        <script>
-            $("#startdate").datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'dd-mm-yy hh:mm:ss'});
-            $("#enddate").datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'dd-mm-yy hh:mm:ss'});
-            $("#startdate").click(function () {
-                var start = document.getElementById("startdate").value;
-                var end = document.getElementById("enddate").value;
-                var startTanggal = start.split("-")[0];
-                var endTanggal = end.split("-")[0];
-                var startBulan = start.split("-")[1];
-                var endBulan = end.split("-")[1];
-                var startTahun = start.split("-")[2];
-                var endTahun = end.split("-")[2];
-                var totalCuti = (endTanggal - startTanggal + 1 + ((endBulan - startBulan) * 30) + ((endTahun - startTahun) * 360));
-                document.getElementById("total").value = totalCuti.toString();
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                $('#startdate').datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'yy-mm-dd'});
+                $('#enddate').datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'yy-mm-dd'});
+                $('#startdate').click(function () {
+                    var startDate = $('#startdate').val();
+                    var endDate = $('#enddate').val();
+                    document.getElementById("total").value = workingDaysBetweenDates(startDate, endDate).toString();
+                });
             });
-            $("#enddate").click(function () {
-                var start = document.getElementById("startdate").value;
-                var end = document.getElementById("enddate").value;
-                var startTanggal = start.split("-")[0];
-                var endTanggal = end.split("-")[0];
-                var startBulan = start.split("-")[1];
-                var endBulan = end.split("-")[1];
-                var startTahun = start.split("-")[2];
-                var endTahun = end.split("-")[2];
-                var totalCuti = (endTanggal - startTanggal + 1 + ((endBulan - startBulan) * 30) + ((endTahun - startTahun) * 360));
-                document.getElementById("total").value = totalCuti.toString();
-            });
+            function workingDaysBetweenDates(d0, d1) {
+                var holidays = [];
+                var asdsa = [[${dinolibur}]];
+                for (var i = 0; i < asdsa.length; i++) {
+                    holidays.push(asdsa[i]);
+                }
+                var startDate = parseDate(d0);
+                var endDate = parseDate(d1);
+                if (endDate < startDate) {
+                    $(":submit").attr("disabled", true);
+                    return "Maaf tanggal akhir cuti anda sebelum tanggal mulai cuti anda";
+                }
+                var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+                startDate.setHours(0, 0, 0, 1); // Start just after midnight
+                endDate.setHours(23, 59, 59, 999); // End just before midnight
+                var diff = endDate - startDate; // Milliseconds between datetime objects    
+                var days = Math.ceil(diff / millisecondsPerDay);
+                var weeks = Math.floor(days / 7);
+                days -= weeks * 2;
+                var startDay = startDate.getDay();
+                var endDay = endDate.getDay();
+                if (startDay - endDay > 1) {
+                    days -= 2;
+                }
+                if (startDay == 0 && endDay != 6) {
+                    days--;
+                }
+                if (endDay == 6 && startDay != 0) {
+                    days--;
+                }
+                for (var i in holidays) {
+                    if ((holidays[i] >= d0) && (holidays[i] <= d1)) {
+                        days--;
+                    }
+                }
+                $(":submit").removeAttr("disabled");
+                return days;
+            }
+
+            function parseDate(input) {
+                var parts = input.match(/(\d+)/g);
+                return new Date(parts[0], parts[1] - 1, parts[2]);
+            }
         </script>
     </body>
 </html>

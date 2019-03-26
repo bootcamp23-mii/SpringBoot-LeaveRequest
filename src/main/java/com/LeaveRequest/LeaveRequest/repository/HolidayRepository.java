@@ -5,9 +5,7 @@
  */
 package com.LeaveRequest.LeaveRequest.repository;
 
-import com.LeaveRequest.LeaveRequest.entities.Employee;
-import java.sql.Blob;
-import org.springframework.data.jpa.repository.Query;
+import com.LeaveRequest.LeaveRequest.entities.NationalHoliday;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +14,6 @@ import org.springframework.stereotype.Repository;
  * @author Panji Sadewo
  */
 @Repository
-public interface EmployeeRepository extends CrudRepository<Employee, String>{
-
+public interface HolidayRepository extends CrudRepository<NationalHoliday, String>{
+    
 }

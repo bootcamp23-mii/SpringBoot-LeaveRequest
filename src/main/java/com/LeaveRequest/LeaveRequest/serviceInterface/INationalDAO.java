@@ -5,15 +5,14 @@
  */
 package com.LeaveRequest.LeaveRequest.serviceInterface;
 
-import com.LeaveRequest.LeaveRequest.entities.Employee;
-import java.sql.Blob;
+import com.LeaveRequest.LeaveRequest.entities.NationalHoliday;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
 
 /**
  *
  * @author Panji Sadewo
  */
-public interface IEmployeeDAO {
-    Iterable<Employee> findAllEmployee();
-    Employee findById(String id);
-    Employee savdeEmployee(Employee employee);
+public interface INationalDAO {
+    Iterable<NationalHoliday> findAll();
+    
 }

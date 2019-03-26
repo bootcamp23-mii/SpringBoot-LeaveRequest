@@ -8,6 +8,7 @@ package com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl;
 import com.LeaveRequest.LeaveRequest.entities.Employee;
 import com.LeaveRequest.LeaveRequest.repository.EmployeeRepository;
 import com.LeaveRequest.LeaveRequest.serviceInterface.IEmployeeDAO;
+import java.sql.Blob;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

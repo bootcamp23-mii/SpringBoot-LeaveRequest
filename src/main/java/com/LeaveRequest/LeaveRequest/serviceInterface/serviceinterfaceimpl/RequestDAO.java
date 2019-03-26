@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
  * @author acer
  */
 @Service
-public class RequestDAO implements IRequestDAO{
+public class RequestDAO implements IRequestDAO {
+
     @Autowired
     RequestRepository requestRepository;
 
@@ -34,6 +35,10 @@ public class RequestDAO implements IRequestDAO{
     public void deleteRequestById(String id) {
         requestRepository.deleteById(id);
     }
-   
-    
+
+    @Override
+    public String findLastId() {
+        return requestRepository.findLastId();
+    }
+
 }

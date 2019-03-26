@@ -6,20 +6,37 @@
 package com.LeaveRequest.LeaveRequest.controller;
 
 import com.LeaveRequest.LeaveRequest.entities.Employee;
+import com.LeaveRequest.LeaveRequest.entities.LeaveType;
 import com.LeaveRequest.LeaveRequest.entities.MarriedStatus;
+import com.LeaveRequest.LeaveRequest.entities.NationalHoliday;
 import com.LeaveRequest.LeaveRequest.entities.Request;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigInteger;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,9 +62,20 @@ public class MainController {
     EmployeeDAO edao;
     @Autowired
     LeaveTypeDAO ltdao;
+    @Autowired
+    NationalDAO nationalDAO;
+
+    @GetMapping("/*")
+    public String index(Model model) {
+//        model.addAttribute("requeststatusData", rsdao.findAll());
+//        model.addAttribute("requeststatussave", new RequestStatus());
+//        model.addAttribute("requeststatusedit", new RequestStatus());
+//        model.addAttribute("requeststatusdelete", new RequestStatus());
+        return "404";
+    }
 
     @GetMapping("/")
-    public String index(Model model) {
+    public String indexs(Model model) {
         model.addAttribute("requeststatusData", rsdao.findAll());
         model.addAttribute("requeststatussave", new RequestStatus());
         model.addAttribute("requeststatusedit", new RequestStatus());
@@ -60,7 +88,6 @@ public class MainController {
         model.addAttribute("loginPost", new Employee());
         return "login";
     }
-
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
@@ -114,7 +141,18 @@ public class MainController {
 //        model.addAttribute("requeststatusedit2", new Employee());
         return "historymanager";
     }
-    
+
+    @GetMapping("/image")
+    public void image(@RequestParam(value = "id") String id, HttpServletResponse response) throws IOException {
+        Employee employee = edao.findById(id);
+        byte byteArray[] = employee.getPhoto();
+        response.setContentType("image/gif");
+        OutputStream os = response.getOutputStream();
+        os.write(byteArray);
+        os.flush();
+        os.close();
+    }
+
     @GetMapping("/historyuser")
     public String historyuser(Model model) {
         String id = "11201";
@@ -128,22 +166,28 @@ public class MainController {
     }
 
     @GetMapping("/addrequest")
-    public String addrequest(Model model) {
+    public String addrequest(Model model) throws Exception {
+        ArrayList<String> getDateA = new ArrayList<String>();
+        Date[] getDate1;
         model.addAttribute("requestData", rdao.findAll());
-        model.addAttribute("requestsave", new Request());
+        model.addAttribute("requestsave", rdao.findAll());
         model.addAttribute("divdata", ltdao.findAll());
-       
-
+        for (NationalHoliday nationalHoliday1 : nationalDAO.findAll()) {
+            getDateA.add(nationalHoliday1.getDate().toString());
+        }
+        model.addAttribute("dinolibur", getDateA);        
         return "addrequest";
     }
 
-    @RequestMapping(value = "/requestsave", method = RequestMethod.POST) //@PostMapping{"/regionsave"}
-    public String save(@ModelAttribute("requestsave") Request request) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-//        System.out.println(request.getId());
-//        System.out.println(dateFormat.format(request.getStartdate()));
-//        System.out.println(request.getEnddate());
-         rdao.saveRequest(request);
+    @PostMapping("/requestsave")
+    public String requestsave(@RequestParam(value = "startdate") String start,
+            @RequestParam(value = "enddate") String end,
+            @RequestParam(value = "total") String jumlahCuti,
+            @RequestParam(value = "type") String type) throws ParseException {
+        Date starts = new SimpleDateFormat("yyyy-MM-dd").parse(start);
+        Date ends = new SimpleDateFormat("yyyy-MM-dd").parse(end);
+        rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee("11201"), new LeaveType(type)));
+        rsdao.saveRequestStatus(new RequestStatus("@@@", new Date(), "", new Request(rdao.findLastId()), new Status("S1")));
         return "redirect:/addrequest";
     }
 }

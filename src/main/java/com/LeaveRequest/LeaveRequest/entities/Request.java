@@ -69,6 +69,21 @@ public class Request implements Serializable {
     public Request() {
     }
 
+    public Request(String id, Date startdate, Date enddate, BigInteger total, Employee employee, LeaveType leavetype) {
+        this.id = id;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.total = total;
+        this.employee = employee;
+        this.leavetype = leavetype;
+    }
+    public Request(Date startdate, Date enddate, BigInteger total, Employee employee, LeaveType leavetype) {
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.total = total;
+        this.employee = employee;
+        this.leavetype = leavetype;
+    }
 
     public Request(String id) {
         this.id = id;
