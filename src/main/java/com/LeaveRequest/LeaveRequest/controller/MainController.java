@@ -12,6 +12,7 @@ import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MarriedStatusDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
 import java.math.BigInteger;
@@ -47,6 +48,8 @@ public class MainController {
     EmployeeDAO edao;
     @Autowired
     LeaveTypeDAO ltdao;
+    @Autowired
+    MarriedStatusDAO msdao;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -158,5 +161,25 @@ public class MainController {
 //        System.out.println(request.getEnddate());
         rdao.saveRequest(request);
         return "redirect:/addrequest";
+    }
+    
+    @GetMapping("/adduser")
+    public String adduser(Model model) {
+        model.addAttribute("employeeData", edao.findAllEmployee());
+        model.addAttribute("employeesave", new Employee());
+        model.addAttribute("adddata", msdao.findAllEmp());
+        model.addAttribute("addgender", edao.findAllEmployee());
+        return "adduser";
+    }
+    
+     @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+    public String save(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
+            String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
+        String password = Double.toString(Math.random());
+        String bcryppass = BCrypt.hashpw(password, BCrypt.gensalt());
+        System.out.println(gendertype);
+        edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger(quota), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
+
+        return "redirect:/adduser";
     }
 }
