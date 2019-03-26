@@ -17,6 +17,8 @@ import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.Reque
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,10 +50,23 @@ public class MainController {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("requeststatusData", rsdao.findAll());
-        model.addAttribute("requeststatussave", new RequestStatus());
-        model.addAttribute("requeststatusedit", new RequestStatus());
-        model.addAttribute("requeststatusdelete", new RequestStatus());
+        String id = "11202";
+        model.addAttribute("dataEmployee", edao.findById(id));
+        Integer kuota = ((edao.findById(id)).getQuota()).intValue();
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        Integer month = cal.get(Calendar.MONTH) + 1;
+
+        if (kuota <= month) {            
+            model.addAttribute("monthnow", month);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", lastyear);
+        } else {
+            model.addAttribute("monthnow", month);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", lastyear);
+        }
         return "index";
     }
 
@@ -60,7 +75,6 @@ public class MainController {
         model.addAttribute("loginPost", new Employee());
         return "login";
     }
-
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
@@ -114,7 +128,7 @@ public class MainController {
 //        model.addAttribute("requeststatusedit2", new Employee());
         return "historymanager";
     }
-    
+
     @GetMapping("/historyuser")
     public String historyuser(Model model) {
         String id = "11201";
@@ -132,7 +146,6 @@ public class MainController {
         model.addAttribute("requestData", rdao.findAll());
         model.addAttribute("requestsave", new Request());
         model.addAttribute("divdata", ltdao.findAll());
-       
 
         return "addrequest";
     }
@@ -143,7 +156,7 @@ public class MainController {
 //        System.out.println(request.getId());
 //        System.out.println(dateFormat.format(request.getStartdate()));
 //        System.out.println(request.getEnddate());
-         rdao.saveRequest(request);
+        rdao.saveRequest(request);
         return "redirect:/addrequest";
     }
 }

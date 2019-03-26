@@ -47,41 +47,24 @@
                         <h1 class="h2">Dashboard</h1>
                     </div>
 
+                    
+
                     <!-- Content -->
-                    <h4>Data Request Status</h4>
-                    <div class="row" style="padding: 10px 0 10px 0">
-                        <div class="col-sm-6">
-                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add Data</button>
+                    
+                    <div class="panel-group">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" th:each="answer: ${dataEmployee}">
+                                <label> Availabel Quota of Leave Request :  </label>
+                                <button class ="btn btn-info btn-lg" data-toggle="collapse" data-target="#collapse1" th:text="${answer.quota}"></button>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <ul class="list-group">
+                                    <div>This Year (day)</div> <li style="width: 30%" class="list-group-item" th:text="${monthnow}"></li>
+                                    <div>Last Year (day)</div> <li style="width: 30%" class="list-group-item" th:text="${lastyear}"></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <table id="example" class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>Id Employee</th>
-                                <th>Name</th>
-                                <th>Request Date</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tblData">
-                            <tr th:each="req : ${requeststatusData}">
-                                <td th:text="${req.request.employee.id}"></td>
-                                <td th:text="${req.request.employee.id}"></td>
-                                <td th:text="${req.datetime}"></td>
-                                <td th:text="${req.request.startdate}"></td>
-                                <td th:text="${req.request.enddate}"></td>
-                                <td>
-                                    <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}" data-target="#mdlAdd" data-toggle="modal">Delete</a>-->
-                                    <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}">Delete</a>-->
-                                    <!--<a th:href="@{/delete/{id}(id=${as.id})}">Edit</a>-->
-                                    <!--<button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Edit Data</button>-->
-                                    <!--<button data-target="#mdlDelete" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Delete Data</button>-->
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
 
 
                     <!-- /.End Content -->
