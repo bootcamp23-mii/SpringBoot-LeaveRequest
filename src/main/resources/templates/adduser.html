@@ -52,7 +52,7 @@
                     <div class="row" style="padding: 10px 0 10px 0">
                         <div class="col-sm-6">
                             <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
-                            <button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
+                            <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
                         </div>
                     </div>
                     <table id="adduser" class="table table-bordered table-striped" style="width: 100%">
@@ -81,7 +81,7 @@
                                             th:data-getquota="${req.quota}"
                                             th:data-getemail="${req.email}"
                                             th:data-getjoindate="${req.joindate}" 
-                                            th:data-getmarriedstatus="${req.marriedstatus}" 
+                                            th:data-getmarriedstatus="${req.marriedstatus.status}" 
                                             th:data-getmanagerid="${req.idmanager.id}" 
                                             class="btn btn-outline-success">Detail</button>
                                     <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
@@ -91,7 +91,7 @@
                                             th:data-getquota="${req.quota}"
                                             th:data-getemail="${req.email}"
                                             th:data-getjoindate="${req.joindate}" 
-                                            th:data-getmarriedstatus="${req.marriedstatus}" 
+                                            th:data-getmarriedstatus="${req.marriedstatus.status}" 
                                             th:data-getmanagerid="${req.idmanager.id}" 
                                             class="btn btn-outline-success">Edit</button>
                                     <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
@@ -153,8 +153,8 @@
                                             <input id="joindate" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Manager ID</label>
-                                            <input id="manager" name="idmanager" placeholder="Manager ID" class="form-control" type="type"/>
+                                            <!--<label for="name">Manager ID</label>-->
+                                            <input id="manager" name="idmanager" placeholder="Manager ID" class="form-control" type="hidden"/>
                                         </div>
                                     </div>
 
@@ -222,7 +222,7 @@
                                             <input id="joindate-r" name="joindate" placeholder="Join Date" disabled="true" class="form-control" type="text"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Manager ID</label>
+<!--                                            <label for="name">Manager ID</label>-->
                                             <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager ID" class="form-control" type="hidden"/>
                                         </div>
                                     </div>
@@ -288,8 +288,8 @@
                                             <input id="joindate-y" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Manager ID</label>
-                                            <input id="manager-y" name="idmanager" placeholder="Manager ID" class="form-control" type="type"/>
+                                            <!--<label for="name">Manager ID</label>-->
+                                            <input id="manager-y" name="idmanager" placeholder="Manager ID" class="form-control" type="hidden"/>
                                         </div>
                                     </div>
 
@@ -303,7 +303,7 @@
                     </div>
 
                     <!--modal upload-->
-                    <div class="modal fade" id="mdlUpload" tabindex="-1" role="dialog" 
+<!--                    <div class="modal fade" id="mdlUpload" tabindex="-1" role="dialog" 
                          aria-labelledby="modal-upload" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -336,7 +336,7 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
                     <!-- /.End Content -->
                 </main>
