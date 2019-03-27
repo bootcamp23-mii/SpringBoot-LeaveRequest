@@ -37,5 +37,10 @@ public class EmployeeDAO implements IEmployeeDAO{
     public Iterable<Employee> findAllEmployee() {
         return er.findAll();
     }
+
+    @Override
+    public String findLastId() {
+        return er.findLastId();
+    }
     
 }

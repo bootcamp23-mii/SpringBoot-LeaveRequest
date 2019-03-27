@@ -17,5 +17,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, String>{
+    
+    @Query(value = "select max(ID) from tb_m_employee", nativeQuery = true)
+    public String findLastId();
 
 }

@@ -14,12 +14,15 @@ import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MarriedStatusDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
 import freemarker.template.Configuration;
+import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigInteger;
@@ -35,6 +38,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,23 +74,20 @@ public class MainController {
     NationalDAO nationalDAO;
     @Autowired
     MarriedStatusDAO msdao;
+    @Autowired
+    private MailService emailService;
 
     @GetMapping("/*")
     public String index(Model model) {
-//        model.addAttribute("requeststatusData", rsdao.findAll());
-//        model.addAttribute("requeststatussave", new RequestStatus());
-//        model.addAttribute("requeststatusedit", new RequestStatus());
-//        model.addAttribute("requeststatusdelete", new RequestStatus());
         return "404";
     }
 
     @GetMapping("/")
-    public String indexs(Model model) {
-        model.addAttribute("requeststatusData", rsdao.findAll());
-        model.addAttribute("requeststatussave", new RequestStatus());
-        model.addAttribute("requeststatusedit", new RequestStatus());
-        model.addAttribute("requeststatusdelete", new RequestStatus());
-        String id = "11202";
+    public String indexs(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
+        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("dataEmployee", edao.findById(id));
         Integer kuota = ((edao.findById(id)).getQuota()).intValue();
         Date now = new Date();
@@ -92,7 +95,7 @@ public class MainController {
         cal.setTime(now);
         Integer month = cal.get(Calendar.MONTH) + 1;
 
-        if (kuota <= month) {            
+        if (kuota <= month) {
             model.addAttribute("monthnow", month);
             Integer lastyear = kuota - month;
             model.addAttribute("lastyear", lastyear);
@@ -111,11 +114,13 @@ public class MainController {
     }
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
-    public String checkLogin(@ModelAttribute("loginPost") Employee employee) {
+    public String checkLogin(@ModelAttribute("loginPost") Employee employee, HttpSession session) {
         String id = employee.getId();
         String password = employee.getPassword();
         Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
+            session.setAttribute("idLogin", id);
+            session.setAttribute("idRole", eF.getEmployeeRoleList());
             return "redirect:/";
         } else {
             return "redirect:/login";
@@ -123,8 +128,12 @@ public class MainController {
     }
 
     @GetMapping("/approval")
-    public String approval(Model model) {
-        String id = "11201";
+    public String approval(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
+        String id = session.getAttribute("idLogin").toString();
+//        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
@@ -153,8 +162,11 @@ public class MainController {
     }
 
     @GetMapping("/historymanager")
-    public String historymanager(Model model) {
-        String id = "11201";
+    public String historymanager(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
+        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requeststatusData", rsdao.showRequestStatusAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
@@ -175,8 +187,11 @@ public class MainController {
     }
 
     @GetMapping("/historyuser")
-    public String historyuser(Model model) {
-        String id = "11201";
+    public String historyuser(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
+        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requestData", rsdao.showRequestStatusByIdMan(id));
 //        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
@@ -187,7 +202,10 @@ public class MainController {
     }
 
     @GetMapping("/addrequest")
-    public String addrequest(Model model) throws Exception {
+    public String addrequest(Model model, HttpSession session) throws Exception {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
         ArrayList<String> getDateA = new ArrayList<String>();
         Date[] getDate1;
         model.addAttribute("requestData", rdao.findAll());
@@ -196,7 +214,7 @@ public class MainController {
         for (NationalHoliday nationalHoliday1 : nationalDAO.findAll()) {
             getDateA.add(nationalHoliday1.getDate().toString());
         }
-        model.addAttribute("dinolibur", getDateA);        
+        model.addAttribute("dinolibur", getDateA);
         return "addrequest";
     }
 
@@ -204,31 +222,60 @@ public class MainController {
     public String requestsave(@RequestParam(value = "startdate") String start,
             @RequestParam(value = "enddate") String end,
             @RequestParam(value = "total") String jumlahCuti,
-            @RequestParam(value = "type") String type) throws ParseException {
+            @RequestParam(value = "type") String type, HttpSession session) throws ParseException {
         Date starts = new SimpleDateFormat("yyyy-MM-dd").parse(start);
         Date ends = new SimpleDateFormat("yyyy-MM-dd").parse(end);
-        rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee("11201"), new LeaveType(type)));
+        rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee(session.getAttribute("idLogin").toString()), new LeaveType(type)));
         rsdao.saveRequestStatus(new RequestStatus("@@@", new Date(), "", new Request(rdao.findLastId()), new Status("S1")));
         return "redirect:/addrequest";
     }
-    
+
     @GetMapping("/adduser")
-    public String adduser(Model model) {
+    public String adduser(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("employeeData", edao.findAllEmployee());
         model.addAttribute("employeesave", new Employee());
+        model.addAttribute("employeeedit", new Employee());
         model.addAttribute("adddata", msdao.findAllEmp());
         model.addAttribute("addgender", edao.findAllEmployee());
         return "adduser";
     }
-    
-     @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
-    public String save(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
-            String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
+
+    @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+    public String saveemployee(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
+            String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException, MessagingException, IOException, MalformedTemplateNameException, TemplateException {
         String password = Double.toString(Math.random());
         String bcryppass = BCrypt.hashpw(password, BCrypt.gensalt());
         System.out.println(gendertype);
         edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger(quota), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
-
+        Employee esave = edao.findById(edao.findLastId());
+        System.out.println(esave.getEmployeeRoleList() + esave.getName());
+        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "https://localhost:8083/activation");
         return "redirect:/adduser";
     }
+    
+//    @PostMapping("/employeeedit") //@PostMapping{"/regionsave"}
+//    public String editemployee(@RequestParam("selectimg") Part img, HttpSession session) throws SQLException{
+////        byte byteArray[] = img.getBytes(1,(int)img.length());
+//        Employee eedit = edao.findById(session.getAttribute("idLogin").toString());
+//        edao.savdeEmployee(new Employee(eedit.getId().toString(),
+//                eedit.getName().toString(), 
+//                eedit.getGendertype(), 
+//                eedit.getQuota(), 
+//                eedit.getEmail(), 
+//                eedit.getPassword(), 
+//                byteArray[], 
+//                eedit.getJoindate(), 
+//                eedit.getIsactive(), 
+//                eedit.getIsdeleted(), 
+//                eedit.getMarriedstatus(), 
+//                eedit.getIdmanager()));
+//        edao.savdeEmployee(new Employee)
+//        Employee esave = edao.findById(edao.findLastId());
+//        System.out.println(esave.getEmployeeRoleList() + esave.getName());
+//        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "localhost:8083/activation");
+//        return "redirect:/adduser";
+//    }
 }
