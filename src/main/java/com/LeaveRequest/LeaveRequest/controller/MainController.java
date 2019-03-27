@@ -256,6 +256,21 @@ public class MainController {
         return "redirect:/adduser";
     }
     
+    @RequestMapping(value = "/employeedelete", method = RequestMethod.GET) //@RequestParam{value "regionid"} 
+    public String delete(@RequestParam(value = "employeeid") String idemployee) {
+        edao.deleteEmployeeById(idemployee);
+        return "redirect:/adduser";
+    }
+
+    @PostMapping("/employeeedit")
+    public String edit(@RequestParam("id") String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
+            String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
+        String pass = (edao.findById(id)).getPassword();
+        System.out.println(gendertype);
+        edao.savdeEmployee(new Employee(id, name, Boolean.valueOf(gendertype), new BigInteger(quota), email, pass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
+
+        return "redirect:/adduser";
+    }
 //    @PostMapping("/employeeedit") //@PostMapping{"/regionsave"}
 //    public String editemployee(@RequestParam("selectimg") Part img, HttpSession session) throws SQLException{
 ////        byte byteArray[] = img.getBytes(1,(int)img.length());
