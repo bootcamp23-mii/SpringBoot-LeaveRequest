@@ -12,6 +12,7 @@ import com.LeaveRequest.LeaveRequest.entities.NationalHoliday;
 import com.LeaveRequest.LeaveRequest.entities.Request;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.ApprovalMailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MailService;
@@ -76,6 +77,8 @@ public class MainController {
     MarriedStatusDAO msdao;
     @Autowired
     private MailService emailService;
+    @Autowired
+    private ApprovalMailService approvalMailService;
 
     @GetMapping("/*")
     public String index(Model model) {
@@ -144,7 +147,7 @@ public class MainController {
 
     @PostMapping("/requeststatusedit")
     public String edit(@RequestParam(value = "id") String id, @RequestParam(value = "datetime") String datetime, @RequestParam(value = "description") String description,
-            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status, @RequestParam(value = "requesttotal", required = false) String requesttotal, @RequestParam(value = "idemp", required = false) String idemp) throws ParseException {
+            @RequestParam(value = "request") String request, @RequestParam(value = "status") String status, @RequestParam(value = "requesttotal", required = false) String requesttotal, @RequestParam(value = "idemp", required = false) String idemp) throws ParseException, MessagingException, IOException, MalformedTemplateNameException, TemplateException {
         rsdao.saveRequestStatus(new RequestStatus(id, sdf.parse(datetime), description, new Request(request), new Status(status)));
 
         if (idemp != null) {
@@ -154,7 +157,12 @@ public class MainController {
             edao.savdeEmployee(new Employee((edao.findById(idemp)).getId(), (edao.findById(idemp)).getName(), (edao.findById(idemp)).getGendertype(), selisih, (edao.findById(idemp)).getEmail(),
                     (edao.findById(idemp)).getPassword(), (edao.findById(idemp)).getPhoto(), (edao.findById(idemp)).getJoindate(), (edao.findById(idemp)).getIsactive(), (edao.findById(idemp)).getIsdeleted(),
                     new MarriedStatus((edao.findById(idemp)).getMarriedstatus().getId()), new Employee((edao.findById(idemp)).getIdmanager().getId())));
+            
+            System.out.println((edao.findById(idemp)).getEmail());
+            System.out.println((edao.findById(idemp)).getName());
+            approvalMailService.sendEmailService((edao.findById(idemp)).getEmail(), "Approval for " + idemp, "Approve!", (edao.findById(idemp)).getName(), "Congratulation! Your request has been approve!");
         } else {
+            approvalMailService.sendEmailService((edao.findById(idemp)).getEmail(), "Approval for " + idemp, "Rejected!", (edao.findById(idemp)).getName(), "So Sorry! Your request has been rejected!");
             return "redirect:/approval";
         }
 
