@@ -16,5 +16,6 @@ public interface IEmployeeDAO {
     Iterable<Employee> findAllEmployee();
     Employee findById(String id);
     Employee savdeEmployee(Employee employee);
+    void deleteEmployeeById(String id);
     String findLastId();
 }

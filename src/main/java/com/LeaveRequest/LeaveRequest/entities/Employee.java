@@ -136,6 +136,18 @@ public class Employee implements Serializable {
         this.marriedstatus = marriedstatus;
         this.idmanager = idmanager;
     }
+
+    public Employee(String id, String name, Boolean gendertype, BigInteger quota, String email, Date joindate, MarriedStatus marriedstatus, Employee idmanager) {
+        this.id = id;
+        this.name = name;
+        this.gendertype = gendertype;
+        this.quota = quota;
+        this.email = email;
+        this.joindate = joindate;
+        this.marriedstatus = marriedstatus;
+        this.idmanager = idmanager;
+    }
+    
     
     
 

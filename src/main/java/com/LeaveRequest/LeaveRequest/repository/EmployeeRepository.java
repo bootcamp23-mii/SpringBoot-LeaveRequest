@@ -8,6 +8,8 @@ package com.LeaveRequest.LeaveRequest.repository;
 import com.LeaveRequest.LeaveRequest.entities.Employee;
 import java.sql.Blob;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface EmployeeRepository extends CrudRepository<Employee, String>{
+    @Modifying
+    @Query(value = "DELETE FROM tb_m_employee where id = ?1", nativeQuery = true)
+    public void deleteById(String id);
     
     @Query(value = "select max(ID) from tb_m_employee", nativeQuery = true)
     public String findLastId();

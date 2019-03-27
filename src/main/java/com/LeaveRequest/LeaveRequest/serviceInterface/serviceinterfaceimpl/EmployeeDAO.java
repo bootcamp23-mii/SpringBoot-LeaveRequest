@@ -43,4 +43,9 @@ public class EmployeeDAO implements IEmployeeDAO{
         return er.findLastId();
     }
     
+     @Override
+    public void deleteEmployeeById(String id) {
+       er.deleteById(id);
+    }
+    
 }
