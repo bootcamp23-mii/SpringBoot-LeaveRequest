@@ -223,7 +223,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Manager ID</label>
-                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager ID" class="form-control" type="text"/>
+                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager ID" class="form-control" type="hidden"/>
                                         </div>
                                     </div>
 
@@ -318,7 +318,7 @@
                                         <div class="form-group">
                                             <label for="name">Upload for Id :</label>
                                             <select class="custom-select" name="id" id="id-u">
-                                                <div th:each="data :${employeeData}">
+                                                <div th:each="data :${userdata}">
                                                     <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
                                                 </div>
                                             </select>
