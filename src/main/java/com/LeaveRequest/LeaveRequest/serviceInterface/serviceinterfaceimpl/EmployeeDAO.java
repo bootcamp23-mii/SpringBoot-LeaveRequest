@@ -37,4 +37,9 @@ public class EmployeeDAO implements IEmployeeDAO{
         return er.findAll();
     }
     
+     @Override
+    public void deleteEmployeeById(String id) {
+       er.deleteById(id);
+    }
+    
 }

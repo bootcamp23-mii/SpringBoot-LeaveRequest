@@ -74,19 +74,26 @@
                                 <td th:text="${req.idmanager.id}"></td>
 
                                 <td>
-                                    <button id="btn" data-target="#mdlAdd" data-toggle="modal" 
+                                    <button id="btnDetails" data-target="#mdlDetail" data-toggle="modal" 
                                             th:data-getname="${req.name}" 
-                                            th:data-getjoindate="${req.joindate}"
-                                            th:data-getquota="${req.quota}" 
+                                            th:data-getgendertype="${req.gendertype}"
+                                            th:data-getquota="${req.quota}"
+                                            th:data-getemail="${req.email}"
+                                            th:data-getjoindate="${req.joindate}" 
+                                            th:data-getmarriedstatus="${req.marriedstatus}" 
+                                            th:data-getmanagerid="${req.idmanager.id}" 
                                             class="btn btn-outline-success">Detail</button>
-                                    <button id="btn" data-target="#mdlAdd" data-toggle="modal" 
+                                    <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
+                                            th:data-getid="${req.id}"
                                             th:data-getname="${req.name}" 
-                                            th:data-getjoindate="${req.joindate}"
-                                            th:data-getquota="${req.quota}" 
+                                            th:data-getgendertype="${req.gendertype}"
+                                            th:data-getquota="${req.quota}"
+                                            th:data-getemail="${req.email}"
+                                            th:data-getjoindate="${req.joindate}" 
+                                            th:data-getmarriedstatus="${req.marriedstatus}" 
+                                            th:data-getmanagerid="${req.idmanager.id}" 
                                             class="btn btn-outline-success">Edit</button>
-                                    <button id="btn" data-target="#mdlAdd" data-toggle="modal" 
-                                            th:data-getid="${req.id}" 
-                                            class="btn btn-outline-success">Hapus</button>
+                                    <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -145,7 +152,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Manager ID</label>
-                                            <input id="manager" name="idmanager" th:field="*{employeesave.idmanager}" placeholder="Manager ID" class="form-control" type="type"/>
+                                            <input id="manager" name="idmanager" placeholder="Manager ID" class="form-control" type="type"/>
                                         </div>
                                     </div>
 
@@ -169,53 +176,56 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form th:action="@{/employeesave}" method="Post">
+                                <form method="Post">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="name">ID </label>
-                                            <input id="id-r" name="id-r" class="form-control" placeholder="ID" type="readonly"/>
+                                            <input id="id-r" name="id" class="form-control" placeholder="ID" type="hidden"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Name </label>
-                                            <input id="name-r" name="name-r" class="form-control" placeholder="Name" type="readonly"/>
+                                            <input id="name-r" name="name"class="form-control" placeholder="Name" disabled="true" type="readonly"/>
                                         </div>
-                                        <div class="form-group">
+                                         <div class="form-group">
                                             <label for="name">Gender Type</label>
-                                            <select class="custom-select" name="gender-r" id="gender-r">
+                                            <select class="custom-select" name="gendertype" disabled="true" id="gender-r">
                                                 <div th:each="data :${addgender}">
-                                                    <option class="form-control"></option>
+                                                    <option class="form-control" th:value="${data.gendertype}" th:text="${data.gendertype}"></option>
                                                 </div>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Quota</label>
-                                            <input id="quota-r" name="quota-r" placeholder="Quota" class="form-control" type="readonly"/>
+                                            <input id="quota-r" name="quota" placeholder="Quota" disabled="true" class="form-control" type="text"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Email</label>
-                                            <input id="email-r" name="email-r" placeholder="Email" class="form-control" type="readonly"/>
+                                            <input id="email-r" name="email" placeholder="Email" disabled="true" class="form-control" type="text"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="password-r" name="password" class="form-control" placeholder="Password" type="hidden"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Married Status</label>
-                                            <select class="custom-select" name="married-r" id="married-r">
+                                            <select class="custom-select" name="marriedstatus" disabled="true" id="married-r">
                                                 <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:text="${data.status}"></option>
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
                                                 </div>
                                             </select>
                                         </div>
-                                        <div class="form-group">
-                                            <label for="name">Manager ID</label>
-                                            <input id="manager-r" name="manager-r" placeholder="Manager ID" class="form-control" type="readonly"/>
-                                        </div>
+
                                         <div class="form-group">
                                             <label for="name">Join Date</label>
-                                            <input id="joindate-r" name="joindate-r" placeholder="Join Date" class="form-control" type="readonly"/>
+                                            <input id="joindate-r" name="joindate" placeholder="Join Date" disabled="true" class="form-control" type="text"/>
                                         </div>
-
+                                        <div class="form-group">
+                                            <label for="name">Manager ID</label>
+                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager ID" class="form-control" type="text"/>
+                                        </div>
                                     </div>
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
                                     </div>
                                 </form>
                             </div>
@@ -223,69 +233,71 @@
                     </div>
 
                     <!--modal edit user-->
-                    <!--                    <div class="modal fade" id="mdlAdd" tabindex="-1" role="dialog" 
-                                             aria-labelledby="modal-add" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">   
-                                                        <h5 class="modal-title" id="modal-add">Add User Request</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <form th:action="@{/employeesave}" method="Post">
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label for="name">ID </label>
-                                                                <input id="id-y" name="id-y" th:field="*{employeesave.id-y}" class="form-control" placeholder="ID" type="type"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Name </label>
-                                                                <input id="name-y" name="name-y" th:field="*{employeesave.name-y}" class="form-control" placeholder="Name" type="type"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Gender Type</label>
-                                                                <select class="custom-select" name="gender-y" id="gender-y">
-                                                                    <div th:each="data :${addgender}">
-                                                                        <option class="form-control" th:value="${data.id}" th:text="${data.gendertype}"></option>
-                                                                    </div>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Quota</label>
-                                                                <input id="quota-y" name="quota-y" th:field="*{employeesave.quota-y}" placeholder="Quota" class="form-control" type="text"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Email</label>
-                                                                <input id="email" name="email" th:field="*{employeesave.email-y}" placeholder="Email" class="form-control" type="text"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Married Status</label>
-                                                                <select class="custom-select" name="married-y" id="married-y">
-                                                                    <div th:each="data :${adddata}">
-                                                                        <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
-                                                                    </div>
-                                                                </select>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Manager ID</label>
-                                                                <input id="manager-y" name="manager-y" th:field="*{employeesave.manager-y}" placeholder="Manager ID" class="form-control" type="type"/>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for="name">Join Date</label>
-                                                                <input id="joindate-y" name="joindate-y" th:field="*{employeesave.joindate-y}" placeholder="Join Date" class="form-control" type="type"/>
-                                                            </div>
-                                                            
-                                                        </div>
-                    
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                            <button type="submit" class="btn btn-default">Save</button>
-                                                        </div>
-                                                    </form>
+                    <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog" 
+                         aria-labelledby="modal-add" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">   
+                                    <h5 class="modal-title" id="modal-add">Edit User Request</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="@{/employeeedit}" method="Post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input id="id-y" name="id" class="form-control" placeholder="ID" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Name </label>
+                                            <input id="name-y" name="name"class="form-control" placeholder="Name" type="type"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Gender Type</label>
+                                            <select class="custom-select" name="gendertype" id="gender-y">
+                                                <div th:each="data :${addgender}">
+                                                    <option class="form-control" th:value="${data.gendertype}" th:text="${data.gendertype}"></option>
                                                 </div>
-                                            </div>
-                                        </div>-->
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Quota</label>
+                                            <input id="quota-y" name="quota" placeholder="Quota" class="form-control" type="text"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Email</label>
+                                            <input id="email-y" name="email" placeholder="Email" class="form-control" type="text"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="password-y" name="password" class="form-control" placeholder="Password" type="hidden"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Married Status</label>
+                                            <select class="custom-select" name="marriedstatus" id="married-y">
+                                                <div th:each="data :${adddata}">
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="name">Join Date</label>
+                                            <input id="joindate-y" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Manager ID</label>
+                                            <input id="manager-y" name="idmanager" placeholder="Manager ID" class="form-control" type="type"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-default">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- /.End Content -->
                 </main>
@@ -315,25 +327,50 @@
             $('#mdlDetail').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
-                var name = button.data('getidemp');
-                var datetime = button.data('getdatetime');
-                var start = button.data('getstart');
-                var end = button.data('getend');
-                var total = button.data('gettotal');
-                var reqid = button.data('getreqid');
+                var name = button.data('getname');
+                var gender = button.data('getgendertype');
+                var quota = button.data('getquota');
+                var email = button.data('getemail');
+                var married = button.data('getmarriedstatus');
+                var joindate = button.data('getjoindate');
+                var managerid = button.data('getmanagerid');
+
 
                 var modal = $(this);
-                modal.find('#id').val(id);
-                modal.find('#idemployee').val(idemp);
-                modal.find('#datetime').val(datetime);
-                modal.find('#requeststart').val(start);
-                modal.find('#requestend').val(end);
-                modal.find('#requesttotal').val(total);
-                modal.find('#requestId').val(reqid);
-                modal.find('#statusId').val('S2');
+                modal.find('#id-r').val(id);
+                modal.find('#name-r').val(name);
+                modal.find('#gendertype-r').val(gender);
+                modal.find('#quota-r').val(quota);
+                modal.find('#email-r').val(email);
+                modal.find('#marriedstatus-r').val(married);
+                modal.find('#joindate-r').val(joindate);
+                modal.find('#manager-r').val(managerid);
             });
         </script>
+   <script>
+            $('#mdlEdit').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var id = button.data('getid');
+                var name = button.data('getname');
+                var gender = button.data('getgendertype');
+                var quota = button.data('getquota');
+                var email = button.data('getemail');
+                var married = button.data('getmarriedstatus');
+                var joindate = button.data('getjoindate');
+                var managerid = button.data('getmanagerid');
 
+
+                var modal = $(this);
+                modal.find('#id-y').val(id);
+                modal.find('#name-y').val(name);
+                modal.find('#gendertype-y').val(gender);
+                modal.find('#quota-y').val(quota);
+                modal.find('#email-y').val(email);
+                modal.find('#marriedstatus-y').val(married);
+                modal.find('#joindate-y').val(joindate);
+                modal.find('#manager-y').val(managerid);
+            });
+        </script>
 
     </body>
 </html>
