@@ -52,6 +52,7 @@
                     <div class="row" style="padding: 10px 0 10px 0">
                         <div class="col-sm-6">
                             <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
+                            <button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
                         </div>
                     </div>
                     <table id="adduser" class="table table-bordered table-striped" style="width: 100%">
@@ -121,9 +122,10 @@
                                         <div class="form-group">
                                             <label for="name">Gender Type</label>
                                             <select class="custom-select" name="gendertype" id="gender">
-                                                <div th:each="data :${addgender}">
-                                                    <option class="form-control" th:value="${data.gendertype}" th:text="${data.gendertype}"></option>
-                                                </div>
+
+                                                <option class="form-control" th:value="true" >Laki-laki</option>
+                                                <option class="form-control" th:value="false" >Perempuan</option>
+
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -185,12 +187,14 @@
                                             <label for="name">Name </label>
                                             <input id="name-r" name="name"class="form-control" placeholder="Name" disabled="true" type="readonly"/>
                                         </div>
-                                         <div class="form-group">
+                                        <div class="form-group">
                                             <label for="name">Gender Type</label>
-                                            <select class="custom-select" name="gendertype" disabled="true" id="gender-r">
-                                                <div th:each="data :${addgender}">
-                                                    <option class="form-control" th:value="${data.gendertype}" th:text="${data.gendertype}"></option>
-                                                </div>
+
+                                            <select class="custom-select" name="gendertype" disabled="true" id="gender">
+
+                                                <option class="form-control" th:value="true" >Laki-laki</option>
+                                                <option class="form-control" th:value="false" >Perempuan</option>
+
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -254,10 +258,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Gender Type</label>
-                                            <select class="custom-select" name="gendertype" id="gender-y">
-                                                <div th:each="data :${addgender}">
-                                                    <option class="form-control" th:value="${data.gendertype}" th:text="${data.gendertype}"></option>
-                                                </div>
+                                            <select class="custom-select" name="gendertype" id="gender">
+                                                <option class="form-control" th:value="true" >Laki-laki</option>
+                                                <option class="form-control" th:value="false" >Perempuan</option>
                                             </select>
                                         </div>
                                         <div class="form-group">
@@ -293,6 +296,42 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                         <button type="submit" class="btn btn-default">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--modal upload-->
+                    <div class="modal fade" id="mdlUpload" tabindex="-1" role="dialog" 
+                         aria-labelledby="modal-upload" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">   
+                                    <h5 class="modal-title" id="modal-upload">Uplooad</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="@{/employeeupload}" method="Post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="name">Upload for Id :</label>
+                                            <select class="custom-select" name="id" id="id-u">
+                                                <div th:each="data :${employeeData}">
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <input id="inputupload" name="inputupload" class="form-control" type="file"/>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
                                     </div>
                                 </form>
                             </div>
@@ -347,7 +386,7 @@
                 modal.find('#manager-r').val(managerid);
             });
         </script>
-   <script>
+        <script>
             $('#mdlEdit').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');

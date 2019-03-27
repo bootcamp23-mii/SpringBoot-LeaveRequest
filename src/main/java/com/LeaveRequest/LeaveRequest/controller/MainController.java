@@ -61,7 +61,7 @@ public class MainController {
         cal.setTime(now);
         Integer month = cal.get(Calendar.MONTH) + 1;
 
-        if (kuota <= month) {            
+        if (kuota <= month) {
             model.addAttribute("monthnow", month);
             Integer lastyear = kuota - month;
             model.addAttribute("lastyear", lastyear);
@@ -162,7 +162,7 @@ public class MainController {
         rdao.saveRequest(request);
         return "redirect:/addrequest";
     }
-    
+
     @GetMapping("/adduser")
     public String adduser(Model model) {
         model.addAttribute("employeeData", edao.findAllEmployee());
@@ -171,8 +171,8 @@ public class MainController {
         model.addAttribute("addgender", edao.findAllEmployee());
         return "adduser";
     }
-    
-     @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+
+    @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
     public String save(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
         String password = Double.toString(Math.random());
@@ -182,15 +182,15 @@ public class MainController {
 
         return "redirect:/adduser";
     }
-    
-     @RequestMapping(value = "/employeedelete", method = RequestMethod.GET) //@RequestParam{value "regionid"} 
-    public String delete(@RequestParam(value="employeeid")String idemployee){
+
+    @RequestMapping(value = "/employeedelete", method = RequestMethod.GET) //@RequestParam{value "regionid"} 
+    public String delete(@RequestParam(value = "employeeid") String idemployee) {
         edao.deleteEmployeeById(idemployee);
         return "redirect:/adduser";
     }
-    
+
     @PostMapping("/employeeedit")
-      public String edit(@RequestParam("id") String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
+    public String edit(@RequestParam("id") String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
         String pass = (edao.findById(id)).getPassword();
         System.out.println(gendertype);
@@ -198,4 +198,6 @@ public class MainController {
 
         return "redirect:/adduser";
     }
+
+    
 }
