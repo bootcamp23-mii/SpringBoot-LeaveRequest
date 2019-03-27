@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Panji Sadewo
+ * @author AdhityaWP
  */
 @Entity
 @Table(name = "tb_t_employee_role")
@@ -37,12 +37,12 @@ public class EmployeeRole implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
-    @Column(name = "id")
+    @Column(name = "ID")
     private String id;
-    @JoinColumn(name = "employee", referencedColumnName = "ID")
+    @JoinColumn(name = "EMPLOYEE", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee employee;
-    @JoinColumn(name = "role", referencedColumnName = "ID")
+    @JoinColumn(name = "ROLE", referencedColumnName = "ID")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Role role;
 

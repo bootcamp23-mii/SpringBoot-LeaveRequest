@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Panji Sadewo
+ * @author AdhityaWP
  */
 @Entity
 @Table(name = "tb_m_national_holiday")
@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "NationalHoliday.findAll", query = "SELECT n FROM NationalHoliday n")
     , @NamedQuery(name = "NationalHoliday.findById", query = "SELECT n FROM NationalHoliday n WHERE n.id = :id")
     , @NamedQuery(name = "NationalHoliday.findByDate", query = "SELECT n FROM NationalHoliday n WHERE n.date = :date")
-    , @NamedQuery(name = "NationalHoliday.findByExplanation", query = "SELECT n FROM NationalHoliday n WHERE n.explanation = :explanation")})
+    , @NamedQuery(name = "NationalHoliday.findByDescription", query = "SELECT n FROM NationalHoliday n WHERE n.description = :description")})
 public class NationalHoliday implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,16 +39,16 @@ public class NationalHoliday implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 25)
-    @Column(name = "id")
+    @Column(name = "ID")
     private String id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "date")
+    @Column(name = "DATE")
     @Temporal(TemporalType.DATE)
     private Date date;
     @Size(max = 80)
-    @Column(name = "explanation")
-    private String explanation;
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     public NationalHoliday() {
     }
@@ -78,12 +78,12 @@ public class NationalHoliday implements Serializable {
         this.date = date;
     }
 
-    public String getExplanation() {
-        return explanation;
+    public String getDescription() {
+        return description;
     }
 
-    public void setExplanation(String explanation) {
-        this.explanation = explanation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Panji Sadewo
+ * @author AdhityaWP
  */
 @Entity
 @Table(name = "tb_m_role")
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")
     , @NamedQuery(name = "Role.findById", query = "SELECT r FROM Role r WHERE r.id = :id")
-    , @NamedQuery(name = "Role.findByDepartment", query = "SELECT r FROM Role r WHERE r.department = :department")})
+    , @NamedQuery(name = "Role.findByName", query = "SELECT r FROM Role r WHERE r.name = :name")})
 public class Role implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,8 @@ public class Role implements Serializable {
     @Column(name = "ID")
     private String id;
     @Size(max = 80)
-    @Column(name = "DEPARTMENT")
-    private String department;
+    @Column(name = "NAME")
+    private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "role", fetch = FetchType.LAZY)
     private List<EmployeeRole> employeeRoleList;
 
@@ -63,12 +63,12 @@ public class Role implements Serializable {
         this.id = id;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getName() {
+        return name;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @XmlTransient

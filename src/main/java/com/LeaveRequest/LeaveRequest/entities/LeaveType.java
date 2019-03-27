@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Panji Sadewo
+ * @author AdhityaWP
  */
 @Entity
 @Table(name = "tb_m_leave_type")
