@@ -68,14 +68,11 @@
                             <tr th:each="req : ${requeststatusData}">
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
-                                <td th:text="${req.datetime}"></td>
-                                <td th:text="${req.request.startdate}"></td>
-                                <td th:text="${req.request.enddate}"></td>
+                                <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
+                                <td th:text="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"></td>
+                                <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${req.status.type}"></td>
                                 <td>
-                                    <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}" data-target="#mdlAdd" data-toggle="modal">Delete</a>-->
-                                    <!--<a th:href="@{/regiondelete/{id}(id=${as.id})}">Delete</a>-->
-                                    <!--<a th:href="@{/delete/{id}(id=${as.id})}">Edit</a>-->
                                     <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" 
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"

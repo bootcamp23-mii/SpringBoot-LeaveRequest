@@ -6,6 +6,7 @@
 package com.LeaveRequest.LeaveRequest.serviceInterface;
 
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
+import java.util.Optional;
 
 /**
  *
@@ -18,4 +19,5 @@ public interface IRequestStatusDAO {
     Iterable<RequestStatus> showRequestStatusByIdMan(String id);
     Iterable<RequestStatus> showRequestStatusAllByIdMan(String id);
     Iterable<RequestStatus> showRequestStatusAllByIdEmp(String id);
+    RequestStatus findById(String id);
 }

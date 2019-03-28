@@ -8,6 +8,7 @@ package com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl;
 import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.repository.RequestStatusRepository;
 import com.LeaveRequest.LeaveRequest.serviceInterface.IRequestStatusDAO;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,5 +49,10 @@ public class RequestStatusDAO implements IRequestStatusDAO{
      @Override
     public Iterable<RequestStatus> showRequestStatusAllByIdEmp(String id) {
         return requestStatusRepository.showAllByIdEmp(id);
+    }
+
+    @Override
+    public RequestStatus findById(String id) {
+        return requestStatusRepository.findById(id).get();
     }
 }
