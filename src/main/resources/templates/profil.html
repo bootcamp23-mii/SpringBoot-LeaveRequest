@@ -49,11 +49,19 @@
 
                     <!-- Content -->
                     <h4>Profil User</h4>
+                    <!--upload foto-->
+                     
+                    
                     <div class="row" style="padding: 10px 0 10px 0">
                         <div class="col-sm-6">
                             <!--<button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>-->
                             <button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
                         </div>
+                        <table id="example" class="table table-borderless" style="width: 100%">
+                                    <div class="image col-sm-6">
+                                        <img class="image" align="right" src="https://vignette.wikia.nocookie.net/vsbattles/images/d/d0/Doraemon_render.png/revision/latest?cb=20171108000852" alt="[photo]" width="100px" height="130px"/>
+                                    </div>
+                    </table>
                     </div>
 
                     <!--modal upload-->
@@ -88,6 +96,7 @@
                             </div>
                         </div>
                     </div>
+                   
                     <form th:action="@{/employeeupload}" method="Post">
                         <div class="modal-body">
                             <div class="form-group">
