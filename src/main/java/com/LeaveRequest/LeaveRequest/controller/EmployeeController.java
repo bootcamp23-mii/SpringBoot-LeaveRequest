@@ -70,7 +70,9 @@ public class EmployeeController {
         for (NationalHoliday nationalHoliday1 : nationalDAO.findAll()) {
             getDateA.add(nationalHoliday1.getDate().toString());
         }
+        Employee eaddreq = edao.findById(session.getAttribute("idLogin").toString());
         model.addAttribute("dinolibur", getDateA);
+        model.addAttribute("totalLeave", eaddreq.getQuota());
         return "addrequest";
     }
 
