@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.net.URLDecoder;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -84,7 +85,7 @@ public class MainController {
     private ApprovalMailService approvalMailService;
 
     @GetMapping("/*")
-    public String index(Model model) {
+    public String index() {
         return "404";
     }
 
@@ -101,11 +102,14 @@ public class MainController {
         cal.setTime(now);
         Integer month = cal.get(Calendar.MONTH) + 1;
 
-        if (kuota <= month) {
-            model.addAttribute("monthnow", month);
+        if (kuota.toString().equals("0")) {
+            model.addAttribute("monthnow", "0");
+            model.addAttribute("lastyear", "0");
+        } else if (kuota <= month) {
+            model.addAttribute("monthnow", kuota);
             Integer lastyear = kuota - month;
-            model.addAttribute("lastyear", lastyear);
-        } else {
+            model.addAttribute("lastyear", "0");
+        } else if (kuota > month) {
             model.addAttribute("monthnow", month);
             Integer lastyear = kuota - month;
             model.addAttribute("lastyear", lastyear);
@@ -138,6 +142,30 @@ public class MainController {
     @GetMapping("/profil")
     public String profiluser(Model model) {
         return "profil";
+    }
+
+    @GetMapping("/activation*")
+    public String activation(@RequestParam(value = "id") String id, @RequestParam(value = "token") String token) {
+        Employee employee11 = edao.findById(id);
+        if (edao.findById(id) != null) {
+            Employee employee13 = edao.findById(id);
+            String passwordDecode = URLDecoder.decode(token);
+            if (passwordDecode.equals(employee13.getPassword().toString())) {
+                edao.savdeEmployee(new Employee(employee13.getId(),
+                        employee13.getName(),
+                        employee13.getGendertype(),
+                        employee13.getQuota(),
+                        employee13.getEmail(),
+                        employee13.getPassword(),
+                        employee13.getJoindate(),
+                        true,
+                        false,
+                        employee13.getMarriedstatus(),
+                        employee13.getIdmanager()));
+                return "redirect:/login";
+            }
+        }
+        return "404";
     }
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
@@ -238,7 +266,6 @@ public class MainController {
 ////        model.addAttribute("requeststatusedit2", new Employee());
 //        return "historyuser";
 //    }
-    
 //    @GetMapping("/addrequest")
 //    public String addrequest(Model model, HttpSession session) throws Exception {
 //        if (session.getAttribute("idLogin") == null) {
@@ -257,7 +284,6 @@ public class MainController {
 //        model.addAttribute("totalLeave", eaddreq.getQuota());
 //        return "addrequest";
 //    }
-
 //
 //    @PostMapping("/requestsave")
 //    public String requestsave(@RequestParam(value = "startdate") String start,

@@ -124,6 +124,20 @@ public class Employee implements Serializable {
         this.marriedstatus = marriedstatus;
         this.idmanager = idmanager;
     }
+    
+    public Employee(String id, String name, Boolean gendertype, BigInteger quota, String email, String password, Date joindate, Boolean isactive, boolean isdeleted, MarriedStatus marriedstatus, Employee idmanager) {
+        this.id = id;
+        this.name = name;
+        this.gendertype = gendertype;
+        this.quota = quota;
+        this.email = email;
+        this.password = password;
+        this.joindate = joindate;
+        this.isactive = isactive;
+        this.isdeleted = isdeleted;
+        this.marriedstatus = marriedstatus;
+        this.idmanager = idmanager;
+    }
 
     public Employee(String id, String name, Boolean gendertype, BigInteger quota, String email, String password, Date joindate, MarriedStatus marriedstatus, Employee idmanager) {
         this.id = id;

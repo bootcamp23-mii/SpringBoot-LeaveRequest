@@ -19,6 +19,7 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.mail.MessagingException;
@@ -80,8 +81,9 @@ public class AdminController {
         edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger("0"), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee((idmanager))));
 //        edao.savdeEmployee(new Employee("@@", "asd", true, new BigInteger("1"), "12@gmail.com", "1223", sdf.parse("2018-03-03"), new MarriedStatus("SN1"), new Employee("11201")));
         Employee esave = edao.findById(edao.findLastId());
+        String passwordUrl = URLEncoder.encode(esave.getPassword());
 //        System.out.println(esave.getEmployeeRoleList() + esave.getName());
-        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "https://localhost:8083/activation");
+        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "http://localhost:8085/activation?id="+esave.getId()+"&token="+passwordUrl+"");
         return "redirect:/adduser";
     }
 
