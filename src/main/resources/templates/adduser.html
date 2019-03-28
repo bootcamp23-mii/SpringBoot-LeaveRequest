@@ -61,7 +61,8 @@
                                 <th>Name</th>
                                 <th>Join Date</th>
                                 <th>Leave Quota (day)</th>
-                                <th>ID Manager</th>
+                                <th>Married Status</th>
+                                <th>Nama Manager</th>
                                 <th>Action</th>
 
                             </tr>
@@ -70,9 +71,10 @@
                             <tr th:each="req : ${employeeData}">
 
                                 <td th:text="${req.name}"></td>
-                                <td th:text="${req.joindate}"></td>
+                                <td th:text="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${req.quota}"></td>
-                                <td th:text="${req.idmanager.id}"></td>
+                                <td th:text="${req.marriedstatus.status}"></td>
+                                <td th:text="${req.idmanager.name}"></td>
 
                                 <td>
                                     <button id="btnDetails" data-target="#mdlDetail" data-toggle="modal" 
@@ -80,9 +82,9 @@
                                             th:data-getgendertype="${req.gendertype}"
                                             th:data-getquota="${req.quota}"
                                             th:data-getemail="${req.email}"
-                                            th:data-getjoindate="${req.joindate}" 
+                                            th:data-getjoindate="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}" 
                                             th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                            th:data-getmanagerid="${req.idmanager.id}" 
+                                            th:data-getmanagerid="${req.idmanager.name}" 
                                             class="btn btn-outline-success">Detail</button>
                                     <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
                                             th:data-getid="${req.id}"
@@ -92,7 +94,7 @@
                                             th:data-getemail="${req.email}"
                                             th:data-getjoindate="${req.joindate}" 
                                             th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                            th:data-getmanagerid="${req.idmanager.id}" 
+                                            th:data-getmanagerid="${req.idmanager.name}" 
                                             class="btn btn-outline-success">Edit</button>
                                     <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
                                 </td>
@@ -117,20 +119,15 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Name </label>
-                                            <input id="name" name="name"class="form-control" placeholder="Name" type="type"/>
+                                            <input id="name" name="name" class="form-control" placeholder="Name" type="type"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Gender Type</label>
-                                            <select class="custom-select" name="gendertype" id="gender">
-
-                                                <option class="form-control" th:value="true" >Laki-laki</option>
-                                                <option class="form-control" th:value="false" >Perempuan</option>
-
-                                            </select>
+                                            <label for="name">Gender Type</label><br>
+                                            <input type="radio" class="form-group" th:value="true" name="gendertype" id="gender">Laki-laki<br>
+                                            <input type="radio" class="form-group" th:value="false" name="gendertype" id="gender">Perempuan<br>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Quota</label>
-                                            <input id="quota" name="quota" placeholder="Quota" class="form-control" type="text"/>
+                                            <input id="quota" name="quota" placeholder="Quota" class="form-control" type="hidden"/>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Email</label>
@@ -143,18 +140,21 @@
                                             <label for="name">Married Status</label>
                                             <select class="custom-select" name="marriedstatus" id="married">
                                                 <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
                                                 </div>
                                             </select>
                                         </div>
-
                                         <div class="form-group">
                                             <label for="name">Join Date</label>
                                             <input id="joindate" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
                                         </div>
                                         <div class="form-group">
-                                            <!--<label for="name">Manager ID</label>-->
-                                            <input id="manager" name="idmanager" placeholder="Manager ID" class="form-control" type="hidden"/>
+                                            <label for="name">Manager Name</label>
+                                            <select class="custom-select" name="idmanager" id="manager-y">
+                                                <div th:each="data :${employeeData1}">
+                                                    <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
+                                                </div>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -188,14 +188,9 @@
                                             <input id="name-r" name="name"class="form-control" placeholder="Name" disabled="true" type="readonly"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Gender Type</label>
-
-                                            <select class="custom-select" name="gendertype" disabled="true" id="gender">
-
-                                                <option class="form-control" th:value="true" >Laki-laki</option>
-                                                <option class="form-control" th:value="false" >Perempuan</option>
-
-                                            </select>
+                                            <label for="name">Gender Type</label><br>
+                                            <input type="radio" class="form-group" th:value="true" disabled="true" name="gendertype" id="gender">Laki-laki<br>
+                                            <input type="radio" class="form-group" th:value="false" disabled="true" name="gendertype" id="gender">Perempuan<br>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Quota</label>
@@ -212,7 +207,7 @@
                                             <label for="name">Married Status</label>
                                             <select class="custom-select" name="marriedstatus" disabled="true" id="married-r">
                                                 <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
                                                 </div>
                                             </select>
                                         </div>
@@ -222,8 +217,8 @@
                                             <input id="joindate-r" name="joindate" placeholder="Join Date" disabled="true" class="form-control" type="text"/>
                                         </div>
                                         <div class="form-group">
-<!--                                            <label for="name">Manager ID</label>-->
-                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager ID" class="form-control" type="hidden"/>
+                                            <label for="name">Manager Name</label>
+                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager Name" class="form-control" type="type"/>
                                         </div>
                                     </div>
 
@@ -257,11 +252,9 @@
                                             <input id="name-y" name="name"class="form-control" placeholder="Name" type="type"/>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Gender Type</label>
-                                            <select class="custom-select" name="gendertype" id="gender">
-                                                <option class="form-control" th:value="true" >Laki-laki</option>
-                                                <option class="form-control" th:value="false" >Perempuan</option>
-                                            </select>
+                                            <label for="name">Gender Type</label><br>
+                                            <input type="radio" class="form-group" th:value="true" name="gendertype" id="gendertype-y">Laki-laki<br>
+                                            <input type="radio" class="form-group" th:value="false" name="gendertype" id="gendertype-y">Perempuan<br>
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Quota</label>
@@ -276,9 +269,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Married Status</label>
-                                            <select class="custom-select" name="marriedstatus" id="married-y">
+                                            <select class="custom-select" name="marriedstatus" id="marriedstatus-y">
                                                 <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
                                                 </div>
                                             </select>
                                         </div>
@@ -288,8 +281,13 @@
                                             <input id="joindate-y" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
                                         </div>
                                         <div class="form-group">
-                                            <!--<label for="name">Manager ID</label>-->
-                                            <input id="manager-y" name="idmanager" placeholder="Manager ID" class="form-control" type="hidden"/>
+                                            <label for="name">Manager Name</label>
+                                            <select class="custom-select" name="idmanager" id="manager-y">
+                                                <div th:each="data :${employeeData1}">
+                                                    <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
+                                                </div>
+                                            </select>
+                                           
                                         </div>
                                     </div>
 
@@ -301,42 +299,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!--modal upload-->
-<!--                    <div class="modal fade" id="mdlUpload" tabindex="-1" role="dialog" 
-                         aria-labelledby="modal-upload" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">   
-                                    <h5 class="modal-title" id="modal-upload">Uplooad</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form th:action="@{/employeeupload}" method="Post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="name">Upload for Id :</label>
-                                            <select class="custom-select" name="id" id="id-u">
-                                                <div th:each="data :${userdata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="inputupload" name="inputupload" class="form-control" type="file"/>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>-->
 
                     <!-- /.End Content -->
                 </main>
@@ -378,7 +340,12 @@
                 var modal = $(this);
                 modal.find('#id-r').val(id);
                 modal.find('#name-r').val(name);
-                modal.find('#gendertype-r').val(gender);
+                if (gender) {
+                    modal.find('#gendertype-r').val("1")
+                } else {
+                    modal.find('#gendertype-r').val("0")
+                }
+//                modal.find('#gendertype-r').val(gender);
                 modal.find('#quota-r').val(quota);
                 modal.find('#email-r').val(email);
                 modal.find('#marriedstatus-r').val(married);
@@ -391,23 +358,28 @@
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
                 var name = button.data('getname');
-                var gender = button.data('getgendertype');
+                var gendertype = button.data('getgendertype');
                 var quota = button.data('getquota');
                 var email = button.data('getemail');
-                var married = button.data('getmarriedstatus');
+                var marriedstatus = button.data('getmarriedstatus');
                 var joindate = button.data('getjoindate');
-                var managerid = button.data('getmanagerid');
+                var idmanager = button.data('getmanagerid');
 
 
                 var modal = $(this);
                 modal.find('#id-y').val(id);
                 modal.find('#name-y').val(name);
-                modal.find('#gendertype-y').val(gender);
+                if (gendertype) {
+                    modal.find('#gendertype-y').val("1")
+                } else {
+                    modal.find('#gendertype-y').val("0")
+                }
+//                modal.find('#gendertype-y').val(gendertype);
                 modal.find('#quota-y').val(quota);
                 modal.find('#email-y').val(email);
-                modal.find('#marriedstatus-y').val(married);
+                modal.find('#marriedstatus-y').val(marriedstatus);
                 modal.find('#joindate-y').val(joindate);
-                modal.find('#manager-y').val(managerid);
+                modal.find('#manager-y').val(idmanager);
             });
         </script>
 
