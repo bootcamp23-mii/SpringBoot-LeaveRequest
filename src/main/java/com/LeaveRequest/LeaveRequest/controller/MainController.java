@@ -153,7 +153,7 @@ public class MainController {
         SimpleDateFormat sdfi = new SimpleDateFormat("EEEE, dd-MM-yyyy");
 
         if (idemp != null) {
-            if (rsdao.findById(id).getRequest().getLeavetype().toString().equals("JC1")) {
+            if (rsdao.findById(id).getRequest().getLeavetype().getId().equalsIgnoreCase("JC1")) {
                 BigInteger kuota = (edao.findById(idemp)).getQuota();
                 BigInteger totals = new BigInteger(requesttotal);
                 BigInteger selisih = kuota.subtract(totals);
