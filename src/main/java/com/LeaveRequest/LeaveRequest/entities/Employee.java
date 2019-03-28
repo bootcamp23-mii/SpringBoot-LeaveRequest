@@ -109,7 +109,7 @@ public class Employee implements Serializable {
         this.joindate = joindate;
         this.isdeleted = isdeleted;
     }
-    
+
     public Employee(String id, String name, Boolean gendertype, BigInteger quota, String email, String password, byte[] photo, Date joindate, Boolean isactive, boolean isdeleted, MarriedStatus marriedstatus, Employee idmanager) {
         this.id = id;
         this.name = name;

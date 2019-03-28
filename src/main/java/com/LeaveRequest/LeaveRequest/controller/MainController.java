@@ -25,6 +25,7 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.sql.Blob;
@@ -40,6 +41,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
 import javax.mail.MessagingException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +54,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import tools.BCrypt;
 
 /**
@@ -114,6 +117,11 @@ public class MainController {
     public String login(Model model) {
         model.addAttribute("loginPost", new Employee());
         return "login";
+    }
+    
+    @GetMapping("/profil")
+    public String profiluser(Model model) {
+        return "profil";
     }
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
@@ -229,7 +237,9 @@ public class MainController {
         for (NationalHoliday nationalHoliday1 : nationalDAO.findAll()) {
             getDateA.add(nationalHoliday1.getDate().toString());
         }
+        Employee eaddreq = edao.findById(session.getAttribute("idLogin").toString());
         model.addAttribute("dinolibur", getDateA);
+        model.addAttribute("totalLeave", eaddreq.getQuota());
         return "addrequest";
     }
 
@@ -242,6 +252,25 @@ public class MainController {
         Date ends = new SimpleDateFormat("yyyy-MM-dd").parse(end);
         rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee(session.getAttribute("idLogin").toString()), new LeaveType(type)));
         rsdao.saveRequestStatus(new RequestStatus("@@@", new Date(), "", new Request(rdao.findLastId()), new Status("S1")));
+        return "redirect:/addrequest";
+    }
+    
+    @PostMapping("/employeeupload")
+    public String employeeupload(@RequestParam(value = "inputupload") MultipartFile partImg, HttpSession session) throws IOException{
+        byte[] photoUpload = partImg.getBytes();
+        Employee eupload = edao.findById(session.getAttribute("idLogin").toString());
+        edao.savdeEmployee(new Employee(eupload.getId(), 
+                eupload.getName(), 
+                eupload.getGendertype(), 
+                eupload.getQuota(), 
+                eupload.getEmail(), 
+                eupload.getPassword(), 
+                photoUpload, 
+                eupload.getJoindate(), 
+                eupload.getIsactive(), 
+                eupload.getIsdeleted(), 
+                eupload.getMarriedstatus(), 
+                eupload.getIdmanager()));
         return "redirect:/addrequest";
     }
 

@@ -119,7 +119,7 @@
 
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-default">Save</button>
+                                        <button id="savemodal" type="submit" class="btn btn-default">Save</button>
                                     </div>
                                 </form>
                             </div>
@@ -159,6 +159,9 @@
                     var startDate = $('#startdate').val();
                     var endDate = $('#enddate').val();
                     document.getElementById("total").value = workingDaysBetweenDates(startDate, endDate).toString();
+                    if (workingDaysBetweenDates(startDate, endDate) > 5 || workingDaysBetweenDates(startDate, endDate) > [[${totalLeave}]]) {
+                        $("#savemodal").attr("disabled", true);
+                    }
                 });
             });
             function workingDaysBetweenDates(d0, d1) {
@@ -170,8 +173,8 @@
                 var startDate = parseDate(d0);
                 var endDate = parseDate(d1);
                 if (endDate < startDate) {
-                    $(":submit").attr("disabled", true);
-                    return "Maaf tanggal akhir cuti anda sebelum tanggal mulai cuti anda";
+                    $("#savemodal").attr("disabled", true);
+                    return "Sorry your day is cant to pick";
                 }
                 var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
                 startDate.setHours(0, 0, 0, 1); // Start just after midnight
@@ -196,10 +199,10 @@
                         days--;
                     }
                 }
-                $(":submit").removeAttr("disabled");
+                $("#savemodal").removeAttr("disabled");
                 return days;
             }
-
+            
             function parseDate(input) {
                 var parts = input.match(/(\d+)/g);
                 return new Date(parts[0], parts[1] - 1, parts[2]);
