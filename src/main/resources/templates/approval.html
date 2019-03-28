@@ -60,7 +60,7 @@
                                 <th>Request Date</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Status</th>
+                                <th>Leave Type</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -71,7 +71,7 @@
                                 <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>
-                                <td th:text="${req.status.type}"></td>
+                                <td th:text="${req.request.leavetype.type}"></td>
                                 <td>
                                     <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" 
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
