@@ -207,7 +207,7 @@ public class MainController {
             return "redirect:/login";
         }
         String id = session.getAttribute("idLogin").toString();
-        model.addAttribute("requestData", rsdao.showRequestStatusByIdMan(id));
+        model.addAttribute("requestData", rsdao.showRequestStatusAllByIdEmp(id)); 
 //        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
