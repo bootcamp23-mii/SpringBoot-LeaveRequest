@@ -67,9 +67,9 @@
                             <tr th:each="req : ${requeststatusData}">
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
-                                <td th:text="${req.datetime}"></td>
-                                <td th:text="${req.request.startdate}"></td>
-                                <td th:text="${req.request.enddate}"></td>
+                                <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
+                                <td th:text="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"></td>
+                                <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${req.status.type}"></td>
                             </tr>
                         </tbody>
