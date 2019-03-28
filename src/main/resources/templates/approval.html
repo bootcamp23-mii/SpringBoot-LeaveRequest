@@ -75,12 +75,14 @@
                                 <td>
                                     <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" 
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
+                                            th:data-getnameemp="${req.request.employee.name}"
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
                                             th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
                                             th:data-getreqid="${req.request.id}"
                                             class="btn btn-outline-success">Approve</button>
                                     <button id="btnReject" data-target="#mdlReject" data-toggle="modal" 
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
+                                            th:data-getnameemp="${req.request.employee.name}"
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
                                             th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
                                             th:data-getreqid="${req.request.id}"
@@ -107,6 +109,8 @@
                                             <input hidden="" id="id" name ="id" class="form-control" type="text"/>
                                             <label for="id employee">ID Employee</label>
                                             <input id="idemployee" name="idemp" class="form-control" type="text" readonly=""/>
+                                            <label for="nameemployee">Name of Employee</label>
+                                            <input id="nameemployee" class="form-control" type="text" readonly="" />
                                             <label for="requestdate">Request Date</label>
                                             <input id="datetime" name ="datetime" class="form-control" type="text" readonly="" />
                                             <label for="requeststart">Request Start</label>
@@ -147,6 +151,8 @@
                                             <input hidden="" id="id-r" name ="id" class="form-control" type="text"/>
                                             <label for="idemployee">ID Employee</label>
                                             <input id="idemployee-r" class="form-control" type="text" readonly="" />
+                                            <label for="nameemployee">Name of Employee</label>
+                                            <input id="nameemployee-r" class="form-control" type="text" readonly="" />
                                             <label for="requestdate">Request Date</label>
                                             <input id="datetime-r" name ="datetime" class="form-control" type="text" readonly="" />
                                             <label for="requeststart">Request Start</label>
@@ -203,6 +209,7 @@
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
                 var idemp = button.data('getidemp');
+                var nameemp = button.data('getnameemp');
                 var datetime = button.data('getdatetime');
                 var start = button.data('getstart');
                 var end = button.data('getend');
@@ -212,6 +219,7 @@
                 var modal = $(this);
                 modal.find('#id').val(id);
                 modal.find('#idemployee').val(idemp);
+                modal.find('#nameemployee').val(nameemp);                
                 modal.find('#datetime').val(datetime);
                 modal.find('#requeststart').val(start);
                 modal.find('#requestend').val(end);
@@ -225,6 +233,7 @@
                 var button = $(event.relatedTarget);
                 var id = button.data('getid');
                 var idemp = button.data('getidemp');
+                var nameemp = button.data('getnameemp');
                 var datetime = button.data('getdatetime');
                 var start = button.data('getstart');
                 var end = button.data('getend');
@@ -234,6 +243,7 @@
                 var modal = $(this);
                 modal.find('#id-r').val(id);
                 modal.find('#idemployee-r').val(idemp);
+                modal.find('#nameemployee-r').val(nameemp);
                 modal.find('#datetime-r').val(datetime);
                 modal.find('#requeststart-r').val(start);
                 modal.find('#requestend-r').val(end);
