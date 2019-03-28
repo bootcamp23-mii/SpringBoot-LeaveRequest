@@ -48,4 +48,8 @@ public class EmployeeDAO implements IEmployeeDAO{
        er.deleteById(id);
     }
     
+    @Override
+    public Iterable<Employee> findEmployeeById() {
+        return er.findEmployeeById();
+    }
 }

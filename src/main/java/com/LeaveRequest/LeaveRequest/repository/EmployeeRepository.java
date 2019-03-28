@@ -25,5 +25,8 @@ public interface EmployeeRepository extends CrudRepository<Employee, String>{
     
     @Query(value = "select max(ID) from tb_m_employee", nativeQuery = true)
     public String findLastId();
+    
+     @Query(value = "select * from tb_m_employee group by IDMANAGER", nativeQuery = true)
+    public Iterable<Employee> findEmployeeById();
 
 }

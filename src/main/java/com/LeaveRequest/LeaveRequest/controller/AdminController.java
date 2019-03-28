@@ -63,6 +63,7 @@ public class AdminController {
             return "redirect:/login";
         }
         model.addAttribute("employeeData", edao.findAllEmployee());
+        model.addAttribute("employeeData1", edao.findEmployeeById());
         model.addAttribute("employeesave", new Employee());
         model.addAttribute("employeeedit", new Employee());
         model.addAttribute("adddata", msdao.findAllEmp());
@@ -70,15 +71,16 @@ public class AdminController {
         return "adduser";
     }
 
-    @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+   @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
     public String saveemployee(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException, MessagingException, IOException, MalformedTemplateNameException, TemplateException {
         String password = Double.toString(Math.random());
         String bcryppass = BCrypt.hashpw(password, BCrypt.gensalt());
-        System.out.println(gendertype);
-        edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger(quota), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
+
+        edao.savdeEmployee(new Employee("@@", name, new Boolean(gendertype), new BigInteger("0"), email, bcryppass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee((idmanager))));
+//        edao.savdeEmployee(new Employee("@@", "asd", true, new BigInteger("1"), "12@gmail.com", "1223", sdf.parse("2018-03-03"), new MarriedStatus("SN1"), new Employee("11201")));
         Employee esave = edao.findById(edao.findLastId());
-        System.out.println(esave.getEmployeeRoleList() + esave.getName());
+//        System.out.println(esave.getEmployeeRoleList() + esave.getName());
         emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "https://localhost:8083/activation");
         return "redirect:/adduser";
     }
@@ -89,12 +91,12 @@ public class AdminController {
         return "redirect:/adduser";
     }
 
-    @PostMapping("/employeeedit")
+     @PostMapping("/employeeedit")
     public String edit(@RequestParam("id") String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
         String pass = (edao.findById(id)).getPassword();
-        System.out.println(gendertype);
-        edao.savdeEmployee(new Employee(id, name, Boolean.valueOf(gendertype), new BigInteger(quota), email, pass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee(idmanager)));
+        System.out.println(idmanager);
+        edao.savdeEmployee(new Employee(id, name, Boolean.valueOf(gendertype), new BigInteger(quota), email, pass, sdf.parse(joindate), new MarriedStatus(marriedstatus), new Employee((idmanager))));
 
         return "redirect:/adduser";
     }
