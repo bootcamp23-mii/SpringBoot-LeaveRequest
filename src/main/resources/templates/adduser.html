@@ -94,7 +94,7 @@
                                             th:data-getemail="${req.email}"
                                             th:data-getjoindate="${req.joindate}" 
                                             th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                            th:data-getmanagerid="${req.idmanager.name}" 
+                                            th:data-getidmanager="${req.idmanager.name}" 
                                             class="btn btn-outline-success">Edit</button>
                                     <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
                                 </td>
@@ -363,7 +363,7 @@
                 var email = button.data('getemail');
                 var marriedstatus = button.data('getmarriedstatus');
                 var joindate = button.data('getjoindate');
-                var idmanager = button.data('getmanagerid');
+                var idmanager = button.data('getidmanager');
 
 
                 var modal = $(this);
