@@ -178,6 +178,14 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="chart-note">
+                            <button class="btnprint btn btn-default">
+                                <i class="zmdi"></i>PRINT</button>
+                        </div>
+                        <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
+                    </div>
 
 
                     <!-- /.End Content -->
@@ -251,6 +259,18 @@
                 modal.find('#requesttotal-r').val(total);
                 modal.find('#requestId-r').val(reqid);
                 modal.find('#statusId-r').val('S3');
+            });
+        </script>
+        
+        <script>
+            $('.btnprint').click(function () {
+                var printme = document.getElementById('example');
+                var wme = window.open("", "", "width=900,height=700");
+                wme.document.write(printme.outerHTML);
+                wme.document.close();
+                wme.focus();
+                wme.print();
+                wme.close();
             });
         </script>
     </body>

@@ -81,9 +81,9 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                    </div>-->
+                    <!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                            <h1 class="h2">Dashboard</h1>
+                                        </div>-->
 
                     <!-- Content -->
                     <h4>Leave Request List (User)</h4>
@@ -178,6 +178,14 @@
                         </div>
                     </div>
 
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="chart-note">
+                            <button class="btnprint btn btn-default">
+                                <i class="zmdi"></i>PRINT</button>
+                        </div>
+                        <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
+                    </div>
+
 
                     <!-- /.End Content -->
                 </main>
@@ -228,6 +236,18 @@
                 modal.find('#statuss').val(status);
                 modal.find('#desc').val(desc);
 
+            });
+        </script>
+
+        <script>
+            $('.btnprint').click(function () {
+                var printme = document.getElementById('historyuser');
+                var wme = window.open("", "", "width=900,height=700");
+                wme.document.write(printme.outerHTML);
+                wme.document.close();
+                wme.focus();
+                wme.print();
+                wme.close();
             });
         </script>
     </body>
