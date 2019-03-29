@@ -17,371 +17,417 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
-                </li>
-            </ul>
-        </nav>
+        <div id="wrapper">
+            <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
 
-        <div class="container-fluid">
-            <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MII Leave Request</a>
+                <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
+                <ul class="navbar-nav px-3">
+                    <li class="nav-item text-nowrap">
+                        <a class="nav-link" href="#">Sign out</a>
+                    </li>
+                </ul>
+            </nav>
 
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                    </div>
 
-                    <!-- Content -->
-                    <h4>Add User</h4>
-                    <div class="row" style="padding: 10px 0 10px 0">
-                        <div class="col-sm-6">
-                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
-                            <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
-                        </div>
-                    </div>
-                    <table id="adduser" class="table table-bordered table-striped" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Join Date</th>
-                                <th>Leave Quota (day)</th>
-                                <th>Married Status</th>
-                                <th>Nama Manager</th>
-                                <th>Action</th>
+            <hr class="sidebar-divider my-0">
+            <!--<div class="row">-->
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <span data-feather="home"></span>
+                                Dashboard <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-                            </tr>
-                        </thead>
-                        <tbody id="tblAdd">
-                            <tr th:each="req : ${employeeData}">
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav flex-column">
+                            <a class="nav-link active" href="">
+                                <span data-feather="setting"></span>
+                                Users Profile <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-                                <td th:text="${req.name}"></td>
-                                <td th:text="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}"></td>
-                                <td th:text="${req.quota}"></td>
-                                <td th:text="${req.marriedstatus.status}"></td>
-                                <td th:text="${req.idmanager.name}"></td>
+                        <li class="nav flex-column">
+                            <a class="nav-link active" href="">
+                                <span data-feather="edit"></span>
+                                Add User <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-                                <td>
-                                    <button id="btnDetails" data-target="#mdlDetail" data-toggle="modal" 
-                                            th:data-getname="${req.name}" 
-                                            th:data-getgendertype="${req.gendertype}"
-                                            th:data-getquota="${req.quota}"
-                                            th:data-getemail="${req.email}"
-                                            th:data-getjoindate="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}" 
-                                            th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                            th:data-getmanagerid="${req.idmanager.name}" 
-                                            class="btn btn-outline-success">Detail</button>
-                                    <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
-                                            th:data-getid="${req.id}"
-                                            th:data-getname="${req.name}" 
-                                            th:data-getgendertype="${req.gendertype}"
-                                            th:data-getquota="${req.quota}"
-                                            th:data-getemail="${req.email}"
-                                            th:data-getjoindate="${req.joindate}" 
-                                            th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                            th:data-getidmanager="${req.idmanager.name}" 
-                                            class="btn btn-outline-success">Edit</button>
-                                    <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!--modal add user-->
-                    <div class="modal fade" id="mdlAdd" tabindex="-1" role="dialog" 
-                         aria-labelledby="modal-add" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">   
-                                    <h5 class="modal-title" id="modal-add">Add User Request</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form th:action="@{/employeesave}" method="Post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input id="id" name="id" class="form-control" placeholder="ID" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Name </label>
-                                            <input id="name" name="name" class="form-control" placeholder="Name" type="type"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Gender Type</label><br>
-                                            <input type="radio" class="form-group" th:value="true" name="gendertype" id="gender">Laki-laki<br>
-                                            <input type="radio" class="form-group" th:value="false" name="gendertype" id="gender">Perempuan<br>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="quota" name="quota" placeholder="Quota" class="form-control" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Email</label>
-                                            <input id="email" name="email" placeholder="Email" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="password" name="password" class="form-control" placeholder="Password" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Married Status</label>
-                                            <select class="custom-select" name="marriedstatus" id="married">
-                                                <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Join Date</label>
-                                            <input id="joindate" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Manager Name</label>
-                                            <select class="custom-select" name="idmanager" id="manager-y">
-                                                <div th:each="data :${employeeData1}">
-                                                    <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
-                                    </div>
+                        <!-- Nav Item - Utilities Collapse Menu -->
+                        <li class="nav flex-column">
+                            <a class="nav-link active" href="">
+                                <span data-feather="activity"></span>
+                                Add Request <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-default">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                        <!-- Nav Item - Pages Collapse Menu -->
+                        <li class="nav flex-column">
+                            <a class="nav-link active" href="">
+                                <span data-feather="bookmark"></span>
+                                History <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
 
-                    <!--modal detail-->
-                    <div class="modal fade" id="mdlDetail" tabindex="-1" role="dialog" 
-                         aria-labelledby="modal-add" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">   
-                                    <h5 class="modal-title" id="modal-add">Detail User Request</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form method="Post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input id="id-r" name="id" class="form-control" placeholder="ID" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Name </label>
-                                            <input id="name-r" name="name"class="form-control" placeholder="Name" disabled="true" type="readonly"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Gender Type</label><br>
-                                            <input type="radio" class="form-group" th:value="true" disabled="true" name="gendertype" id="gender">Laki-laki<br>
-                                            <input type="radio" class="form-group" th:value="false" disabled="true" name="gendertype" id="gender">Perempuan<br>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Quota</label>
-                                            <input id="quota-r" name="quota" placeholder="Quota" disabled="true" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Email</label>
-                                            <input id="email-r" name="email" placeholder="Email" disabled="true" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="password-r" name="password" class="form-control" placeholder="Password" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Married Status</label>
-                                            <select class="custom-select" name="marriedstatus" disabled="true" id="married-r">
-                                                <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="name">Join Date</label>
-                                            <input id="joindate-r" name="joindate" placeholder="Join Date" disabled="true" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Manager Name</label>
-                                            <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager Name" class="form-control" type="type"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--modal edit user-->
-                    <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog" 
-                         aria-labelledby="modal-add" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">   
-                                    <h5 class="modal-title" id="modal-add">Edit User Request</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form th:action="@{/employeeedit}" method="Post">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input id="id-y" name="id" class="form-control" type="hidden" placeholder="ID" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Name </label>
-                                            <input id="name-y" name="name"class="form-control" placeholder="Name" type="type"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Gender Type</label><br>
-                                            <input type="radio" class="form-group" th:value="true" name="gendertype" id="gendertype-y">Laki-laki<br>
-                                            <input type="radio" class="form-group" th:value="false" name="gendertype" id="gendertype-y">Perempuan<br>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Quota</label>
-                                            <input id="quota-y" name="quota" placeholder="Quota" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Email</label>
-                                            <input id="email-y" name="email" placeholder="Email" class="form-control" type="text"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <input id="password-y" name="password" class="form-control" placeholder="Password" type="hidden"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Married Status</label>
-                                            <select class="custom-select" name="marriedstatus" id="marriedstatus-y">
-                                                <div th:each="data :${adddata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
-                                                </div>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="name">Join Date</label>
-                                            <input id="joindate-y" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="name">Manager Name</label>
-                                            <select class="custom-select" name="idmanager" id="manager-y">
-                                                <div th:each="data :${employeeData1}">
-                                                    <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
-                                                </div>
-                                            </select>
-                                           
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-default">Save</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- /.End Content -->
-                </main>
-            </div>
+                        <!-- Nav Item - Charts -->
+                        <li class="nav flex-column">
+                            <a class="nav-link active" href="">
+                                <span data-feather="clipboard"></span>
+                                Approval <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!--</div>-->
+            </nav>
         </div>
 
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-        <script src="dist/js/popper.min.js"></script>
-        <script src="dist/js/bootstrap.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#adduser').DataTable();
-            });
-        </script>
-        <!-- Icons -->
-        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-        <script>
-            feather.replace()
-        </script>
-        <script>
-            $('#mdlDetail').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('getid');
-                var name = button.data('getname');
-                var gender = button.data('getgendertype');
-                var quota = button.data('getquota');
-                var email = button.data('getemail');
-                var married = button.data('getmarriedstatus');
-                var joindate = button.data('getjoindate');
-                var managerid = button.data('getmanagerid');
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                <!-- Content -->
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"> 
+                    <h1 class="h3 mb-0 text-gray-800">Add User</h1>
+                </div>
+                <div class="row" style="padding: 10px 0 10px 0">
+                    <!--<div class="col-sm-6">-->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
+                        <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
+                    </div>
+                </div>
+                <table id="adduser" class="table table-bordered table-striped" style="position: relative; align-content: center; width: 100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Join Date</th>
+                            <th>Leave Quota (day)</th>
+                            <th>Married Status</th>
+                            <th>Nama Manager</th>
+                            <th>Action</th>
+
+                        </tr>
+                    </thead>
+                    <tbody id="tblAdd">
+                        <tr th:each="req : ${employeeData}">
+
+                            <td th:text="${req.name}"></td>
+                            <td th:text="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}"></td>
+                            <td th:text="${req.quota}"></td>
+                            <td th:text="${req.marriedstatus.status}"></td>
+                            <td th:text="${req.idmanager.name}"></td>
+
+                            <td>
+                                <button id="btnDetails" data-target="#mdlDetail" data-toggle="modal" 
+                                        th:data-getname="${req.name}" 
+                                        th:data-getgendertype="${req.gendertype}"
+                                        th:data-getquota="${req.quota}"
+                                        th:data-getemail="${req.email}"
+                                        th:data-getjoindate="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}" 
+                                        th:data-getmarriedstatus="${req.marriedstatus.status}" 
+                                        th:data-getmanagerid="${req.idmanager.name}" 
+                                        class="btn btn-outline-success">Detail</button>
+                                <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
+                                        th:data-getid="${req.id}"
+                                        th:data-getname="${req.name}" 
+                                        th:data-getgendertype="${req.gendertype}"
+                                        th:data-getquota="${req.quota}"
+                                        th:data-getemail="${req.email}"
+                                        th:data-getjoindate="${req.joindate}" 
+                                        th:data-getmarriedstatus="${req.marriedstatus.status}" 
+                                        th:data-getidmanager="${req.idmanager.name}" 
+                                        class="btn btn-outline-success">Edit</button>
+                                <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!--modal add user-->
+                <div class="modal fade" id="mdlAdd" tabindex="-1" role="dialog" 
+                     aria-labelledby="modal-add" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">   
+                                <h5 class="modal-title" id="modal-add">Add User Request</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form  class="w3-container" th:action="@{/employeesave}" method="Post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input id="id" name="id" class="form-control" placeholder="ID" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Name </label>
+                                        <input id="name" name="name" class="form-control" placeholder="Name" type="type"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Gender Type</label><br>
+                                        <input type="radio" class="form-group" th:value="true" name="gendertype" id="gender">Laki-laki<br>
+                                        <input type="radio" class="form-group" th:value="false" name="gendertype" id="gender">Perempuan<br>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="quota" name="quota" placeholder="Quota" class="form-control" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Email</label>
+                                        <input id="email" name="email" placeholder="Email" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="password" name="password" class="form-control" placeholder="Password" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Married Status</label>
+                                        <select class="custom-select" name="marriedstatus" id="married">
+                                            <div th:each="data :${adddata}">
+                                                <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Join Date</label>
+                                        <input id="joindate" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Manager Name</label>
+                                        <select class="custom-select" name="idmanager" id="manager-y">
+                                            <div th:each="data :${employeeData1}">
+                                                <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-default">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+
+                <!--<div class="container-fluid">-->
+                <!--modal detail-->
+                <div class="modal fade" id="mdlDetail" tabindex="-1" role="dialog" 
+                     aria-labelledby="modal-add" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">   
+                                <h5 class="modal-title" id="modal-add">Detail User Request</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form method="Post"class="w3-container">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input id="id-r" name="id" class="form-control" placeholder="ID" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Name </label>
+                                        <input id="name-r" name="name"class="form-control" placeholder="Name" disabled="true" type="readonly"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Gender Type</label><br>
+                                        <input type="radio" class="form-group" th:value="true" disabled="true" name="gendertype" id="gender">Laki-laki<br>
+                                        <input type="radio" class="form-group" th:value="false" disabled="true" name="gendertype" id="gender">Perempuan<br>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Quota</label>
+                                        <input id="quota-r" name="quota" placeholder="Quota" disabled="true" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Email</label>
+                                        <input id="email-r" name="email" placeholder="Email" disabled="true" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="password-r" name="password" class="form-control" placeholder="Password" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Married Status</label>
+                                        <select class="custom-select" name="marriedstatus" disabled="true" id="married-r">
+                                            <div th:each="data :${adddata}">
+                                                <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="name">Join Date</label>
+                                        <input id="joindate-r" name="joindate" placeholder="Join Date" disabled="true" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Manager Name</label>
+                                        <input id="manager-r" name="idmanager" disabled="true" placeholder="Manager Name" class="form-control" type="type"/>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!--modal edit user-->
+                <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog" 
+                     aria-labelledby="modal-add" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">   
+                                <h5 class="modal-title" id="modal-add">Edit User Request</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form class="w3-container" th:action="@{/employeeedit}" method="Post">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <input id="id-y" name="id" class="form-control" type="hidden" placeholder="ID" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Name </label>
+                                        <input id="name-y" name="name"class="form-control" placeholder="Name" type="type"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Gender Type</label><br>
+                                        <input type="radio" class="form-group" th:value="true" name="gendertype" id="gendertype-y">Laki-laki<br>
+                                        <input type="radio" class="form-group" th:value="false" name="gendertype" id="gendertype-y">Perempuan<br>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Quota</label>
+                                        <input id="quota-y" name="quota" placeholder="Quota" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Email</label>
+                                        <input id="email-y" name="email" placeholder="Email" class="form-control" type="text"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="password-y" name="password" class="form-control" placeholder="Password" type="hidden"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Married Status</label>
+                                        <select class="custom-select" name="marriedstatus" id="marriedstatus-y">
+                                            <div th:each="data :${adddata}">
+                                                <option class="form-control" th:value="${data.id}" th:text="${data.status}"></option>
+                                            </div>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="name">Join Date</label>
+                                        <input id="joindate-y" name="joindate" placeholder="Join Date" class="form-control" type="date"/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Manager Name</label>
+                                        <select class="custom-select" name="idmanager" id="manager-y">
+                                            <div th:each="data :${employeeData1}">
+                                                <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
+                                            </div>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-default">Save</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+        
+            <!-- /.End Content -->
+        </main>
+    </div>
+</div>
 
 
-                var modal = $(this);
-                modal.find('#id-r').val(id);
-                modal.find('#name-r').val(name);
-                if (gender) {
-                    modal.find('#gendertype-r').val("1")
-                } else {
-                    modal.find('#gendertype-r').val("0")
-                }
-//                modal.find('#gendertype-r').val(gender);
-                modal.find('#quota-r').val(quota);
-                modal.find('#email-r').val(email);
-                modal.find('#marriedstatus-r').val(married);
-                modal.find('#joindate-r').val(joindate);
-                modal.find('#manager-r').val(managerid);
-            });
-        </script>
-        <script>
-            $('#mdlEdit').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var id = button.data('getid');
-                var name = button.data('getname');
-                var gendertype = button.data('getgendertype');
-                var quota = button.data('getquota');
-                var email = button.data('getemail');
-                var marriedstatus = button.data('getmarriedstatus');
-                var joindate = button.data('getjoindate');
-                var idmanager = button.data('getidmanager');
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="dist/js/popper.min.js"></script>
+<script src="dist/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#adduser').DataTable();
+    });
+</script>
+<!-- Icons -->
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<script>
+    feather.replace()
+</script>
+<script>
+    $('#mdlDetail').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('getid');
+        var name = button.data('getname');
+        var gender = button.data('getgendertype');
+        var quota = button.data('getquota');
+        var email = button.data('getemail');
+        var married = button.data('getmarriedstatus');
+        var joindate = button.data('getjoindate');
+        var managerid = button.data('getmanagerid');
 
 
-                var modal = $(this);
-                modal.find('#id-y').val(id);
-                modal.find('#name-y').val(name);
-                if (gendertype) {
-                    modal.find('#gendertype-y').val("1")
-                } else {
-                    modal.find('#gendertype-y').val("0")
-                }
-//                modal.find('#gendertype-y').val(gendertype);
-                modal.find('#quota-y').val(quota);
-                modal.find('#email-y').val(email);
-                modal.find('#marriedstatus-y').val(marriedstatus);
-                modal.find('#joindate-y').val(joindate);
-                modal.find('#manager-y').val(idmanager);
-            });
-        </script>
+        var modal = $(this);
+        modal.find('#id-r').val(id);
+        modal.find('#name-r').val(name);
+        if (gender) {
+            modal.find('#gendertype-r').val("1")
+        } else {
+            modal.find('#gendertype-r').val("0")
+        }
+        //                modal.find('#gendertype-r').val(gender);
+        modal.find('#quota-r').val(quota);
+        modal.find('#email-r').val(email);
+        modal.find('#marriedstatus-r').val(married);
+        modal.find('#joindate-r').val(joindate);
+        modal.find('#manager-r').val(managerid);
+    });
+</script>
+<script>
+    $('#mdlEdit').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('getid');
+        var name = button.data('getname');
+        var gendertype = button.data('getgendertype');
+        var quota = button.data('getquota');
+        var email = button.data('getemail');
+        var marriedstatus = button.data('getmarriedstatus');
+        var joindate = button.data('getjoindate');
+        var idmanager = button.data('getidmanager');
 
-    </body>
+
+        var modal = $(this);
+        modal.find('#id-y').val(id);
+        modal.find('#name-y').val(name);
+        if (gendertype) {
+            modal.find('#gendertype-y').val("1")
+        } else {
+            modal.find('#gendertype-y').val("0")
+        }
+        //                modal.find('#gendertype-y').val(gendertype);
+        modal.find('#quota-y').val(quota);
+        modal.find('#email-y').val(email);
+        modal.find('#marriedstatus-y').val(marriedstatus);
+        modal.find('#joindate-y').val(joindate);
+        modal.find('#manager-y').val(idmanager);
+    });
+</script>
+
+</body>
 </html>
