@@ -18,24 +18,61 @@
 
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MII Leave Request</a>
+            <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
+                    <a class="nav-link" href="./logout">Sign out</a>
                 </li>
             </ul>
         </nav>
 
         <div class="container-fluid">
             <div class="row">
+                <!--<div class="row">-->
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                            <li id="dashboardss" class="nav-item">
+                                <a class="nav-link active" href="http://localhost:8085/">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/profil">
+                                    <span data-feather="settings"></span>
+                                    Users Profile <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li id="addusersss" class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/adduser">
+                                    <span data-feather="edit-2"></span>
+                                    Add User <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/addrequest">
+                                    <span data-feather="activity"></span>
+                                    Add Request <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historymanager">
+                                    <span data-feather="bookmark"></span>
+                                    History Manager <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historyuser">
+                                    <span data-feather="bookmark"></span>
+                                    History Users<span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/approval">
+                                    <span data-feather="clipboard"></span>
+                                    Approval <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -43,26 +80,26 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">Dashboard</h1>
-                    </div>
+                    </div>-->
 
                     <!-- Content -->
                     <h4>Profil User</h4>
                     <!--upload foto-->
-                     
-                    
+
+
                     <div class="row" style="padding: 10px 0 10px 0">
                         <div class="col-sm-6">
                             <!--<button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>-->
                             <button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
                         </div>
                         <table id="example" class="table table-borderless" style="width: 100%">
-                                    <div class="image col-sm-6">
-                                        <!--<img class="image" align="right" th:src="@{${session.idRole} ? 'http://localhost:8085/image?id=${dataProfil.id}' : 'https://www.metrodata.co.id/web/images/business/2014-08-20-112626.png'}" alt="[photo]" width="100px" height="130px"/>-->
-                                        <img class="image" align="right" th:src="@{'http://localhost:8085/image?id=' + ${dataProfil.id}}" alt="[photo]" width="100px" height="130px"/>
-                                    </div>
-                    </table>
+                            <div class="image col-sm-6">
+                                <!--<img class="image" align="right" th:src="@{${session.idRole} ? 'http://localhost:8085/image?id=${dataProfil.id}' : 'https://www.metrodata.co.id/web/images/business/2014-08-20-112626.png'}" alt="[photo]" width="100px" height="130px"/>-->
+                                <img class="image" align="right" th:src="@{'http://localhost:8085/image?id=' + ${dataProfil.id}}" alt="[photo]" width="100px" height="130px"/>
+                            </div>
+                        </table>
                     </div>
 
                     <!--modal upload-->
@@ -92,7 +129,7 @@
                             </div>
                         </div>
                     </div>
-                   
+
                     <form th:action="@{/employeeupload}" method="Post">
                         <div class="modal-body">
                             <div class="form-group">
@@ -141,28 +178,28 @@
 <script src="dist/js/popper.min.js"></script>
 <script src="dist/js/bootstrap.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#adduser').DataTable();
-    });
-    function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+                                                $(document).ready(function () {
+                                                    $('#adduser').DataTable();
+                                                });
+                                                function readURL(input) {
+                                                    if (input.files && input.files[0]) {
+                                                        var reader = new FileReader();
 
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
-                };
+                                                        reader.onload = function (e) {
+                                                            $('#blah')
+                                                                    .attr('src', e.target.result)
+                                                                    .width(150)
+                                                                    .height(200);
+                                                        };
 
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+                                                        reader.readAsDataURL(input.files[0]);
+                                                    }
+                                                }
 </script>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
-    feather.replace()
+                                                feather.replace()
 </script>
 
 

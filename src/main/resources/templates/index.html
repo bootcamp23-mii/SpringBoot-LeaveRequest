@@ -18,32 +18,61 @@
 
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MII Leave Request</a>
+            <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
+                    <a class="nav-link" href="./logout">Sign out</a>
                 </li>
             </ul>
         </nav>
 
         <div class="container-fluid">
             <div class="row">
+                <!--<div class="row">-->
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                            <li id="dashboardss" class="nav-item">
+                                <a class="nav-link active" href="http://localhost:8085/">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                        </ul>
-                        <ul hidden="false" class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
-                                    <span data-feather="home"></span>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/profil">
+                                    <span data-feather="settings"></span>
                                     Users Profile <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li id="addusersss" class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/adduser">
+                                    <span data-feather="edit-2"></span>
+                                    Add User <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/addrequest">
+                                    <span data-feather="activity"></span>
+                                    Add Request <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historymanager">
+                                    <span data-feather="bookmark"></span>
+                                    History Manager <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historyuser">
+                                    <span data-feather="bookmark"></span>
+                                    History Users<span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/approval">
+                                    <span data-feather="clipboard"></span>
+                                    Approval <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -58,10 +87,10 @@
                         <h1 class="h2">Id</h1>
                     </div>
 
-                    
+
 
                     <!-- Content -->
-                    
+
                     <div class="panel-group">
                         <div class="panel panel-default">
                             <div class="panel-heading" th:each="answer: ${dataEmployee}">

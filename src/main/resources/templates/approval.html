@@ -20,24 +20,61 @@
 
     <body>
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MII Leave Request</a>
+            <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Sign out</a>
+                    <a class="nav-link" href="./logout">Sign out</a>
                 </li>
             </ul>
         </nav>
 
         <div class="container-fluid">
             <div class="row">
+                <!--<div class="row">-->
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">
+                            <li id="dashboardss" class="nav-item">
+                                <a class="nav-link active" href="http://localhost:8085/">
                                     <span data-feather="home"></span>
                                     Dashboard <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/profil">
+                                    <span data-feather="settings"></span>
+                                    Users Profile <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li id="addusersss" class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/adduser">
+                                    <span data-feather="edit-2"></span>
+                                    Add User <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/addrequest">
+                                    <span data-feather="activity"></span>
+                                    Add Request <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historymanager">
+                                    <span data-feather="bookmark"></span>
+                                    History Manager <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/historyuser">
+                                    <span data-feather="bookmark"></span>
+                                    History Users<span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav flex-column">
+                                <a class="nav-link active" href="http://localhost:8085/approval">
+                                    <span data-feather="clipboard"></span>
+                                    Approval <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -45,9 +82,9 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                         <h1 class="h2">Dashboard</h1>
-                    </div>
+                    </div>-->
 
                     <!-- Content -->
                     <h4>Leave Request List</h4>
@@ -215,11 +252,10 @@
                 var end = button.data('getend');
                 var total = button.data('gettotal');
                 var reqid = button.data('getreqid');
-
                 var modal = $(this);
                 modal.find('#id').val(id);
                 modal.find('#idemployee').val(idemp);
-                modal.find('#nameemployee').val(nameemp);                
+                modal.find('#nameemployee').val(nameemp);
                 modal.find('#datetime').val(datetime);
                 modal.find('#requeststart').val(start);
                 modal.find('#requestend').val(end);
