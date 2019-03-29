@@ -14,9 +14,13 @@
 
         <!-- Custom styles for this template -->
         <link th:href="@{dist/css/dashboard.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"/>
+        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="http://boot.mobilelegendadddiamond.web.id/vendor/jquery-easing/jquery.easing.min.js"></script>
     </head>
 
-    <body>
+    <body onload="onload()">
         <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MII Leave Request</a>
             <!--<input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
@@ -115,7 +119,7 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
         <!--<script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>-->
         <script th:src="@{dist/js/popper.min.js}"></script>
         <script th:src="@{dist/js/bootstrap.min.js}"></script>
@@ -124,6 +128,25 @@
         <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
         <script>
             feather.replace()
+        </script>
+        <script th:inline="javascript">
+//            $(document).ready(function () {
+                function onload() {
+                    var holidays = [];
+                    var asdsa = [[${idRole}]];
+                    console.log(asdsa);
+                    for (var i = 0; i < asdsa.length; i++) {
+                        holidays.push(asdsa[i]);
+                    }
+                    console.log(holidays);
+//                    for (var i in holidays) {
+////                    if ((holidays[i] >= d0) && (holidays[i] <= d1)) {
+////                        days--;
+////                    }
+//                        console.log(i);
+//                    }
+                }
+//            });
         </script>
     </body>
 </html>

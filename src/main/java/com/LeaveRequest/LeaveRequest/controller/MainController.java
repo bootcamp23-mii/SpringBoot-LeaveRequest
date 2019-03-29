@@ -98,6 +98,11 @@ public class MainController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
+         ArrayList<String> roleBro = new ArrayList<String>();
+        for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(session.getAttribute("idLogin").toString())) {
+            roleBro.add(employeeRole.getRole().getId());
+        }
+        model.addAttribute("idRole", roleBro);
         String id = session.getAttribute("idLogin").toString();
         model.addAttribute("dataEmployee", edao.findById(id));
         Integer kuota = ((edao.findById(id)).getQuota()).intValue();
