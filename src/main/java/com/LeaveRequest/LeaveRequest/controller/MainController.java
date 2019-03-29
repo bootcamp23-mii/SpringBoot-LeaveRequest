@@ -6,6 +6,7 @@
 package com.LeaveRequest.LeaveRequest.controller;
 
 import com.LeaveRequest.LeaveRequest.entities.Employee;
+import com.LeaveRequest.LeaveRequest.entities.EmployeeRole;
 import com.LeaveRequest.LeaveRequest.entities.LeaveType;
 import com.LeaveRequest.LeaveRequest.entities.MarriedStatus;
 import com.LeaveRequest.LeaveRequest.entities.NationalHoliday;
@@ -14,6 +15,7 @@ import com.LeaveRequest.LeaveRequest.entities.RequestStatus;
 import com.LeaveRequest.LeaveRequest.entities.Status;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.ApprovalMailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeRoleDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
@@ -79,6 +81,8 @@ public class MainController {
     NationalDAO nationalDAO;
     @Autowired
     MarriedStatusDAO msdao;
+    @Autowired
+    EmployeeRoleDAO employeeRoleDAO;
     @Autowired
     private MailService emailService;
     @Autowired
@@ -177,9 +181,13 @@ public class MainController {
         String id = employee.getId();
         String password = employee.getPassword();
         Employee eF = edao.findById(id);
+//        ArrayList<String> roleBro = new ArrayList<String>();
+//        for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(id)) {
+//            roleBro.add(employeeRole.getRole().getId());
+//        }
         if (BCrypt.checkpw(password, eF.getPassword())) {
             session.setAttribute("idLogin", id);
-            session.setAttribute("idRole", eF.getEmployeeRoleList().toString());
+//            session.setAttribute("idRole", roleBro);
             return "redirect:/";
         } else {
             return "redirect:/login";

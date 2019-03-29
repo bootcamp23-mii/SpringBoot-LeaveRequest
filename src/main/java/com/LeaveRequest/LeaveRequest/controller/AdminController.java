@@ -6,9 +6,11 @@
 package com.LeaveRequest.LeaveRequest.controller;
 
 import com.LeaveRequest.LeaveRequest.entities.Employee;
+import com.LeaveRequest.LeaveRequest.entities.EmployeeRole;
 import com.LeaveRequest.LeaveRequest.entities.MarriedStatus;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.ApprovalMailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeDAO;
+import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.EmployeeRoleDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.LeaveTypeDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MailService;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.MarriedStatusDAO;
@@ -22,6 +24,7 @@ import java.math.BigInteger;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,7 @@ import tools.BCrypt;
  */
 @Controller
 public class AdminController {
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     @Autowired
     RequestDAO rdao;
@@ -54,15 +58,24 @@ public class AdminController {
     @Autowired
     MarriedStatusDAO msdao;
     @Autowired
+    EmployeeRoleDAO employeeRoleDAO;
+    @Autowired
     private MailService emailService;
     @Autowired
     private ApprovalMailService approvalMailService;
-    
+
     @GetMapping("/adduser")
     public String adduser(Model model, HttpSession session) {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
+//        ArrayList<String> roleBro = new ArrayList<String>();
+//        for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(session.getId())) {
+//            roleBro.add(employeeRole.getRole().getId());
+//            System.out.println((employeeRole.getRole().getId()));
+//            System.out.println("asdsad");
+//        }
+//        model.addAttribute("idRole", roleBro);
         model.addAttribute("employeeData", edao.findAllEmployee());
         model.addAttribute("employeeData1", edao.findEmployeeById());
         model.addAttribute("employeesave", new Employee());
@@ -72,7 +85,7 @@ public class AdminController {
         return "adduser";
     }
 
-   @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
+    @PostMapping("/employeesave") //@PostMapping{"/regionsave"}
     public String saveemployee(String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException, MessagingException, IOException, MalformedTemplateNameException, TemplateException {
         String password = Double.toString(Math.random());
@@ -83,7 +96,7 @@ public class AdminController {
         Employee esave = edao.findById(edao.findLastId());
         String passwordUrl = URLEncoder.encode(esave.getPassword());
 //        System.out.println(esave.getEmployeeRoleList() + esave.getName());
-        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "http://localhost:8085/activation?id="+esave.getId()+"&token="+passwordUrl+"");
+        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "http://localhost:8085/activation?id=" + esave.getId() + "&token=" + passwordUrl + "");
         return "redirect:/adduser";
     }
 
@@ -93,7 +106,7 @@ public class AdminController {
         return "redirect:/adduser";
     }
 
-     @PostMapping("/employeeedit")
+    @PostMapping("/employeeedit")
     public String edit(@RequestParam("id") String id, String name, @RequestParam("gendertype") String gendertype, @RequestParam("quota") String quota,
             String email, @RequestParam("joindate") String joindate, @RequestParam("marriedstatus") String marriedstatus, @RequestParam("idmanager") String idmanager) throws ParseException {
         String pass = (edao.findById(id)).getPassword();
@@ -102,5 +115,5 @@ public class AdminController {
 
         return "redirect:/adduser";
     }
-    
+
 }
