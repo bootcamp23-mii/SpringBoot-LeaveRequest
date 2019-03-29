@@ -59,7 +59,8 @@
                         </div>
                         <table id="example" class="table table-borderless" style="width: 100%">
                                     <div class="image col-sm-6">
-                                        <img class="image" align="right" src="https://vignette.wikia.nocookie.net/vsbattles/images/d/d0/Doraemon_render.png/revision/latest?cb=20171108000852" alt="[photo]" width="100px" height="130px"/>
+                                        <!--<img class="image" align="right" th:src="@{${session.idRole} ? 'http://localhost:8085/image?id=${dataProfil.id}' : 'https://www.metrodata.co.id/web/images/business/2014-08-20-112626.png'}" alt="[photo]" width="100px" height="130px"/>-->
+                                        <img class="image" align="right" th:src="@{'http://localhost:8085/image?id=' + ${dataProfil.id}}" alt="[photo]" width="100px" height="130px"/>
                                     </div>
                     </table>
                     </div>
@@ -78,15 +79,10 @@
                                 <form th:action="@{/employeeupload}" method="Post" enctype="multipart/form-data">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="name">Upload for Id :</label>
-                                            <select class="custom-select" name="id" id="id-u">
-                                                <div th:each="data :${userdata}">
-                                                    <option class="form-control" th:value="${data.id}" th:text="${data.id}"></option>
-                                                </div>
-                                            </select>
+                                            <img id="blah" src="#" alt="your image" />
                                         </div>
                                         <div class="form-group">
-                                            <input id="inputupload" name="inputupload" class="file-input" type="file" accept="image/*"/>
+                                            <input id="inputupload" onchange="readURL(this);" name="inputupload" class="file-input" type="file" accept="image/*"/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -100,23 +96,23 @@
                     <form th:action="@{/employeeupload}" method="Post">
                         <div class="modal-body">
                             <div class="form-group">
-                                <input id="id" name="id" class="form-control" placeholder="ID" type="hidden"/>
+                                <input readonly="" id="id" name="id" class="form-control" type="hidden"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">Name </label>
-                                <input id="name" name="name" class="form-control" placeholder="Name" type="type"/>
+                                <input readonly="" id="name" name="name" class="form-control" th:value="${dataProfil.name}"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">Email</label>
-                                <input id="email" name="email" placeholder="Email" class="form-control" type="text"/>
+                                <input readonly="" id="email" name="email" class="form-control" th:value="${dataProfil.email}" type="text"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">Old Password</label>
-                                <input id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">New Password</label>
-                                <input id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
                             </div>
                         </div>
 
@@ -148,6 +144,20 @@
     $(document).ready(function () {
         $('#adduser').DataTable();
     });
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 </script>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>

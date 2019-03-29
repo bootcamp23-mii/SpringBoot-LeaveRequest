@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="dist/img/favicons/favicon.ico">
+
+        <title>Add Leave Request</title>
+
+
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{dist/css/bootstrap.min.css}" rel="stylesheet"/>
+
+        <!-- Custom styles for this template -->
+        <link th:href="@{dist/css/dashboard.css}" rel="stylesheet"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"/>
+        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="http://boot.mobilelegendadddiamond.web.id/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    </head>
+
+    <body>
+        <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
+            <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="#">Sign out</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                    <div class="sidebar-sticky">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <span data-feather="home"></span>
+                                    Dashboard <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                        <h1 class="h2">Dashboard</h1>
+                    </div>
+
+                    <!-- Content -->
+                    <h4>Add Request</h4>
+                    <div class="row" style="padding: 10px 0 10px 0">
+                        <div class="col-sm-6">
+                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add Request</button>
+                        </div>
+                    </div>
+                    <table id="addrequest" class="table table-bordered table-striped" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Total</th>
+                                <th>Leave Type</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="tblAdd">
+                            <tr id="asdad" th:each="req : ${requestData}">
+
+                                <td th:text="${req.startdate}"></td>
+                                <td th:text="${req.enddate}"></td>
+                                <td th:text="${req.total}"></td>
+                                <td th:text="${req.leavetype.type}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="modal fade" id="mdlAdd" tabindex="-1" role="dialog" 
+                         aria-labelledby="modal-add" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">   
+                                    <h5 class="modal-title" id="modal-add">Add Request</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form th:action="@{/requestsave}" method="Post">
+                                    <div class="modal-body">
+
+                                        <div class="form-group">
+                                            <label for="name">Start Date</label>
+                                            <input id="startdate" name="startdate" class="form-control" type="type"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">End Date</label>
+                                            <input id="enddate" name="enddate" class="form-control" type="type"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Total</label>
+                                            <input id="total" name="total" class="form-control" type="text" readonly="true"/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">Leave Type</label>
+                                            <select class="custom-select" name="type" id="type">
+                                                <div th:each="data :${divdata}">
+                                                    <option class="form-control" th:value="${data.id}" th:text="${data.type}"></option>
+                                                </div>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button id="savemodal" type="submit" class="btn btn-default">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- /.End Content -->
+                </main>
+            </div>
+        </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+        <!--<script>window.jQuery || document.write('<script src="dist/js/jquery-slim.min.js"><\/script>')</script>-->
+        <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">-->
+        <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+        <script src="dist/js/popper.min.js"></script>
+        <script src="dist/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#addrequest').DataTable();
+            });
+        </script>
+        <!-- Icons -->
+        <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+        <script>
+            feather.replace()
+        </script>
+        <script th:inline="javascript">
+            $(document).ready(function () {
+                $('#startdate').datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'yy-mm-dd'});
+                $('#enddate').datepicker({beforeShowDay: $.datepicker.noWeekends, dateFormat: 'yy-mm-dd'});
+                $('#startdate').click(function () {
+                    var startDate = $('#startdate').val();
+                    var endDate = $('#enddate').val();
+                    document.getElementById("total").value = workingDaysBetweenDates(startDate, endDate).toString();
+                    if (workingDaysBetweenDates(startDate, endDate) > 5 || workingDaysBetweenDates(startDate, endDate) > [[${totalLeave}]]) {
+                        $("#savemodal").attr("disabled", true);
+                    }
+                });
+            });
+            function workingDaysBetweenDates(d0, d1) {
+                var holidays = [];
+                var asdsa = [[${dinolibur}]];
+                for (var i = 0; i < asdsa.length; i++) {
+                    holidays.push(asdsa[i]);
+                }
+                var startDate = parseDate(d0);
+                var endDate = parseDate(d1);
+                if (endDate < startDate) {
+                    $("#savemodal").attr("disabled", true);
+                    return "Sorry your day is cant to pick";
+                }
+                var millisecondsPerDay = 86400 * 1000; // Day in milliseconds
+                startDate.setHours(0, 0, 0, 1); // Start just after midnight
+                endDate.setHours(23, 59, 59, 999); // End just before midnight
+                var diff = endDate - startDate; // Milliseconds between datetime objects    
+                var days = Math.ceil(diff / millisecondsPerDay);
+                var weeks = Math.floor(days / 7);
+                days -= weeks * 2;
+                var startDay = startDate.getDay();
+                var endDay = endDate.getDay();
+                if (startDay - endDay > 1) {
+                    days -= 2;
+                }
+                if (startDay == 0 && endDay != 6) {
+                    days--;
+                }
+                if (endDay == 6 && startDay != 0) {
+                    days--;
+                }
+                for (var i in holidays) {
+                    if ((holidays[i] >= d0) && (holidays[i] <= d1)) {
+                        days--;
+                    }
+                }
+                $("#savemodal").removeAttr("disabled");
+                return days;
+            }
+            
+            function parseDate(input) {
+                var parts = input.match(/(\d+)/g);
+                return new Date(parts[0], parts[1] - 1, parts[2]);
+            }
+        </script>
+    </body>
+</html>

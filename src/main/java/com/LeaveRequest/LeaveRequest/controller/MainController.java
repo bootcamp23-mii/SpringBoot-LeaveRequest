@@ -140,7 +140,11 @@ public class MainController {
     }
 
     @GetMapping("/profil")
-    public String profiluser(Model model) {
+    public String profiluser(Model model, HttpSession session) {
+        if (session.getAttribute("idLogin") == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("dataProfil", edao.findById(session.getAttribute("idLogin").toString()));
         return "profil";
     }
 
@@ -175,7 +179,7 @@ public class MainController {
         Employee eF = edao.findById(id);
         if (BCrypt.checkpw(password, eF.getPassword())) {
             session.setAttribute("idLogin", id);
-            session.setAttribute("idRole", eF.getEmployeeRoleList());
+            session.setAttribute("idRole", eF.getEmployeeRoleList().toString());
             return "redirect:/";
         } else {
             return "redirect:/login";
@@ -323,7 +327,7 @@ public class MainController {
                 eupload.getIsdeleted(),
                 eupload.getMarriedstatus(),
                 eupload.getIdmanager()));
-        return "redirect:/addrequest";
+        return "redirect:/profil";
     }
 
 //    @GetMapping("/adduser")
