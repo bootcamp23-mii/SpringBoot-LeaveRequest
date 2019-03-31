@@ -84,16 +84,17 @@
 
 
                     <div class="row" style="padding: 10px 0 10px 0">
-                        <div class="col-sm-6">
-                            <!--<button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>-->
-                            <button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
-                        </div>
+                        
                         <table id="example" class="table table-borderless" style="width: 100%">
                             <div class="image col-sm-6">
                                 <!--<img class="image" align="right" th:src="@{${session.idRole} ? 'http://localhost:8085/image?id=${dataProfil.id}' : 'https://www.metrodata.co.id/web/images/business/2014-08-20-112626.png'}" alt="[photo]" width="100px" height="130px"/>-->
-                                <img class="image" align="right" th:src="@{'http://localhost:8085/image?id=' + ${dataProfil.id}}" alt="[photo]" width="100px" height="130px"/>
+                                <img class="image" align="left" th:src="@{'http://localhost:8085/image?id=' + ${dataProfil.id}}" alt="[photo]" width="100px" height="130px"/>
                             </div>
                         </table>
+                        <div class="col-sm-6">
+                            <!--<button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>-->
+                            <button align="right" data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>
+                        </div>
                     </div>
 
                     <!--modal upload-->
@@ -143,6 +144,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">New Password</label>
+                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Confirm Password</label>
                                 <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
                             </div>
                         </div>
