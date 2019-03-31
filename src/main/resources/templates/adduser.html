@@ -98,6 +98,7 @@
             <table id="adduser" class="table table-bordered table-striped" style="position: relative; align-content: center; width: 100%">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Name</th>
                         <th>Join Date</th>
                         <th>Leave Quota (day)</th>
@@ -108,8 +109,9 @@
                     </tr>
                 </thead>
                 <tbody id="tblAdd">
-                    <tr th:each="req : ${employeeData}">
+                    <tr th:each="req,iteral : ${employeeData}">
 
+                        <td th:text="${iteral.count}"></td>
                         <td th:text="${req.name}"></td>
                         <td th:text="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}"></td>
                         <td th:text="${req.quota}"></td>

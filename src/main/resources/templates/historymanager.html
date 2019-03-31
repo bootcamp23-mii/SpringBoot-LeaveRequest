@@ -92,6 +92,7 @@
                     <table id="example" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Id Employee</th>
                                 <th>Name</th>
                                 <th>Request Date</th>
@@ -102,7 +103,8 @@
                             </tr>
                         </thead>
                         <tbody id="tblData">
-                            <tr th:each="req : ${requeststatusData}">
+                            <tr th:each="req, iteral : ${requeststatusData}">
+                                <td th:text="${iteral.count}"></td>
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
                                 <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
