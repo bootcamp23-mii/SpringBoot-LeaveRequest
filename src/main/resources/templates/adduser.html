@@ -8,7 +8,7 @@
         <meta name="author" content=""/>
         <link rel="icon" th:href="@{dist/img/favicons/favicon.ico}"/>
 
-        <title>Dashboard Template for Bootstrap</title>
+        <title>Add New User</title>
 
         <!-- Bootstrap core CSS -->
         <link th:href="@{dist/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -86,7 +86,7 @@
             <div class="row" style="padding: 10px 0 10px 0">
                 <!--<div class="col-sm-6">-->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
+                    <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User<span data-feather="paperclip"></span></button>
                     <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
                 </div>
             </div>
@@ -122,7 +122,7 @@
                                     th:data-getjoindate="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}" 
                                     th:data-getmarriedstatus="${req.marriedstatus.status}" 
                                     th:data-getmanagerid="${req.idmanager.name}" 
-                                    class="btn btn-outline-success">Detail</button>
+                                    class="btn btn-outline-success"><span data-feather="info"></span></button>
                             <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
                                     th:data-getid="${req.id}"
                                     th:data-getname="${req.name}" 
@@ -132,8 +132,8 @@
                                     th:data-getjoindate="${req.joindate}" 
                                     th:data-getmarriedstatus="${req.marriedstatus.status}" 
                                     th:data-getidmanager="${req.idmanager.name}" 
-                                    class="btn btn-outline-success">Edit</button>
-                            <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
+                                    class="btn btn-outline-success"><span data-feather="edit-2"></span></button>
+                                    <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger"><span data-feather="delete"></span></a>
                         </td>
                     </tr>
                 </tbody>
