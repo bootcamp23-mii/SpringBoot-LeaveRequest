@@ -66,6 +66,7 @@ public class ManagerController {
 //        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
+        model.addAttribute("requeststatusAllData", rsdao.showRequestStatusAllByIdMan(id));
 //        model.addAttribute("requeststatusedit", new RequestStatus());
 //        model.addAttribute("requeststatusdelete", new RequestStatus());
 //        model.addAttribute("requeststatusedit2", new Employee());
@@ -109,7 +110,7 @@ public class ManagerController {
             return "redirect:/login";
         }
         String id = session.getAttribute("idLogin").toString();
-        model.addAttribute("requeststatusData", rsdao.showRequestStatusAllByIdMan(id));
+        model.addAttribute("requeststatusAllData", rsdao.showRequestStatusAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
 //        model.addAttribute("requeststatusdelete", new RequestStatus());
