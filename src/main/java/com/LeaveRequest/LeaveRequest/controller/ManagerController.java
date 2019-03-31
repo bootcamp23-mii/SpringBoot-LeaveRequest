@@ -88,11 +88,11 @@ public class ManagerController {
                         new MarriedStatus((edao.findById(idemp)).getMarriedstatus().getId()), new Employee((edao.findById(idemp)).getIdmanager().getId())));
             }
 
-            approvalMailService.sendEmailService((edao.findById(idemp)).getEmail(), "Approval for " + idemp +" ("+rsdao.findById(id)+")", "Congratulation..", (edao.findById(idemp)).getName(), "Congratulation, your request has been <b>approve</b>.<p>Request Date : <b>" + sdfi.format(rsdao.findById(id).getDatetime())
+            approvalMailService.sendEmailService((edao.findById(idemp)).getEmail(), "Approval for " + idemp +" ("+rsdao.findById(id).getId()+")", "Congratulation..", (edao.findById(idemp)).getName(), "Congratulation, your request has been <b>approve</b>.<p>Request Date : <b>" + sdfi.format(rsdao.findById(id).getDatetime())
                     + "</b></p> <p>Leaving from : <b>" + sdfi.format(rsdao.findById(id).getRequest().getStartdate()) + "</b> to <b>" + sdfi.format(rsdao.findById(id).getRequest().getEnddate())
                     + "</b></p><br>Total : " + rsdao.findById(id).getRequest().getTotal() + " day(s) <br>Make sure you use your leave as well as possible.");
         } else {
-            approvalMailService.sendEmailService((rsdao.findById(id)).getRequest().getEmployee().getEmail(), "Rejection for " + (rsdao.findById(id)).getRequest().getEmployee().getId() +" ("+rsdao.findById(id)+")", "Sorry..", (rsdao.findById(id)).getRequest().getEmployee().getName(),
+            approvalMailService.sendEmailService((rsdao.findById(id)).getRequest().getEmployee().getEmail(), "Rejection for " + (rsdao.findById(id)).getRequest().getEmployee().getId() +" ("+rsdao.findById(id).getId()+")", "Sorry..", (rsdao.findById(id)).getRequest().getEmployee().getName(),
                     "Sorry, your request has been <b>reject</b>.<p>Request Date : <b>" + sdfi.format(rsdao.findById(id).getDatetime())
                     + "</b></p> <p>Leaving from : <b>" + sdfi.format(rsdao.findById(id).getRequest().getStartdate()) + "</b> to <b>" + sdfi.format(rsdao.findById(id).getRequest().getEnddate())
                     + "</b></p><br>Total : " + rsdao.findById(id).getRequest().getTotal() + " day(s) <br>Reason why was rejected : " + rsdao.findById(id).getDescription() + " <br>Make sure your request is in accordance with applicable leave rules");
