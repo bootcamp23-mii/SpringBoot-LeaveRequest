@@ -80,9 +80,9 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                    </div>-->
+                    <!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                            <h1 class="h2">Dashboard</h1>
+                                        </div>-->
 
                     <!-- Content -->
                     <h4>Profil User</h4>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
 
-                    <form th:action="@{/employeeupload}" method="Post">
+                    <form th:action="@{/employeepassword}" method="Post">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input readonly="" id="id" name="id" class="form-control" type="hidden"/>
@@ -145,20 +145,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="name">Old Password</label>
-                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                                <input readonly="" id="password_old" name="password_old" class="form-control" placeholder="Password Old" type="password"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">New Password</label>
-                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                                <input readonly="" id="password_new" name="password_new" class="form-control" placeholder="Password new" type="password"/>
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-default">Edit</button>
-                            <button type="submit" class="btn btn-default">Save</button>
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                            <button id="btnsaveiii" hidden="" type="submit" class="btn btn-default">Save</button>
                         </div>
                     </form>
+                    <button id="btnedit" class="btn btn-default">Edit</button>
             </div>
         </div>
     </div>
@@ -196,10 +196,19 @@
                                                     }
                                                 }
 </script>
+<script>
+    $(document).ready(function () {
+        $('#btnedit').click(function () {
+            $("#password_old").removeAttr("readonly");
+            $("#password_new").removeAttr("readonly");
+            $("#btnsaveiii").removeAttr("hidden");
+        });
+    });
+</script>
 <!-- Icons -->
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
-                                                feather.replace()
+    feather.replace()
 </script>
 
 

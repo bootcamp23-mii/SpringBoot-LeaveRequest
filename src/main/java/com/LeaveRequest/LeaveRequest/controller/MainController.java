@@ -98,7 +98,7 @@ public class MainController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
-         ArrayList<String> roleBro = new ArrayList<String>();
+        ArrayList<String> roleBro = new ArrayList<String>();
         for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(session.getAttribute("idLogin").toString())) {
             roleBro.add(employeeRole.getRole().getId());
         }
@@ -340,6 +340,29 @@ public class MainController {
                 eupload.getIsdeleted(),
                 eupload.getMarriedstatus(),
                 eupload.getIdmanager()));
+        return "redirect:/profil";
+    }
+
+    @PostMapping("/employeepassword")
+    public String employeepassword(@RequestParam(value = "password_old") String old_password, @RequestParam(value = "password_new") String new_password, HttpSession session) throws IOException {
+        Employee eupload = edao.findById(session.getAttribute("idLogin").toString());
+        System.out.println(old_password);
+        String newPasshash = BCrypt.hashpw(new_password, BCrypt.gensalt());
+        if (BCrypt.checkpw(old_password, eupload.getPassword())) {
+            edao.savdeEmployee(new Employee(eupload.getId(),
+                    eupload.getName(),
+                    eupload.getGendertype(),
+                    eupload.getQuota(),
+                    eupload.getEmail(),
+                    newPasshash,
+                    eupload.getPhoto(),
+                    eupload.getJoindate(),
+                    eupload.getIsactive(),
+                    eupload.getIsdeleted(),
+                    eupload.getMarriedstatus(),
+                    eupload.getIdmanager()));
+            return "redirect:/profil";
+        }
         return "redirect:/profil";
     }
 
