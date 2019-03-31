@@ -174,14 +174,71 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!--modal historyreport-->
+                    <div class="modal fade" id="mdlprinthistory" tabindex="-1" role="dialog" 
+                         aria-labelledby="modal-historymanager" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div id="printableuser">
+                                    <div class="modal-header">   
+                                        <h5 class="modal-title">Mitra Integrasi Informatika</h5>
+                                        <h4 class="modal-title" >Leave Request Report</h4>
+                                        <hr>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div>
+                                            <p>Below is a list of requests :</p>
+                                        </div>
+                                        <table border="1">
+                                            <thead>
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Id Employee</th>
+                                                    <th>Name</th>
+                                                    <th>Request Date</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tblData">
+                                                <tr th:each="req, iteral : ${requestData}">
+                                                    <td th:text="${iteral.count}"></td>
+                                                    <td th:text="${req.request.employee.id}"></td>
+                                                    <td th:text="${req.request.employee.name}"></td>
+                                                    <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
+                                                    <td th:text="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"></td>
+                                                    <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>
+                                                    <td th:text="${req.status.type}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table> 
+                                        <div>
+                                            <p>Sincelery,</p>
+                                            <br><br>
+                                            <p>TTD</p>
+                                        </div>
 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <div class="chart-note">
-                            <button class="btnprint btn btn-default">
-                                <i class="zmdi"></i>PRINT</button>
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button class="btnprintuser btn btn-default">
+                                        <span data-feather="printer"></span>PRINT</button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
-                        <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
                     </div>
+                    
+                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="chart-note">
+                            <button id="btnmdlprint" class="btn btn-default" data-target="#mdlprinthistory" data-toggle="modal" title="Print"
+                                        <span data-feather="printer"></span>PRINT</button>
+                        </div>
+                    </div>
+
 
 
                     <!-- /.End Content -->
@@ -237,8 +294,8 @@
         </script>
 
         <script>
-            $('.btnprint').click(function () {
-                var printme = document.getElementById('historyuser');
+            $('.btnprintuser').click(function () {
+                var printme = document.getElementById('printableuser');
                 var wme = window.open("", "", "width=900,height=700");
                 wme.document.write(printme.outerHTML);
                 wme.document.close();
