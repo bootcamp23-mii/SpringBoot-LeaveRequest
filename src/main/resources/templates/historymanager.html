@@ -59,12 +59,7 @@
                                     Add Request <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <li class="nav flex-column">
-                                <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                    <span data-feather="bookmark"></span>
-                                    History Manager <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
+                           
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/historyuser">
                                     <span data-feather="bookmark"></span>
@@ -74,7 +69,7 @@
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/approval">
                                     <span data-feather="clipboard"></span>
-                                    Approval <span class="sr-only">(current)</span>
+                                    Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -92,6 +87,7 @@
                     <table id="example" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Id Employee</th>
                                 <th>Name</th>
                                 <th>Request Date</th>
@@ -102,7 +98,8 @@
                             </tr>
                         </thead>
                         <tbody id="tblData">
-                            <tr th:each="req : ${requeststatusData}">
+                            <tr th:each="req, iteral : ${requeststatusData}">
+                                <td th:text="${iteral.count}"></td>
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
                                 <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
@@ -186,6 +183,14 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="chart-note">
+                            <button class="btnprint btn btn-default">
+                                <i class="zmdi"></i>PRINT</button>
+                        </div>
+                        <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
+                    </div>
 
 
                     <!-- /.End Content -->
@@ -261,6 +266,7 @@
                 modal.find('#statusId-r').val('S3');
             });
         </script>
+        
         <script>
             $('.btnprint').click(function () {
                 var printme = document.getElementById('example');

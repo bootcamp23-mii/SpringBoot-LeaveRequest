@@ -105,6 +105,7 @@ public class MainController {
         model.addAttribute("idRole", roleBro);
         String id = session.getAttribute("idLogin").toString();
         model.addAttribute("dataEmployee", edao.findById(id));
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
         Integer kuota = ((edao.findById(id)).getQuota()).intValue();
         Date now = new Date();
         Calendar cal = Calendar.getInstance();
@@ -154,6 +155,8 @@ public class MainController {
             return "redirect:/login";
         }
         model.addAttribute("dataProfil", edao.findById(session.getAttribute("idLogin").toString()));
+        String id = session.getAttribute("idLogin").toString();
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
         return "profil";
     }
 

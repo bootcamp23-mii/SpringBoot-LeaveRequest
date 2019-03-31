@@ -8,7 +8,7 @@
         <meta name="author" content=""/>
         <link rel="icon" th:href="@{dist/img/favicons/favicon.ico}"/>
 
-        <title>Dashboard Template for Bootstrap</title>
+        <title>Add New User</title>
 
         <!-- Bootstrap core CSS -->
         <link th:href="@{dist/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -60,12 +60,7 @@
                                 Add Request <span class="sr-only">(current)</span>
                             </a>
                         </li>
-                        <li class="nav flex-column">
-                            <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                <span data-feather="bookmark"></span>
-                                History Manager <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
+
                         <li class="nav flex-column">
                             <a class="nav-link active" href="http://localhost:8085/historyuser">
                                 <span data-feather="bookmark"></span>
@@ -75,7 +70,7 @@
                         <li class="nav flex-column">
                             <a class="nav-link active" href="http://localhost:8085/approval">
                                 <span data-feather="clipboard"></span>
-                                Approval <span class="sr-only">(current)</span>
+                                Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                             </a>
                         </li>
                     </ul>
@@ -91,13 +86,14 @@
             <div class="row" style="padding: 10px 0 10px 0">
                 <!--<div class="col-sm-6">-->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User</button>
+                    <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add User<span data-feather="paperclip"></span></button>
                     <!--<button data-target="#mdlUpload" data-toggle="modal" class="btn btn-warning">Upload Foto User</button>-->
                 </div>
             </div>
             <table id="adduser" class="table table-bordered table-striped" style="position: relative; align-content: center; width: 100%">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Name</th>
                         <th>Join Date</th>
                         <th>Leave Quota (day)</th>
@@ -108,8 +104,9 @@
                     </tr>
                 </thead>
                 <tbody id="tblAdd">
-                    <tr th:each="req : ${employeeData}">
+                    <tr th:each="req,iteral : ${employeeData}">
 
+                        <td th:text="${iteral.count}"></td>
                         <td th:text="${req.name}"></td>
                         <td th:text="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}"></td>
                         <td th:text="${req.quota}"></td>
@@ -125,7 +122,7 @@
                                     th:data-getjoindate="${#dates.format(req.joindate,'EEEE, dd-MMM-yyyy')}" 
                                     th:data-getmarriedstatus="${req.marriedstatus.status}" 
                                     th:data-getmanagerid="${req.idmanager.name}" 
-                                    class="btn btn-outline-success">Detail</button>
+                                    class="btn btn-outline-success"><span data-feather="info"></span></button>
                             <button id="btnEdit" data-target="#mdlEdit" data-toggle="modal" 
                                     th:data-getid="${req.id}"
                                     th:data-getname="${req.name}" 
@@ -134,9 +131,9 @@
                                     th:data-getemail="${req.email}"
                                     th:data-getjoindate="${req.joindate}" 
                                     th:data-getmarriedstatus="${req.marriedstatus.status}" 
-                                    th:data-getidmanager="${req.idmanager.name}" 
-                                    class="btn btn-outline-success">Edit</button>
-                            <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger">Delete</a>
+                                    th:data-getmanagerid="${req.idmanager.name}" 
+                                    class="btn btn-outline-success"><span data-feather="edit-2"></span></button>
+                            <a th:href="@{/employeedelete(employeeid=${req.id})}" class="btn btn-outline-danger"><span data-feather="delete"></span></a>
                         </td>
                     </tr>
                 </tbody>
@@ -324,7 +321,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="name">Manager Name</label>
-                                    <select class="custom-select" name="idmanager" id="manager-y">
+                                    <select class="custom-select" name="idmanager" id="managerid-y">
                                         <div th:each="data :${employeeData1}">
                                             <option class="form-control" th:value="${data.idmanager.id}" th:text="${data.idmanager.name}"></option>
                                         </div>
@@ -419,9 +416,9 @@
         var gendertype = button.data('getgendertype');
         var quota = button.data('getquota');
         var email = button.data('getemail');
-        var marriedstatus = button.data('getmarriedstatus');
+        var married = button.data('getmarriedstatus');
         var joindate = button.data('getjoindate');
-        var idmanager = button.data('getidmanager');
+        var managerid = button.data('getmanagerid');
 
 
         var modal = $(this);
@@ -435,9 +432,9 @@
         //                modal.find('#gendertype-y').val(gendertype);
         modal.find('#quota-y').val(quota);
         modal.find('#email-y').val(email);
-        modal.find('#marriedstatus-y').val(marriedstatus);
+        modal.find('#marriedstatus-y').val(married);
         modal.find('#joindate-y').val(joindate);
-        modal.find('#manager-y').val(idmanager);
+        modal.find('#managerid-y').val(managerid);
     });
 </script>
 

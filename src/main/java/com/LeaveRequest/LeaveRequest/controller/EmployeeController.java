@@ -19,11 +19,15 @@ import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.Marri
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.NationalDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestDAO;
 import com.LeaveRequest.LeaveRequest.serviceInterface.serviceinterfaceimpl.RequestStatusDAO;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.TemplateException;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,6 +66,8 @@ public class EmployeeController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
+        
+        model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
         ArrayList<String> getDateA = new ArrayList<String>();
         Date[] getDate1;
         model.addAttribute("requestData", rdao.findAll());
@@ -80,11 +86,14 @@ public class EmployeeController {
     public String requestsave(@RequestParam(value = "startdate") String start,
             @RequestParam(value = "enddate") String end,
             @RequestParam(value = "total") String jumlahCuti,
-            @RequestParam(value = "type") String type, HttpSession session) throws ParseException {
+            @RequestParam(value = "type") String type, HttpSession session) throws ParseException, MessagingException, IOException, MalformedTemplateNameException, TemplateException {
         Date starts = new SimpleDateFormat("yyyy-MM-dd").parse(start);
         Date ends = new SimpleDateFormat("yyyy-MM-dd").parse(end);
         rdao.saveRequest(new Request("@@", starts, ends, new BigInteger(jumlahCuti), new Employee(session.getAttribute("idLogin").toString()), new LeaveType(type)));
         rsdao.saveRequestStatus(new RequestStatus("@@@", new Date(), "", new Request(rdao.findLastId()), new Status("S1")));
+        String id = session.getAttribute("idLogin").toString();
+        String idmanager = (edao.findById(id)).getIdmanager().getId();
+        approvalMailService.sendEmailService( edao.findById(idmanager).getEmail(), "Request Leaving from " + id, "You've got a new request list", (edao.findById(id)).getName(), "Check Application for detail.<br>"+"http://localhost:8085/approval");
         return "redirect:/addrequest";
     }
     
@@ -95,6 +104,7 @@ public class EmployeeController {
         }
         String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requestData", rsdao.showRequestStatusAllByIdEmp(id)); 
+        model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
 //        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());

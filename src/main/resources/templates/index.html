@@ -61,13 +61,7 @@
                                     Add Request <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <li id="historymanagers" class="nav flex-column">
-                                <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                    <span data-feather="bookmark"></span>
-                                    History Manager <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li id="historyusers" class="nav flex-column">
+                            <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/historyuser">
                                     <span data-feather="bookmark"></span>
                                     History Users<span class="sr-only">(current)</span>
@@ -76,7 +70,7 @@
                             <li id="approvals" class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/approval">
                                     <span data-feather="clipboard"></span>
-                                    Approval <span class="sr-only">(current)</span>
+                                    Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>

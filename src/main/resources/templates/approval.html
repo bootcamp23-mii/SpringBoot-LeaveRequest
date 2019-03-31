@@ -8,7 +8,7 @@
         <meta name="author" content=""/>
         <link rel="icon" th:href="@{dist/img/favicons/favicon.ico}"/>
 
-        <title>Dashboard Template for Bootstrap</title>
+        <title>Approval Request</title>
 
         <!-- Bootstrap core CSS -->
         <link th:href="@{dist/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -60,12 +60,6 @@
                                 </a>
                             </li>
                             <li class="nav flex-column">
-                                <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                    <span data-feather="bookmark"></span>
-                                    History Manager <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/historyuser">
                                     <span data-feather="bookmark"></span>
                                     History Users<span class="sr-only">(current)</span>
@@ -74,7 +68,7 @@
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/approval">
                                     <span data-feather="clipboard"></span>
-                                    Approval <span class="sr-only">(current)</span>
+                                    Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -82,16 +76,17 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                    </div>-->
+                    <!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                            <h1 class="h2">Dashboard</h1>
+                                        </div>-->
 
                     <!-- Content -->
-                    <h4>Leave Request List</h4>
+                    <h4>Active Leave Request List</h4>
 
                     <table id="example" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Id Employee</th>
                                 <th>Name</th>
                                 <th>Request Date</th>
@@ -102,7 +97,8 @@
                             </tr>
                         </thead>
                         <tbody id="tblData">
-                            <tr th:each="req : ${requeststatusData}">
+                            <tr th:each="req, iteral : ${requeststatusData}">
+                                <td th:text="${iteral.count}"></td>
                                 <td th:text="${req.request.employee.id}"></td>
                                 <td th:text="${req.request.employee.name}"></td>
                                 <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
@@ -110,21 +106,60 @@
                                 <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${req.request.leavetype.type}"></td>
                                 <td>
-                                    <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" 
+                                    <button id="btnApprove" data-target="#mdlApprove" data-toggle="modal" title="Approve"
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
                                             th:data-getnameemp="${req.request.employee.name}"
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
                                             th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
                                             th:data-getreqid="${req.request.id}"
-                                            class="btn btn-outline-success">Approve</button>
-                                    <button id="btnReject" data-target="#mdlReject" data-toggle="modal" 
+                                            class="btn btn-outline-success"><span data-feather="thumbs-up"></span></button>
+                                    <button id="btnReject" data-target="#mdlReject" data-toggle="modal" title="Reject"
                                             th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}"
                                             th:data-getnameemp="${req.request.employee.name}"
                                             th:data-getdatetime="${req.datetime}" th:data-getstart="${req.request.startdate}"
                                             th:data-getend="${req.request.enddate}" th:data-gettotal="${req.request.total}" 
                                             th:data-getreqid="${req.request.id}"
-                                            class="btn btn-outline-danger">Reject</button>
+                                            class="btn btn-outline-danger"><span data-feather="thumbs-down"></span></button>
                                     <!--<button data-target="#mdlDelete" data-toggle="modal" th:data-getname="${as.name}" th:data-getid="${as.id}" class="btn btn-warning">Delete Data</button>-->
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+
+                    <!--history-->
+                    <h4>History of Request</h4> <h6><br>(Only your Subordinates)</h6>
+
+                    <table id="example2" class="table table-bordered table-striped" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Id Employee</th>
+                                <th>Name</th>
+                                <th>Request Date</th>
+                                <!--                                <th>Start Date</th>
+                                                                <th>End Date</th>-->
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblData">
+                            <tr th:each="req, iteral : ${requeststatusAllData}">
+                                <td th:text="${iteral.count}"></td>
+                                <td th:text="${req.request.employee.id}"></td>
+                                <td th:text="${req.request.employee.name}"></td>
+                                <td th:text="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}"></td>
+                                <!--                                <td th:text="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"></td>
+                                                                <td th:text="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}"></td>-->
+                                <td th:text="${req.status.type}"></td>
+                                <td>
+                                    <button id="btnDetailz" data-target="#mdlhistorymanager" data-toggle="modal" title="Show detail"
+                                            th:data-getid="${req.id}" th:data-getidemp="${req.request.employee.id}" th:data-getname="${req.request.employee.name}"
+                                            th:data-getdatetime="${#dates.format(req.datetime,'EEEE, dd-MMM-yyyy')}" th:data-getstart="${#dates.format(req.request.startdate,'EEEE, dd-MMM-yyyy')}"
+                                            th:data-getend="${#dates.format(req.request.enddate,'EEEE, dd-MMM-yyyy')}" th:data-gettotal="${req.request.total}" 
+                                            th:data-getleavetype="${req.request.leavetype.type}" th:data-getstatus="${req.status.type}" th:data-getdesc="${req.description}"
+                                            class="btn btn-outline-success"><span data-feather="info"></span>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -215,7 +250,70 @@
                         </div>
                     </div>
 
+                    <!--modal history-->
+                    <div class="modal fade" id="mdlhistorymanager" tabindex="-1" role="dialog" 
+                         aria-labelledby="modal-historymanager" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">   
+                                    <h5 class="modal-title" id="modal-add">Detail</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="name">ID Employee</label>
+                                        <input id="idemployee" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Name</label>
+                                        <input id="nameemployee" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Req Date</label>
+                                        <input id="datetime" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Start Date</label>
+                                        <input id="requeststart" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">End Date</label>
+                                        <input id="requestend" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Total</label>
+                                        <input id="requesttotal" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Leave Type</label>
+                                        <input id="leavetype" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="name">Status</label>
+                                        <input id="statuss" class="form-control" type="text" readonly=""/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="desc">Description (for Rejected)</label>
+                                        <input id="desc" class="form-control" type="text" readonly=""/>
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div class="chart-note">
+                            <button class="btnprint btn btn-default">
+                                <span data-feather="printer"></span>PRINT</button>
+                        </div>
+                    </div>
                     <!-- /.End Content -->
                 </main>
             </div>
@@ -233,6 +331,11 @@
         <script>
             $(document).ready(function () {
                 $('#example').DataTable();
+            });
+        </script>
+        <script>
+            $(document).ready(function () {
+                $('#example2').DataTable();
             });
         </script>
 
@@ -286,6 +389,43 @@
                 modal.find('#requesttotal-r').val(total);
                 modal.find('#requestId-r').val(reqid);
                 modal.find('#statusId-r').val('S3');
+            });
+        </script>
+        <script>
+            $('#mdlhistorymanager').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var idemp = button.data('getidemp');
+                var nameemp = button.data('getname');
+                var datetime = button.data('getdatetime');
+                var start = button.data('getstart');
+                var end = button.data('getend');
+                var total = button.data('gettotal');
+                var leavetype = button.data('getleavetype');
+                var status = button.data('getstatus');
+                var desc = button.data('getdesc');
+
+                var modal = $(this);
+                modal.find('#idemployee').val(idemp);
+                modal.find('#nameemployee').val(nameemp);
+                modal.find('#datetime').val(datetime);
+                modal.find('#requeststart').val(start);
+                modal.find('#requestend').val(end);
+                modal.find('#requesttotal').val(total);
+                modal.find('#leavetype').val(leavetype);
+                modal.find('#statuss').val(status);
+                modal.find('#desc').val(desc);
+
+            });
+        </script>
+        <script>
+            $('.btnprint').click(function () {
+                var printme = document.getElementById('example');
+                var wme = window.open("", "", "width=900,height=700");
+                wme.document.write(printme.outerHTML);
+                wme.document.close();
+                wme.focus();
+                wme.print();
+                wme.close();
             });
         </script>
     </body>

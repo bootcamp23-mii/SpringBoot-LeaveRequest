@@ -20,4 +20,5 @@ public interface IRequestStatusDAO {
     Iterable<RequestStatus> showRequestStatusAllByIdMan(String id);
     Iterable<RequestStatus> showRequestStatusAllByIdEmp(String id);
     RequestStatus findById(String id);
+    Integer countApproval(String id);
 }

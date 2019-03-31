@@ -63,12 +63,7 @@
                                     Add Request <span class="sr-only">(current)</span>
                                 </a>
                             </li>
-                            <li class="nav flex-column">
-                                <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                    <span data-feather="bookmark"></span>
-                                    History Manager <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
+                            
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/historyuser">
                                     <span data-feather="bookmark"></span>
@@ -78,7 +73,7 @@
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/approval">
                                     <span data-feather="clipboard"></span>
-                                    Approval <span class="sr-only">(current)</span>
+                                    Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -94,12 +89,13 @@
                     <h4>Add Request</h4>
                     <div class="row" style="padding: 10px 0 10px 0">
                         <div class="col-sm-6">
-                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add Request</button>
+                            <button data-target="#mdlAdd" data-toggle="modal" class="btn btn-warning">Add Request<span data-feather="paperclip"></span></button>
                         </div>
                     </div>
                     <table id="addrequest" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
                             <tr>
+                                <th>No</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Total</th>
@@ -108,8 +104,9 @@
                             </tr>
                         </thead>
                         <tbody id="tblAdd">
-                            <tr id="asdad" th:each="req : ${requestData}">
+                            <tr id="asdad" th:each="req, iteral : ${requestData}">
 
+                                <td th:text="${iteral.count}"></td>
                                 <td th:text="${req.startdate}"></td>
                                 <td th:text="${req.enddate}"></td>
                                 <td th:text="${req.total}"></td>
