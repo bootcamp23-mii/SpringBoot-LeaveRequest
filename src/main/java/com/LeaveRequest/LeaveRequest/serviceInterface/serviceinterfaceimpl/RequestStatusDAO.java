@@ -55,4 +55,9 @@ public class RequestStatusDAO implements IRequestStatusDAO{
     public RequestStatus findById(String id) {
         return requestStatusRepository.findById(id).get();
     }
+
+    @Override
+    public Integer countApproval(String id) {
+        return requestStatusRepository.countApproval(id);
+    }
 }

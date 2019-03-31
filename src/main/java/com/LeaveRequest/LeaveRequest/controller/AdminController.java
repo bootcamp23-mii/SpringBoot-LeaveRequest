@@ -69,6 +69,7 @@ public class AdminController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
+        model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
 //        ArrayList<String> roleBro = new ArrayList<String>();
 //        for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(session.getId())) {
 //            roleBro.add(employeeRole.getRole().getId());

@@ -62,6 +62,8 @@ public class EmployeeController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
+        
+        model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
         ArrayList<String> getDateA = new ArrayList<String>();
         Date[] getDate1;
         model.addAttribute("requestData", rdao.findAll());
@@ -95,6 +97,7 @@ public class EmployeeController {
         }
         String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requestData", rsdao.showRequestStatusAllByIdEmp(id)); 
+        model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
 //        model.addAttribute("requestData", rdao.showRequestAllByIdMan(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());

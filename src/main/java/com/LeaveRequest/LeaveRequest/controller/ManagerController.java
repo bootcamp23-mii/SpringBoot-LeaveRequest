@@ -63,13 +63,11 @@ public class ManagerController {
             return "redirect:/login";
         }
         String id = session.getAttribute("idLogin").toString();
-//        String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requeststatusData", rsdao.showRequestStatusByIdMan(id));
         model.addAttribute("requeststatussave", new RequestStatus());
         model.addAttribute("requeststatusAllData", rsdao.showRequestStatusAllByIdMan(id));
-//        model.addAttribute("requeststatusedit", new RequestStatus());
-//        model.addAttribute("requeststatusdelete", new RequestStatus());
-//        model.addAttribute("requeststatusedit2", new Employee());
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
+
         return "approval";
     }
 
@@ -111,6 +109,7 @@ public class ManagerController {
         }
         String id = session.getAttribute("idLogin").toString();
         model.addAttribute("requeststatusAllData", rsdao.showRequestStatusAllByIdMan(id));
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
 //        model.addAttribute("requeststatussave", new RequestStatus());
 //        model.addAttribute("requeststatusedit", new RequestStatus());
 //        model.addAttribute("requeststatusdelete", new RequestStatus());

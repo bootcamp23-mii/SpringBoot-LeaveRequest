@@ -60,12 +60,6 @@
                                 </a>
                             </li>
                             <li class="nav flex-column">
-                                <a class="nav-link active" href="http://localhost:8085/historymanager">
-                                    <span data-feather="bookmark"></span>
-                                    History Manager <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/historyuser">
                                     <span data-feather="bookmark"></span>
                                     History Users<span class="sr-only">(current)</span>
@@ -74,7 +68,7 @@
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/approval">
                                     <span data-feather="clipboard"></span>
-                                    Approval <span class="sr-only">(current)</span>
+                                    Approval <span class="badge badge-danger" th:text="${requestcountApproval}"></span> <span class="sr-only">(current)</span>
                                 </a>
                             </li>
                         </ul>
@@ -82,9 +76,9 @@
                 </nav>
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-<!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Dashboard</h1>
-                    </div>-->
+                    <!--                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                            <h1 class="h2">Dashboard</h1>
+                                        </div>-->
 
                     <!-- Content -->
                     <h4>Leave Request List</h4>
@@ -131,9 +125,10 @@
                             </tr>
                         </tbody>
                     </table>
-                    
+                    <hr>
+
                     <!--history-->
-                    <h4>Leave Request List (Manager)</h4>
+                    <h4>History of Request for your subordinates</h4>
 
                     <table id="example2" class="table table-bordered table-striped" style="width: 100%">
                         <thead>
@@ -254,7 +249,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!--modal history-->
                     <div class="modal fade" id="mdlhistorymanager" tabindex="-1" role="dialog" 
                          aria-labelledby="modal-historymanager" aria-hidden="true">
@@ -312,7 +307,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <div class="chart-note">
                             <button class="btnprint btn btn-default">
