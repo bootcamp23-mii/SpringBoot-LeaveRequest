@@ -99,8 +99,8 @@
                         <tbody id="tblAdd">
                             <tr id="asdad" th:each="req, iteral : ${requestData}">
                                 <td th:text="${iteral.count}"></td>
-                                <td th:text="${req.startdate}"></td>
-                                <td th:text="${req.enddate}"></td>
+                                <td th:text="${#dates.format(req.startdate,'EEEE, dd-MMM-yyyy')}"></td>
+                                <td th:text="${#dates.format(req.enddate,'EEEE, dd-MMM-yyyy')}"></td>
                                 <td th:text="${req.total}"></td>
                                 <td th:text="${req.leavetype.type}"></td>
                             </tr>
