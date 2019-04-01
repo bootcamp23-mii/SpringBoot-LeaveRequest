@@ -97,7 +97,7 @@ public class AdminController {
         Employee esave = edao.findById(edao.findLastId());
         String passwordUrl = URLEncoder.encode(esave.getPassword());
 //        System.out.println(esave.getEmployeeRoleList() + esave.getName());
-        emailService.sendMail(esave.getEmail(), "Activation new employee", "Activation new employee", esave.getName(), "Please click this link ", "http://localhost:8085/activation?id=" + esave.getId() + "&token=" + passwordUrl + "");
+        emailService.sendMail(esave.getEmail(), "Activation new employee id "+esave.getId(), "Activation id "+esave.getId(), esave.getName(), "Please click this link ", "http://localhost:8085/activation?id=" + esave.getId() + "&token=" + passwordUrl + "");
         return "redirect:/adduser";
     }
 

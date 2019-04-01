@@ -167,22 +167,6 @@ public class MainController {
             if (employee11.getIsactive() == null || employee11.getIsactive() == false) {
                 model.addAttribute("activation", employee11);
                 return "/reset_password";
-//                Employee employee13 = edao.findById(id);
-//                String passwordDecode = URLDecoder.decode(token);
-//                if (passwordDecode.equals(employee13.getPassword().toString())) {
-//                    edao.savdeEmployee(new Employee(employee13.getId(),
-//                            employee13.getName(),
-//                            employee13.getGendertype(),
-//                            employee13.getQuota(),
-//                            employee13.getEmail(),
-//                            employee13.getPassword(),
-//                            employee13.getJoindate(),
-//                            true,
-//                            false,
-//                            employee13.getMarriedstatus(),
-//                            employee13.getIdmanager()));
-//                    return "redirect:/login";
-//                }
             }
 //            return "redirect:/activations";
             return "redirect:/login";
