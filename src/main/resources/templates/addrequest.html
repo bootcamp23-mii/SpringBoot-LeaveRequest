@@ -39,12 +39,6 @@
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li id="dashboardss" class="nav-item">
-                                <a class="nav-link active" href="http://localhost:8085/">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/profil">
                                     <span data-feather="settings"></span>
@@ -100,12 +94,10 @@
                                 <th>End Date</th>
                                 <th>Total</th>
                                 <th>Leave Type</th>
-
                             </tr>
                         </thead>
                         <tbody id="tblAdd">
                             <tr id="asdad" th:each="req, iteral : ${requestData}">
-
                                 <td th:text="${iteral.count}"></td>
                                 <td th:text="${req.startdate}"></td>
                                 <td th:text="${req.enddate}"></td>
@@ -127,7 +119,6 @@
                                 </div>
                                 <form th:action="@{/requestsave}" method="Post">
                                     <div class="modal-body">
-
                                         <div class="form-group">
                                             <label for="name">Start Date</label>
                                             <input id="startdate" name="startdate" class="form-control" type="type"/>

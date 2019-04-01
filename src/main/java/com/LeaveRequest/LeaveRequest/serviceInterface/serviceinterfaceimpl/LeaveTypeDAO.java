@@ -46,5 +46,10 @@ public class LeaveTypeDAO implements ILeaveTypeDAO{
     public String findByType(String type) {
         return leavetypeRepository.findByType(type);
     }
+
+    @Override
+    public Iterable<LeaveType> showForMan() {
+        return leavetypeRepository.showForMan();
+    }
     
 }

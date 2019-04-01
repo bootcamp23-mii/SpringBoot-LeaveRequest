@@ -66,13 +66,17 @@ public class EmployeeController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
-        
         model.addAttribute("requestcountApproval", rsdao.countApproval(session.getAttribute("idLogin").toString()));
         ArrayList<String> getDateA = new ArrayList<String>();
         Date[] getDate1;
         model.addAttribute("requestData", rdao.findAll());
         model.addAttribute("requestsave", rdao.findAll());
-        model.addAttribute("divdata", ltdao.findAll());
+        Employee employee = edao.findById(session.getAttribute("idLogin").toString());
+        if (employee.getGendertype()) {
+            model.addAttribute("divdata", ltdao.showForMan());
+        }else if (employee.getGendertype()==false) {
+            model.addAttribute("divdata", ltdao.showExcBurn());
+        }
         for (NationalHoliday nationalHoliday1 : nationalDAO.findAll()) {
             getDateA.add(nationalHoliday1.getDate().toString());
         }

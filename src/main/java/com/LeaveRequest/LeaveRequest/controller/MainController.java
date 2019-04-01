@@ -124,7 +124,10 @@ public class MainController {
             Integer lastyear = kuota - month;
             model.addAttribute("lastyear", lastyear);
         }
-        return "index";
+        model.addAttribute("isFailed", "false");
+        model.addAttribute("dataProfil", edao.findById(session.getAttribute("idLogin").toString()));
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
+        return "profil";
     }
 
     @GetMapping("/login")
@@ -154,8 +157,34 @@ public class MainController {
         if (session.getAttribute("idLogin") == null) {
             return "redirect:/login";
         }
-        model.addAttribute("dataProfil", edao.findById(session.getAttribute("idLogin").toString()));
+        ArrayList<String> roleBro = new ArrayList<String>();
+        for (EmployeeRole employeeRole : employeeRoleDAO.findEmployeeById(session.getAttribute("idLogin").toString())) {
+            roleBro.add(employeeRole.getRole().getId());
+        }
+        model.addAttribute("idRole", roleBro);
         String id = session.getAttribute("idLogin").toString();
+        model.addAttribute("dataEmployee", edao.findById(id));
+        model.addAttribute("requestcountApproval", rsdao.countApproval(id));
+        Integer kuota = ((edao.findById(id)).getQuota()).intValue();
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        Integer month = cal.get(Calendar.MONTH) + 1;
+
+        if (kuota.toString().equals("0")) {
+            model.addAttribute("monthnow", "0");
+            model.addAttribute("lastyear", "0");
+        } else if (kuota <= month) {
+            model.addAttribute("monthnow", kuota);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", "0");
+        } else if (kuota > month) {
+            model.addAttribute("monthnow", month);
+            Integer lastyear = kuota - month;
+            model.addAttribute("lastyear", lastyear);
+        }
+        model.addAttribute("isFailed", "false");
+        model.addAttribute("dataProfil", edao.findById(session.getAttribute("idLogin").toString()));
         model.addAttribute("requestcountApproval", rsdao.countApproval(id));
         return "profil";
     }
@@ -173,12 +202,11 @@ public class MainController {
         }
         return "404";
     }
-    
+
 //    @GetMapping("/reset_password")
 //    public String resetpassword(){
 //        return "/reset_password";
 //    }
-
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee, HttpSession session) {
         String id = employee.getId();
@@ -342,9 +370,8 @@ public class MainController {
     }
 
     @PostMapping("/employeepassword")
-    public String employeepassword(@RequestParam(value = "password_old") String old_password, @RequestParam(value = "password_new") String new_password, HttpSession session) throws IOException {
+    public String employeepassword(Model model, @RequestParam(value = "old_password") String old_password, @RequestParam(value = "new_password") String new_password, HttpSession session) throws IOException {
         Employee eupload = edao.findById(session.getAttribute("idLogin").toString());
-        System.out.println(old_password);
         String newPasshash = BCrypt.hashpw(new_password, BCrypt.gensalt());
         if (BCrypt.checkpw(old_password, eupload.getPassword())) {
             edao.savdeEmployee(new Employee(eupload.getId(),
@@ -359,16 +386,18 @@ public class MainController {
                     eupload.getIsdeleted(),
                     eupload.getMarriedstatus(),
                     eupload.getIdmanager()));
+            model.addAttribute("isFailed", "false");
             return "redirect:/profil";
         }
+        model.addAttribute("isFailed", "true");
         return "redirect:/profil";
     }
-    
+
     @PostMapping("/activationpassword")
     public String activationpassword(@RequestParam(value = "id") String id, @RequestParam(value = "new_password") String new_password, HttpSession session) throws IOException {
         Employee eupload = edao.findById(id);
         String newPasshash = BCrypt.hashpw(new_password, BCrypt.gensalt());
-        if (eupload.getIsactive()==null || eupload.getIsactive()!=false) {
+        if (eupload.getIsactive() == null || eupload.getIsactive() != false) {
             edao.savdeEmployee(new Employee(eupload.getId(),
                     eupload.getName(),
                     eupload.getGendertype(),

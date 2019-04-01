@@ -33,12 +33,6 @@
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                     <div class="sidebar-sticky">
                         <ul class="nav flex-column">
-                            <li id="dashboardss" class="nav-item">
-                                <a class="nav-link active" href="http://localhost:8085/">
-                                    <span data-feather="home"></span>
-                                    Dashboard <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
                             <li class="nav flex-column">
                                 <a class="nav-link active" href="http://localhost:8085/profil">
                                     <span data-feather="settings"></span>
@@ -84,7 +78,7 @@
 
 
                     <div class="row" style="padding: 10px 0 10px 0">
-                        
+
                         <table id="example" class="table table-borderless" style="width: 100%">
                             <div class="image col-sm-6">
                                 <!--<img class="image" align="right" th:src="@{${session.idRole} ? 'http://localhost:8085/image?id=${dataProfil.id}' : 'https://www.metrodata.co.id/web/images/business/2014-08-20-112626.png'}" alt="[photo]" width="100px" height="130px"/>-->
@@ -124,8 +118,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <form th:action="@{/employeepassword}" method="Post">
+                    
+                    <form th:action="@{/employeepassword}" method="Post" onsubmit="false">
                         <div class="modal-body">
                             <div class="form-group">
                                 <input readonly="" id="id" name="id" class="form-control" type="hidden"/>
@@ -139,22 +133,30 @@
                                 <input readonly="" id="email" name="email" class="form-control" th:value="${dataProfil.email}" type="text"/>
                             </div>
                             <div class="form-group">
+                                <label for="name">Qouta this years</label>
+                                <input readonly="" id="email" name="email" class="form-control" th:value="${monthnow}" type="text"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Qouta last year</label>
+                                <input readonly="" id="email" name="email" class="form-control" th:value="${lastyear}" type="text"/>
+                            </div>
+                            <div class="form-group">
                                 <label for="name">Old Password</label>
-                                <input readonly="" id="password_old" name="password_old" class="form-control" placeholder="Password Old" type="password"/>
+                                <input readonly="" id="old_password" name="old_password" class="form-control" placeholder="Password Old" type="password"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">New Password</label>
-                                <input readonly="" id="password_new" name="password_new" class="form-control" placeholder="Password new" type="password"/>
+                                <input readonly="" id="new_password" name="new_password" class="form-control" placeholder="Password new" type="password"/>
                             </div>
                             <div class="form-group">
                                 <label for="name">Confirm Password</label>
-                                <input readonly="" id="password" name="password" class="form-control" placeholder="Password" type="password"/>
+                                <input readonly="" id="confirm_password" name="confirm_password" class="form-control" placeholder="Password" type="password"/>
                             </div>
                         </div>
 
                         <div class="modal-footer">
                             <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                            <button id="btnsaveiii" hidden="" type="submit" class="btn btn-default">Save</button>
+                            <button id="btnsaveiii" hidden="" type="submit" class="btn btn-default" onclick="return validate(this)">Save</button>
                         </div>
                     </form>
                     <button id="btnedit" class="btn btn-default">Edit</button>
@@ -177,34 +179,55 @@
 <script src="dist/js/popper.min.js"></script>
 <script src="dist/js/bootstrap.min.js"></script>
 <script>
-                                                $(document).ready(function () {
-                                                    $('#adduser').DataTable();
-                                                });
-                                                function readURL(input) {
-                                                    if (input.files && input.files[0]) {
-                                                        var reader = new FileReader();
+                                $(document).ready(function () {
+                                    $('#adduser').DataTable();
+                                });
+                                function readURL(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
 
-                                                        reader.onload = function (e) {
-                                                            $('#blah')
-                                                                    .attr('src', e.target.result)
-                                                                    .width(150)
-                                                                    .height(200);
-                                                        };
+                                        reader.onload = function (e) {
+                                            $('#blah')
+                                                    .attr('src', e.target.result)
+                                                    .width(150)
+                                                    .height(200);
+                                        };
 
-                                                        reader.readAsDataURL(input.files[0]);
-                                                    }
-                                                }
+                                        reader.readAsDataURL(input.files[0]);
+                                    }
+                                }
 </script>
 <script>
     $(document).ready(function () {
         $('#btnedit').click(function () {
-            $("#password_old").removeAttr("readonly");
-            $("#password_new").removeAttr("readonly");
+            $("#old_password").removeAttr("readonly");
+            $("#new_password").removeAttr("readonly");
             $("#btnsaveiii").removeAttr("hidden");
+            $("#confirm_password").removeAttr("readonly");
         });
     });
 </script>
 <!-- Icons -->
+<script type="text/javascript">
+    function validate(form) {
+        $(this).submit(function (e) {
+            if ($('#new_password').val() == "") {
+                alert("Error: Password cannot be blank!");
+                $('#password_new').focus();
+                return false;
+            } else if ($('#confirm_password').val() == "") {
+                alert("Error: Confirm password cannot be blank!");
+                $('#confirm_password').focus();
+                return false;
+            } else if ($('#new_password').val() != $('#confirm_password').val()) {
+                alert("Error: Confirm password is not match with new password");
+                $('#confirm_password').focus();
+                return false;
+            }
+            return true;
+        })
+    }
+</script>
 <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
 <script>
     feather.replace()
