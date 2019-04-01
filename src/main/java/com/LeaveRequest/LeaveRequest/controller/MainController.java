@@ -161,28 +161,39 @@ public class MainController {
     }
 
     @GetMapping("/activation*")
-    public String activation(@RequestParam(value = "id") String id, @RequestParam(value = "token") String token) {
+    public String activation(@RequestParam(value = "id") String id, @RequestParam(value = "token") String token, Model model) {
         Employee employee11 = edao.findById(id);
         if (edao.findById(id) != null) {
-            Employee employee13 = edao.findById(id);
-            String passwordDecode = URLDecoder.decode(token);
-            if (passwordDecode.equals(employee13.getPassword().toString())) {
-                edao.savdeEmployee(new Employee(employee13.getId(),
-                        employee13.getName(),
-                        employee13.getGendertype(),
-                        employee13.getQuota(),
-                        employee13.getEmail(),
-                        employee13.getPassword(),
-                        employee13.getJoindate(),
-                        true,
-                        false,
-                        employee13.getMarriedstatus(),
-                        employee13.getIdmanager()));
-                return "redirect:/login";
+            if (employee11.getIsactive() == null || employee11.getIsactive() == false) {
+                model.addAttribute("activation", employee11);
+                return "/reset_password";
+//                Employee employee13 = edao.findById(id);
+//                String passwordDecode = URLDecoder.decode(token);
+//                if (passwordDecode.equals(employee13.getPassword().toString())) {
+//                    edao.savdeEmployee(new Employee(employee13.getId(),
+//                            employee13.getName(),
+//                            employee13.getGendertype(),
+//                            employee13.getQuota(),
+//                            employee13.getEmail(),
+//                            employee13.getPassword(),
+//                            employee13.getJoindate(),
+//                            true,
+//                            false,
+//                            employee13.getMarriedstatus(),
+//                            employee13.getIdmanager()));
+//                    return "redirect:/login";
+//                }
             }
+//            return "redirect:/activations";
+            return "redirect:/login";
         }
         return "404";
     }
+    
+//    @GetMapping("/reset_password")
+//    public String resetpassword(){
+//        return "/reset_password";
+//    }
 
     @RequestMapping(value = "/loginPost", method = RequestMethod.POST)  //@PostMapping("/regionsave")
     public String checkLogin(@ModelAttribute("loginPost") Employee employee, HttpSession session) {
@@ -367,6 +378,28 @@ public class MainController {
             return "redirect:/profil";
         }
         return "redirect:/profil";
+    }
+    
+    @PostMapping("/activationpassword")
+    public String activationpassword(@RequestParam(value = "id") String id, @RequestParam(value = "new_password") String new_password, HttpSession session) throws IOException {
+        Employee eupload = edao.findById(id);
+        String newPasshash = BCrypt.hashpw(new_password, BCrypt.gensalt());
+        if (eupload.getIsactive()==null || eupload.getIsactive()!=false) {
+            edao.savdeEmployee(new Employee(eupload.getId(),
+                    eupload.getName(),
+                    eupload.getGendertype(),
+                    eupload.getQuota(),
+                    eupload.getEmail(),
+                    newPasshash,
+                    eupload.getPhoto(),
+                    eupload.getJoindate(),
+                    true,
+                    eupload.getIsdeleted(),
+                    eupload.getMarriedstatus(),
+                    eupload.getIdmanager()));
+            return "redirect:/login";
+        }
+        return "redirect:/404";
     }
 
 //    @GetMapping("/adduser")
