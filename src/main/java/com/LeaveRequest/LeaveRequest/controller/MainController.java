@@ -198,9 +198,9 @@ public class MainController {
                 return "/reset_password";
             }
 //            return "redirect:/activations";
-            return "redirect:/login";
+            return "isactive";
         }
-        return "404";
+        return "isactive";
     }
 
 //    @GetMapping("/reset_password")

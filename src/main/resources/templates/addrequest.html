@@ -16,8 +16,10 @@
         <!-- Custom styles for this template -->
         <link th:href="@{dist/css/dashboard.css}" rel="stylesheet"/>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"/>
-        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
-        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <!--<script src="//code.jquery.com/jquery-1.12.4.js"></script>-->
+        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+        <!--<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+        <script src="//code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
         <script src="http://boot.mobilelegendadddiamond.web.id/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     </head>
@@ -229,7 +231,6 @@
                 $("#savemodal").removeAttr("disabled");
                 return days;
             }
-
             function parseDate(input) {
                 var parts = input.match(/(\d+)/g);
                 return new Date(parts[0], parts[1] - 1, parts[2]);
